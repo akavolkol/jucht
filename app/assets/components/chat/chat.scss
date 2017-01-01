@@ -1,0 +1,15 @@
+.chat {
+  justify-content: flex-end;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__items {
+    overflow-y: scroll;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+  }
+}

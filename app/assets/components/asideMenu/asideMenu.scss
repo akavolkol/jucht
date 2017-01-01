@@ -1,0 +1,121 @@
+@import '../../styles/colors';
+
+.aside {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  background-color: #ccc;
+  transition-duration: 0.15s;
+  padding: 0.5em;
+  width: 20%;
+
+  &__header {
+    height: 50px;
+    display: flex;
+  }
+
+  &__navigation {
+    display: flex;
+    height: 100%;
+  }
+
+  &__title {
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-align: center;
+  }
+
+  &__logo {
+    height: 45px;
+    width: 45px;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      border-radius: 50%;
+    }
+
+  }
+
+  &__menu {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    width: 100%;
+
+
+    &-item {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 3em;
+      border-radius: 2px;
+
+      &:hover {
+        background-color: #000;
+      }
+
+      &-inner {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        text-decoration: none;
+        color: #fff;
+        justify-content: space-between;
+      }
+
+
+      &--active {
+        background-color: #ccc;
+      }
+    }
+
+
+  }
+
+  &__menu-avatar {
+    height: 30px;
+    width: 25%;
+    flex-shrink: 0;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  &__menu-content {
+    flex-shrink: 1;
+    font-size: 1.2em;
+  }
+
+
+&__actions {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+}
+
+.action-button {
+  border-radius: 50%;
+  padding: 0;
+  width: 2.1em;
+  height: 2.1em;
+  font-size: 2em;
+}
+
+
+.indicator {
+  display: block;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  color: #fff;
+  font-size: 0.9em;
+  background-color: red;
+  height: 1.3em;
+
+}

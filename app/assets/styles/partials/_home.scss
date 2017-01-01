@@ -1,0 +1,36 @@
+.home-container {
+	height: 100%;
+	margin-top: 50px;
+	text-align: center;	
+}
+
+.home-bg {
+	position: fixed;
+	background: url(images/red_gig.jpg);
+	z-index: -5;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.home-prompt {
+	font-size: 102px;	
+	font-family: Kirvy-Thin;
+}
+
+.home-input {
+	background: transparent;
+	border: none;
+	border-bottom: 2px solid #eee;
+	width: 700px;
+	padding-left: 20px;
+	padding-bottom: 5px;
+	margin-top: 300px;
+	font-size: 62px;
+	outline: none;
+}
+
+.home-input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}

@@ -1,0 +1,52 @@
+.flash-messages {
+
+  ul {
+   list-style: none;
+   margin: 0;
+   position: absolute;
+   right: 10px;
+   z-index: 100;
+ }
+
+ &__item {
+  position: relative;
+  margin-bottom: 5px;
+  padding: 10px 10px;
+  width: 200px;
+  min-height: 80px;
+  background-color: rgba(122,114,133, 0.8);
+  border-radius: 4px;
+  color: #fff;
+
+  &--danger {
+    background-color: rgba(255,46,0, 0.8);
+  }
+
+  &--success {
+    background-color: rgba(51,201,47, 0.8);
+  }
+}
+
+&__item-title {
+  font-weight: bold;
+}
+
+&__item-text {
+  margin: 0;
+}
+
+&__close {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  color: #fff;
+  background-color: #000;
+  padding: 3px;
+}
+
+}

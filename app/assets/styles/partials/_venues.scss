@@ -1,0 +1,57 @@
+.venues-bg {
+	position: fixed;
+	background: url(images/stardust.png);
+	z-index: -5;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.venues-container {
+	margin-bottom: 175px;
+}
+
+.venues-input-container {
+  margin-bottom: -90px;
+}
+
+.venues-search {	
+  display: block;
+  font-size: 24px;  
+  color: #333;
+  margin: 50px auto;
+  border: none;  
+  border-radius: 25px;  
+  outline: none;
+  height: 50px;
+  width: 90%;
+  max-width: 580px;  
+  padding-left: 25px;  
+}
+
+.venues-search::-webkit-input-placeholder {
+  color: #999;
+}
+
+.search-icon {
+  display: inline-block;
+  position: relative;
+  top: -107px;
+  left: 807px;
+  padding: 13px;
+  font-family: Icomoon-Search;
+  font-size: 27px;  
+  color: #333;  
+  transition: 0.2s ease-out;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.venues-header {
+  font-size: 54px;
+  margin-bottom: 50px;
+}

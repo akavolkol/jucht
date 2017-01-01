@@ -1,0 +1,30 @@
+.form-header {
+	font-family: Kirvy-Thin;
+	font-size: 72px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+form {
+	max-width: 550px;
+	margin: 0 auto;
+}
+
+.form-control {
+	height: 45px;
+	font-size: 22px;
+	background: #ddd;
+	color: #333;
+	padding: 0px 12px;
+}
+
+label {
+	font-size: 24px;
+	font-weight: 300;
+}
+
+.form-submit {
+	margin-top: 15px;
+	font-size: 20px;
+	font-weight: bold;
+}

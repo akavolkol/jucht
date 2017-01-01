@@ -1,0 +1,21 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+        "sourceType": "module",
+    "ecmaFeatures": {
+        "jsx": false,
+        "modules": true
+    }
+},
+  "env": {
+    "browser": true,
+    "node": true
+  },
+
+  "rules": {
+    "quotes": ["warn", "single"],
+    "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "strict": ["error", "never"]
+  },
+
+}
