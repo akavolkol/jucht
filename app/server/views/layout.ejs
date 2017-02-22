@@ -2,11 +2,15 @@
 <html>
 <head>
 	<title>Bang</title>
-	<!-- Meta Tags -->
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Messanger">
 
+  <% if (environment === 'production') { %>
+    <link href="/build/style.css" rel="stylesheet">
+  <% } else { %>
+    <link href="<%- webpackServer %>/build/style.css" rel="stylesheet">
+  <% } %>
 </head>
 <body>
 	<div id="app">
@@ -14,7 +18,12 @@
 	<script>
 	window.initialAppData = {};
 	</script>
-	<script type="text/javascript" src="build.js"></script>
+
+  <% if (environment === 'production') { %>
+	  <script type="text/javascript" src="/build/build.js"></script>
+  <% } else { %>
+    <script type="text/javascript" src="<%- webpackServer %>/build/build.js"></script>
+  <% } %>
 </body>
 
 </html>
