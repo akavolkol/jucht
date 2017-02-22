@@ -38,7 +38,7 @@ MongoClient.connect(config.dbHost, function(err, database) {
   if(err) throw err;
 
   db = database;
-  app.listen(9000, console.log('Server is running...'));
+  app.listen(process.env.PORT || 9000, console.log('Server is running...'));
 });
 
 const router = express.Router();
