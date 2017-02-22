@@ -10,12 +10,12 @@ module.exports = {
 	entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-  		'./app/assets/index.js'
+  	'./app/client/index.js'
 	],
 	output: {
-		path: './app/public',
+		path: './public',
 		filename: 'build.js',
-		publicPath: 'http://localhost:8080/app/public'
+		publicPath: 'http://localhost:8080/public'
 	},
 	plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

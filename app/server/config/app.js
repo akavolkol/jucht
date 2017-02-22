@@ -1,5 +1,5 @@
 const config = {
-	dbHost: 'mongodb://localhost:27017/bang',
+	dbHost: process.env.MONGODB_URI,
 	secret: 'bang'
 }
 
