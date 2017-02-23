@@ -1,9 +1,9 @@
-import React from 'react';
-import {Route, IndexRoute} from 'react-router';
-import Index from '../containers/Index.js';
-import Login from '../containers/login';
-import Home from '../containers/Home';
-import Signup from '../containers/signup';
+import React from 'react'
+import { Route, IndexRoute } from 'react-router'
+import Index from '../containers/index.js'
+import Login from '../containers/login'
+import Home from '../containers/home'
+import Signup from '../containers/signup'
 import Settings from '../containers/settings'
 
 const routes = (
@@ -12,6 +12,7 @@ const routes = (
     <Route path='settings/profile' component={Settings} />
 		<Route path='login' component={Login} />
 		<Route path='signup' component={Signup} />
+    <Route path=':username' component={Home} />
 	</Route>
 
 );

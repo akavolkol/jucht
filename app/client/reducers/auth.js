@@ -6,6 +6,7 @@ const defaultState = {
 };
 
 export default function auth(state = defaultState, action) {
+  console.log(localStorage.getItem('token'));
   switch (action.type) {
     case TYPES.AUTH_USER:
     return Object.assign({}, state, {

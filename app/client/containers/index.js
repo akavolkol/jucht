@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import Header from '../components/Header';
-import FlashMessages from '../components/flashMessages';
-import { connect } from 'react-redux';
-import '../styles/style.scss';
+import React, { Component, PropTypes } from 'react'
+import Header from '../components/Header'
+import FlashMessages from '../components/flashMessages'
+import { connect } from 'react-redux'
+import '../styles/style.scss'
 
 export class Index extends Component {
   constructor(props) {

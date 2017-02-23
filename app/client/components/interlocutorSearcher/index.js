@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import debounce from 'debounce'
 import { search } from '../../actions/users'
 import { connect } from 'react-redux'
+import './style.scss'
 
 class InterlocutorSearcher extends Component {
   constructor(props) {
@@ -41,10 +43,18 @@ class InterlocutorSearcher extends Component {
     return(
       <div className="interlocutor-seacher">
         <input name="interlocutor-seacher" onInput={this.search}></input>
-        {
-          users.map((user, id) => {
-            return <li id={id}>{user.username}</li>
-          })
+        { (users.length)
+            ? <ul className="results">
+              { users.map((user, id) => {
+                  return <li id={id}>
+                    <Link to={'/' + user.username}>
+                      {user.username}
+                    </Link>
+                  </li>
+                })
+              }
+              </ul>
+            : null
         }
       </div>
 

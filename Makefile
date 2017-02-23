@@ -3,6 +3,9 @@
 serve:
 	nodemon app/server/app.js --exec "node_modules/.bin/babel-node"
 
+runtime:
+	npm run runtime
+
 serve-prod:
 	npm start
 
@@ -13,4 +16,4 @@ build:
 	node tools/build.js
 
 build-prod:
-		npm run build
+	npm run build

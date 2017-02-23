@@ -1,5 +1,9 @@
 import express, { Router } from 'express'
 import jwt from 'jsonwebtoken'
+import config from '../../config/app.js'
+import serverValidation from '../../utils/serverValidation.js'
+
+var loginValidation = serverValidation.loginValidation;
 
 export default function () {
   const router = Router();
@@ -9,6 +13,8 @@ export default function () {
       username: req.body.username.trim(),
       password: req.body.password
     };
+
+    console.log(user);
 
     loginValidation(user, req.db, function(validationPassed, validationMessage) {
       if (validationPassed) {

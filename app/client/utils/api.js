@@ -12,7 +12,7 @@ export function getAPIURL(endpoint) {
 export function request(
   endpoint,
   method = 'GET',
-  data = null,
+  data = {},
   isJSON = true
 ) {
   return new Promise(function(resolve, reject) {
