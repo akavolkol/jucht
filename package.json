@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "postinstall": "node tools/build.js && webpack",
-    "build": "node tools/build.js && webpack",
+    "postinstall": "node tools/build.js && webpack --config=webpack-production.config.js",
+    "build": "node tools/build.js && webpack --config=webpack-production.config.js",
     "start": "node build/server/app.js",
     "runtime": "webpack-dev-server"
   },

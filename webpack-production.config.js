@@ -1,12 +1,31 @@
-var devConfig = require('./webpack.config.js');
-var webpack = require('webpack');
+var webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var productionPlugin = new webpack.DefinePlugin({
-    'process.env': {
-        NODE_ENV: JSON.stringify("production")
-    },
-});
+module.exports = {
+	devtool: false,
+	entry: [
+  	'./app/client/index.js'
+	],
+	output: {
+		path: './public/build',
+		filename: 'build.js',
+    // Base path for builds, compiled in memory
+		publicPath: '/build'
+	},
+	plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new ExtractTextPlugin("style.css")
+  ],
 
-devConfig.plugins.push(productionPlugin);
-
-module.exports = devConfig;
+	module: {
+		loaders: [
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!sass-loader'),
+        exclude: /node_modules/,
+      },
+			{test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
+			{test: /\.(png|jpg|otf|ttf)$/, exclude: /node_modules/, loader: 'url-loader?limit=10000'}
+		]
+	}
+}
