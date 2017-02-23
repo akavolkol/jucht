@@ -14,7 +14,13 @@ module.exports = {
 	},
 	plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new ExtractTextPlugin("style.css")
+    new ExtractTextPlugin("style.css"),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compressor: {
+        warnings: false
+      }
+    }),
   ],
 
 	module: {
