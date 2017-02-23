@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 import Header from '../components/Header'
 import { connect } from 'react-redux'
 import { createFlashMessage } from '../actions/flashMessages'
@@ -44,9 +45,10 @@ class Signup extends Component {
 
   render() {
     return (
-      <div>
+        <main className="main">
+          <div className="section">
         <div className="login-bg"></div>
-        <h1 className="form-header">Login</h1>
+        <h1 className="form-header">Sign Up</h1>
         <form onSubmit={this.handleFormSubmit.bind(this)}>
           <div className="form-group">
             <label htmlFor="login-username">Username:</label>
@@ -63,14 +65,16 @@ class Signup extends Component {
 
           <button type="submit" className="btn btn-default form-submit">Submit</button>
         </form>
+        <Link to="/login">Login</Link>
 
       </div>
+    </main>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const {auth} = state;
+  const { auth } = state;
   return {auth};
 }
 

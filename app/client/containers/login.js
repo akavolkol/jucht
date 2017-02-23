@@ -51,8 +51,8 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        <div className="login-bg"></div>
+      <main className="main">
+        <div className="section">
         <h1 className="form-header">Login</h1>
         <form onSubmit={this.handleFormSubmit.bind(this)}>
           <div className="form-group">
@@ -68,6 +68,7 @@ class Login extends Component {
         </form>
         <Link to="/signup">Sign up</Link>
       </div>
+    </main>
     );
   }
 }

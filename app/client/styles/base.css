@@ -25,3 +25,20 @@ body {
 .container {
   display: flex;
 }
+
+.main {
+  min-height: 395px;
+  background: #fff;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  width: 100%;
+}
+
+.section {
+  margin: auto;
+  max-width: 780px;
+  text-align: center;
+}
