@@ -1,14 +1,54 @@
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 import './asideMenu.scss'
+import './accountOptions.scss'
 import InterlocutorSearcher from '../interlocutorSearcher'
 import { signout } from '../../actions/auth'
 import { connect } from 'react-redux'
 
 class AsideMenu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shouldAppearAccountOptions: false
+    }
+  }
 
   onClickSignout = (event) => {
     event.preventDefault();
     this.props.signout();
+  }
+
+  onClickAccountOptions = (event) => {
+    event.preventDefault();
+    this.setState({ shouldAppearAccountOptions: !this.state.shouldAppearAccountOptions });
+  }
+
+  renderAccountOptions() {
+    return(
+      <ul className="account-options">
+        <li>
+          <Link to="/settings">
+            <div className="account-options__icon">
+              <i className="icon option__icon">
+                <svg><use xlinkHref="/images/bytesize-inline.svg#i-ban"/></svg>
+              </i>
+            </div>
+            <div className="account-options__label">Notification Settings</div>
+          </Link>
+        </li>
+        <li>
+        <a onClick={this.onClickSignout}>
+          <div className="account-options__icon">
+            <i className="icon option__icon">
+              <svg><use xlinkHref="/images/bytesize-inline.svg#i-lock"/></svg>
+            </i>
+          </div>
+          <div className="account-options__label">Logout</div>
+        </a>
+        </li>
+      </ul>
+    )
   }
 
 	render() {
@@ -19,7 +59,12 @@ class AsideMenu extends Component {
             <img src="/images/logo.png"/>
           </div>
           <span className="aside__title">Компанія Volkol</span>
-          <a href="/api/logout" onClick={this.onClickSignout}>Вийти</a>
+          <a href="/api/logout" onClick={this.onClickAccountOptions}>
+            <i className="icon option__icon">
+              <svg><use xlinkHref="/images/bytesize-inline.svg#i-ellipsis-vertical"/></svg>
+            </i>
+          </a>
+          { this.state.shouldAppearAccountOptions && this.renderAccountOptions() }
         </div>
 
         <InterlocutorSearcher/>

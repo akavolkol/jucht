@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import AsideMenu from '../components/asideMenu'
 import Content from '../components/content'
 import { connect } from 'react-redux'
+import { join as joinConveration } from '../actions/conversations'
 
 class Home extends Component {
   constructor(props) {
@@ -10,8 +11,12 @@ class Home extends Component {
 
   componentWillMount() {
     if (!this.props.auth.authenticated) {
-      this.props.router.push({pathname: '/login'});
+      return this.props.router.push({pathname: '/login'});
     }
+
+    this.props.joinConveration({
+      username: this.props.params.username
+    });
   }
 
   componentWillReceiveProps(newProps) {
@@ -38,7 +43,9 @@ export default connect(
   state => {
     const { auth } = state;
     return {
-      auth
+      auth,
+
     }
-  }
+  },
+  { joinConveration }
 )(Home)

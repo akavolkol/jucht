@@ -1,6 +1,6 @@
-import { request } from '../utils/api';
+import { request } from '../utils/api'
 
-export const TYPES: {[key: ActionStrings]: ActionStrings} = {
+export const TYPES = {
   ADD_TODO: 'ADD_TODO',
   TOGGLE_TODO: 'TOGGLE_TODO',
   SET_VISIBILITY_FILTER: 'SET_VISIBILITY_FILTER',

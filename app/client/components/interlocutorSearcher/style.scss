@@ -1,6 +1,16 @@
 .interlocutor-seacher {
+  margin-bottom: 1em;
+
   input {
     width: 100%;
+    background-color: #f6f7f9;
+    border-radius: 5px;
+    border-style: none;
+    box-sizing: border-box;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 0.5em;
   }
 
   .results {

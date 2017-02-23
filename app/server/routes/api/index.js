@@ -2,6 +2,7 @@ import express, { Router } from 'express'
 import mediaRouter from './media'
 import usersRouter from './users'
 import sessionsRouter from './sessions'
+import conversationsRouter from './conversations'
 import jwt from 'jsonwebtoken'
 import config from '../../config/app.js'
 
@@ -25,13 +26,15 @@ export default function () {
        if (!req.session.userId) {
          return res.status(401).json({ message: 'Access danied' });
        }
-       next();
      }
+
+     next();
    });
 
   router.use('/media', mediaRouter());
   router.use('/users', usersRouter());
   router.use('/sessions', sessionsRouter());
+  router.use('/conversations', conversationsRouter());
 
   return router;
 }
