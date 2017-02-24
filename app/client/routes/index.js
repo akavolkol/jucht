@@ -12,7 +12,7 @@ const routes = (
     <Route path='settings/profile' component={Settings} />
 		<Route path='login' component={Login} />
 		<Route path='signup' component={Signup} />
-    <Route path=':username' component={Home} />
+    <Route path='conversations/:username' component={Home} />
 	</Route>
 
 );

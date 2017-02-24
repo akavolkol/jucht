@@ -4,27 +4,30 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import session from 'express-session'
-import { MongoClient } from 'mongodb'
 import connectMongo from 'connect-mongo'
 import config from './config/app.js'
 import jwt from 'jsonwebtoken'
+import Mongo from './db/mongo'
 
 const app = express();
 const MongoStore = connectMongo(session);
 
-let db;
+(new Mongo({ host: config.dbHost })).connect().then((connection) => {
+  app.use(session({
+    secret: config.secret,
+    store: new MongoStore({ db: connection }),
+    resave: true,
+    saveUninitialized: false
+  }));
 
-app.use(function(req, res, next) {
-	req.db = db;
-	next();
+  // app.use(function(req, res, next) {
+  // 	req.db = connection;
+  // 	next();
+  // });
+
+  app.use(express.Router());
+  app.use(routes());
 });
-
-app.use(session({
-  secret: 'secret_placeholder',
-  store: new MongoStore({url: config.dbHost}),
-  resave: true,
-  saveUninitialized: false
-}));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -34,15 +37,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 
-MongoClient.connect(config.dbHost, function(err, database) {
-  if(err) throw err;
-
-  db = database;
-  app.listen(process.env.PORT || 9000, console.log('Server is running...'));
-});
-
-const router = express.Router();
-app.use(router);
-app.use(routes());
+app.listen(process.env.PORT || 9000, console.log('Server is running...'));
 
 export default app;

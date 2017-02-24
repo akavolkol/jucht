@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import Header from '../components/Header'
 import { createFlashMessage } from '../actions/flashMessages'
 import SettingsMenu from '../components/settingsMenu'
 

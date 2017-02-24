@@ -19,9 +19,7 @@ export default function () {
    * Secure routes
    */
    router.use(function(req, res, next) {
-     //var token = req.headers['authorization'];
-
-     if (!/sessions/.test(req.path)) {
+     if (!/sessions/.test(req.path) && !(/users/.test(req.path) && req.method == 'POST')) {
        // jwt.verify(token, config.secret, function(err, user) {
        if (!req.session.userId) {
          return res.status(401).json({ message: 'Access danied' });

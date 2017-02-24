@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import Header from '../components/Header'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { createFlashMessage } from '../actions/flashMessages'

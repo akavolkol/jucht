@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import './message.scss'
 
 export default class Message extends Component {
+  constructor(props) {
+    super(props);
+
+  }
+
   render() {
+    const messages = this.props.messages;
+
     return (
       <div id="" className="message">
         <div className="message__avatar">

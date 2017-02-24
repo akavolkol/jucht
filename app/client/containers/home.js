@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import AsideMenu from '../components/asideMenu'
 import Content from '../components/content'
 import { connect } from 'react-redux'
-import { join as joinConveration } from '../actions/conversations'
+import { openConversation, list as selectConversations } from '../actions/conversations'
 
 class Home extends Component {
   constructor(props) {
@@ -10,13 +10,13 @@ class Home extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props.auth.user.username);
     if (!this.props.auth.authenticated) {
       return this.props.router.push({pathname: '/login'});
     }
 
-    this.props.joinConveration({
-      username: this.props.params.username
-    });
+    this.props.selectConversations();
+    this.props.params.username && this.props.openConversation(this.props.params.username);
   }
 
   componentWillReceiveProps(newProps) {
@@ -24,9 +24,8 @@ class Home extends Component {
         this.props.router.push({pathname: '/login'});
     }
 
-    if (this.props.params.username) {
-      console.log(this.props.params.username);
-    }
+    this.props.selectConversations();
+    this.props.params.username && this.props.openConversation(this.props.params.username);
   }
 
 	render() {
@@ -43,9 +42,8 @@ export default connect(
   state => {
     const { auth } = state;
     return {
-      auth,
-
+      auth
     }
   },
-  { joinConveration }
+  { openConversation, selectConversations }
 )(Home)

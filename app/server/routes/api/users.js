@@ -3,21 +3,28 @@ import { ObjectID } from 'mongodb'
 import serverValidation from '../../utils/serverValidation.js'
 import registerUser from '../../utils/registerUser.js'
 import config from '../../config/app.js'
+import Mongo from '../../db/mongo'
+import User from '../../repositories/user'
 
 var registrationValidation = serverValidation.registrationValidation;
 var loginValidation = serverValidation.loginValidation;
 
+
+
 export default function () {
   const router = Router();
+  const db = new Mongo().connection;
+  const userRepository = new User();
+
 
   /**
   * List of users
   */
   router.get('/', function (request, response) {
-    const query = request.query.query ? (request.query.query).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') : null;
 
+    const query = request.query.query ? (request.query.query).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') : null;
     if (query) {
-      request.db
+      db
       .collection('users')
       .find({
         username: new RegExp('^' + query + '.*', 'gi')
@@ -35,14 +42,9 @@ export default function () {
   * Get specific user
   */
   router.get('/:id', function (request, response) {
-    request.db
-    .collection('users')
-    .find({'_id': new ObjectID(request.params.id)})
-    .toArray(function (err, user) {
-      user.length > 0
-      ? response.json(user)
-      : response.status(404).json({message: 'Not found'});
-    });
+    let user = userRepository.getUser(request.params.id)
+      .then((user) => response.json(user))
+      .catch(() => response.status(404).json({message: 'Not found'}));
   });
 
   router.post('/', function(req, res, next) {

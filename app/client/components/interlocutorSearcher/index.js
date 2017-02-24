@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import debounce from 'debounce'
 import { search } from '../../actions/users'
+import { join as joinConveration } from '../../actions/conversations'
 import { connect } from 'react-redux'
 import './style.scss'
 
@@ -11,57 +12,55 @@ class InterlocutorSearcher extends Component {
     this.state = {
       value: ''
     }
-    this.debounce = debounce((e) => {this.onSearchInput(e)}, 200);
+    this.debounce = debounce((e) => {this.onSearchInput(e)}, 400);
   }
 
   onSearchInput(event) {
-   const value = event.target.value.trim();
+    const value = event.target.value.trim();
 
-   if (value != this.state.value) {
-    //this.setState({value: value})
-    this.props.search(value);
-   }
- }
+    if (value && value != this.state.value) {
+      this.props.search(value);
+    }
 
- componentWillReceiveProps(newProps) {
-   console.log(newProps);
- }
+    this.setState({ value: value });
+  }
 
- search = (event) => {
-   event.persist();
-   this.debounce(event);
- }
+  onEnterConversation(user) {
+    const conversation = {
+      participants: [user]
+    }
+    this.props.joinConveration(conversation);
+  }
 
- // renderUsers() {
- //   return(
- //
- //   )
- // }
+  search = (event) => {
+    event.persist();
+    this.debounce(event);
+  }
 
   render() {
-
     const { users } = this.props.users;
+
     return(
       <div className="interlocutor-seacher">
         <input name="interlocutor-seacher" onInput={this.search} placeholder="Input some username"></input>
-        { (users.length)
-            ? <ul className="results">
+        { (this.state.value && users.length)
+          ? <ul className="results">
+              <h3>Search results:</h3>
               { users.map((user, id) => {
                   return <li className="aside__menu-item" id={id}>
-                    <Link to={'/' + user.username} className="aside__menu-item-inner">
+                      <a onClick={() => this.onEnterConversation(user)} className="aside__menu-item-inner">
                       <div className="aside__menu-avatar">
                         <img src="/images/logo.png"/>
                       </div>
                       <div className="aside__menu-content">{user.username}</div>
-                    </Link>
+                    </a>
                   </li>
                 })
               }
-              </ul>
-            : null
+            </ul>
+          : null
         }
       </div>
-
     )
   }
 }
@@ -71,5 +70,5 @@ export default connect(
     const { users } = state
     return { users }
   },
-  {search}
+  { search, joinConveration }
 )(InterlocutorSearcher);

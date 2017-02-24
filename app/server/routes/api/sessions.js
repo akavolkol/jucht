@@ -2,11 +2,13 @@ import express, { Router } from 'express'
 import jwt from 'jsonwebtoken'
 import config from '../../config/app.js'
 import serverValidation from '../../utils/serverValidation.js'
+import Mongo from '../../db/mongo'
 
 var loginValidation = serverValidation.loginValidation;
 
 export default function () {
   const router = Router();
+  const db = new Mongo().connection;
 
   router.post('/', function(req, res, next) {
     var user = {
@@ -14,9 +16,7 @@ export default function () {
       password: req.body.password
     };
 
-    console.log(user);
-
-    loginValidation(user, req.db, function(validationPassed, validationMessage) {
+    loginValidation(user, db, function(validationPassed, validationMessage) {
       if (validationPassed) {
         req.session.userId = validationMessage;
         let token = jwt.sign({username: user.username}, config.secret, {

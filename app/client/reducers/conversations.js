@@ -1,8 +1,8 @@
 import { TYPES } from '../actions/conversations'
 
 const defaultState = {
-  users: [],
-  messages: []
+  conversations: [],
+  conversation: null
 }
 
 export default function converstaions(state = defaultState, action) {
@@ -10,8 +10,20 @@ export default function converstaions(state = defaultState, action) {
     case TYPES.JOIN_CONVERSATION:
     return {
       ...state,
-      ...action.data
+      conversations: state.conversations.concat(action.data)
     }
+
+    case TYPES.OPEN_CONVERSATION:
+      return {
+        ...state,
+        conversation: action.data
+      }
+
+    case TYPES.RECEIVE_CONVERSATIONS:
+      return {
+        ...state,
+        conversations: action.data
+      }
 
     case TYPES.JOIN_CONVERSATION_FAIL:
     return state;

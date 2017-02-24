@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import './chat.scss'
 import InputSection from './inputSection'
-import Message from './message'
+import Messages from './messages'
 
 export default class Chat extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    const conversation = this.props.conversation;
+
     return(
       <main className="chat">
         <section className="chat__items">
@@ -13,9 +19,7 @@ export default class Chat extends Component {
                 <div className="chat-message-loader">
                   And more...
                 </div>
-
-                <Message/>
-                <Message/>
+                { (!!conversation.messages.length) && <Messages messages={conversation.messages}/> }
             </div>
           </div>
         </section>

@@ -51,14 +51,37 @@ class AsideMenu extends Component {
     )
   }
 
+  renderConversations() {
+    const { conversations } = this.props.conversations;
+
+    return(
+       <ul className="aside__menu">
+          { conversations.map((converstaion, key) => {
+              return <li key={key} className="aside__menu-item">
+                  <Link to={'/conversations/' + converstaion._id} className="aside__menu-item-inner">
+                    <div className="aside__menu-avatar">
+                      <img src="/images/logo.png"/>
+                    </div>
+                    <div className="aside__menu-content">sadsa</div>
+                    <span className="indicator">{ converstaion.participants.length }</span>
+                  </Link>
+                </li>
+            })
+          }
+          </ul>
+    )
+  }
+
 	render() {
+    const user = this.props.auth.user;
+
 		return (
       <aside className="aside">
         <div className="aside__header">
           <div className="aside__logo">
             <img src="/images/logo.png"/>
           </div>
-          <span className="aside__title">Компанія Volkol</span>
+          <span className="aside__title">{user.username}</span>
           <a href="/api/logout" onClick={this.onClickAccountOptions}>
             <i className="icon option__icon">
               <svg><use xlinkHref="/images/bytesize-inline.svg#i-ellipsis-vertical"/></svg>
@@ -70,18 +93,7 @@ class AsideMenu extends Component {
         <InterlocutorSearcher/>
 
         <div className="aside__navigation">
-          <ul className="aside__menu">
-
-            <li className="aside__menu-item">
-              <a href="" className="aside__menu-item-inner">
-                <div className="aside__menu-avatar">
-                  <img src="/images/logo.png"/>
-                </div>
-                <div className="aside__menu-content">Nick V.</div>
-                <span className="indicator">233</span>
-              </a>
-            </li>
-          </ul>
+          { !!this.props.conversations && this.renderConversations() }
         </div>
 
         <div className="aside__actions">
@@ -93,6 +105,9 @@ class AsideMenu extends Component {
 }
 
 export default connect(
-  null,
+  state => {
+    const { conversations, auth } = state
+    return { conversations, auth }
+  },
   { signout }
 )(AsideMenu)

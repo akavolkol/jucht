@@ -64,7 +64,8 @@
     margin: 0;
     padding-left: 0;
     width: 100%;
-
+    overflow: auto;
+    max-height: 60vh;
 
     &-item {
       display: flex;
@@ -118,6 +119,12 @@
   align-items: center;
   text-align: center;
 }
+
+  h3 {
+    font-size: 1em;
+    padding: 5px;
+    margin: 0;
+  }
 
 }
 
