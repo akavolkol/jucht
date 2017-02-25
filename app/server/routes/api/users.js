@@ -44,7 +44,7 @@ export default function () {
       .catch(() => response.status(404).json({message: 'Not found'}));
   });
 
-  router.post('/', function(req, res, next) {
+  router.post('/', function(request, response, next) {
 	// trim fields, except passwords
 	var userInfo = {
 		username: request.body.username.trim(),
@@ -52,9 +52,9 @@ export default function () {
 		password: request.body.password
 	};
 
-	registrationValidation(userInfo, request.db, function(validationPassed, failMessage) {
+	registrationValidation(userInfo, db, function(validationPassed, failMessage) {
 		if (validationPassed) {
-			registerUser(userInfo, request.db, function(err) {
+			registerUser(userInfo, db, function(err) {
 				if (err) {
 					res.status(400).json({
 						serverValidationMessage: 'A server error occurred while attempting to register your information.\nPlease try again later.',
