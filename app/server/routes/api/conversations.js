@@ -9,7 +9,7 @@ export default function () {
    * List of available converstaions
    */
   router.get('/', (req, res) => {
-    conversationRepository.list()
+    conversationRepository.listByParticipant(req.session.userId)
       .then((conversations) => res.json(conversations));
   });
 
@@ -24,7 +24,8 @@ export default function () {
         } else {
           res.json(conversation[0]);
         }
-      });
+      })
+      .catch(e => console.log(e));
   });
 
   /**
@@ -33,6 +34,24 @@ export default function () {
   router.post('/', (req, res) => {
     conversationRepository.create(req.body)
       .then((conversation) => res.status(201).json(conversation));
+  });
+
+  /**
+   * Add message
+   */
+  router.post('/:id/messages', (req, res) => {
+    conversationRepository.addMessage(req.params.id, req.body)
+      .then((conversation) => res.status(201).json(conversation))
+        .catch(e => console.log(e));
+  });
+
+  /**
+   * Add message
+   */
+  router.put('/:id/leave', (req, res) => {
+    conversationRepository.removeParticipant(req.params.id, req.body.userId)
+      .then(() => res.json({ message: 'Leaved' }))
+      .catch((e) => res.status(500).json({ message: 'Can\'t leave' }));
   });
 
 

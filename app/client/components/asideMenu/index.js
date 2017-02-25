@@ -82,7 +82,7 @@ class AsideMenu extends Component {
             <img src="/images/logo.png"/>
           </div>
           <span className="aside__title">{user.username}</span>
-          <a href="/api/logout" onClick={this.onClickAccountOptions}>
+          <a onClick={this.onClickAccountOptions}>
             <i className="icon option__icon">
               <svg><use xlinkHref="/images/bytesize-inline.svg#i-ellipsis-vertical"/></svg>
             </i>

@@ -8,6 +8,7 @@ import connectMongo from 'connect-mongo'
 import config from './config/app.js'
 import jwt from 'jsonwebtoken'
 import Mongo from './db/mongo'
+import socketio from 'socket.io'
 
 const app = express();
 const MongoStore = connectMongo(session);
@@ -27,7 +28,9 @@ const MongoStore = connectMongo(session);
 
   app.use(express.Router());
   app.use(routes());
-});
+}).catch(e => {
+  console.log('Can not connect to DB')}
+);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -37,6 +40,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 
-app.listen(process.env.PORT || 9000, console.log('Server is running...'));
+app.use(function(err, req, res, next) {
+  res.status(500).send(err);
+});
+
+let server = app.listen(process.env.PORT || 9000, console.log('Server is running...'));
+
+const socket = socketio.listen(server);
+socket.on('connection', function (socket) {
+
+  socket.on('join', (username) => {
+    socket.username = username;
+  });
+
+  socket.on('typing', (conversationId) => {
+    socket.broadcast.to(conversationId).emit('typing', {username: socket.username});
+  });
+
+  // when the user disconnects.. perform this
+  // socket.on('disconnect', function () {
+  // });
+});
+
 
 export default app;

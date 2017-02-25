@@ -6,12 +6,21 @@ export const TYPES = {
   OPEN_CONVERSATION: 'OPEN_CONVERSATION',
   OPEN_CONVERSATION_FAIL: 'OPEN_CONVERSATION_FAIL',
   RECEIVE_CONVERSATIONS: 'RECEIVE_CONVERSATIONS',
-  SEND_MESSAGE: 'SEND_MESSAGE'
+  SEND_MESSAGE: 'SEND_MESSAGE',
+  LEAVE_CONVERSATION: 'LEAVE_CONVERSATION'
 };
 
-export function join(data) {
-  return dispatch => {
-    request('/conversations', 'POST', data)
+export function join(conversation) {
+  return (dispatch, getState) => {
+    const state = getState();
+    conversation = {
+      ...conversation,
+      ownerId: state.auth.user._id,
+      participants: conversation.participants.concat([state.auth.user])
+
+    }
+
+    request('/conversations', 'POST', conversation)
     .then(response =>
       {
         dispatch({ type: TYPES.JOIN_CONVERSATION, data: response });
@@ -65,15 +74,38 @@ export function openConversation(slug) {
   }
 }
 
-export function sendMessage(converstaionId, message) {
+export function sendMessage(conversationId, message) {
   return dispatch => {
-    request(`/conversations/${converstaionId}/messages`, 'POST', message)
+    request(`/conversations/${conversationId}/messages`, 'POST', message)
     .then(response =>
       {
-        dispatch({ type: TYPES.SEND_MESSAGE, data: response });
+        dispatch({
+          type: TYPES.SEND_MESSAGE,
+          data: {
+            conversationId: conversationId,
+            message: response
+          }
+        });
       },
       response => {
       }
     );
+  }
+}
+
+export function leave(conversationId) {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    request(`/conversations/${conversationId}/leave`, 'PUT', {
+      userId: state.auth.user._id
+    })
+    .then(response =>
+      {
+        dispatch({ type: TYPES.LEAVE_CONVERSATION, data: conversationId });
+      },
+      response => {
+      }
+    ).catch(e => new Error(e));
   }
 }

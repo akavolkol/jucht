@@ -20,18 +20,15 @@ export default function () {
   /**
   * List of users
   */
-  router.get('/', function (request, response) {
+  router.get('/', (request, response) => {
 
     const query = request.query.query ? (request.query.query).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') : null;
     if (query) {
-      db
-      .collection('users')
-      .find({
-        username: new RegExp('^' + query + '.*', 'gi')
-      })
-      .toArray(function (err, users) {
-        response.json(users);
-      });
+      userRepository.findByUsername(
+          new RegExp('^' + query + '.*', 'gi'),
+          request.session.userId
+        )
+        .then(users => response.json(users))
     } else {
       response.status(500).json({message: 'Wrong query'});
     }
@@ -50,14 +47,14 @@ export default function () {
   router.post('/', function(req, res, next) {
 	// trim fields, except passwords
 	var userInfo = {
-		username: req.body.username.trim(),
-		email: req.body.email,
-		password: req.body.password
+		username: request.body.username.trim(),
+		email: request.body.email,
+		password: request.body.password
 	};
 
-	registrationValidation(userInfo, req.db, function(validationPassed, failMessage) {
+	registrationValidation(userInfo, request.db, function(validationPassed, failMessage) {
 		if (validationPassed) {
-			registerUser(userInfo, req.db, function(err) {
+			registerUser(userInfo, request.db, function(err) {
 				if (err) {
 					res.status(400).json({
 						serverValidationMessage: 'A server error occurred while attempting to register your information.\nPlease try again later.',

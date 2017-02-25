@@ -3,18 +3,11 @@ import { connect } from 'react-redux'
 import Header from './header'
 import './content.scss';
 import Chat from '../chat/'
-import Option from './option'
 
 class Content extends Component {
 
   constructor(props) {
     super(props);
-  }
-
-  renderOption() {
-    return(
-      <Option/>
-    )
   }
 
   render() {
@@ -23,8 +16,8 @@ class Content extends Component {
     if (conversation) {
       return(
         <div className="content">
-          <Header title={'Conversation from ' + conversation.createdAt} children={this.renderOption()}/>
-          <Chat conversation={conversation}/>
+          <Header title='Conversation' conversation={conversation}/>
+          <Chat socket={this.props.socket} conversation={conversation}/>
         </div>
       )
     } else {
