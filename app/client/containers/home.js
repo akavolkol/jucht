@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import AsideMenu from '../components/asideMenu'
 import Content from '../components/content'
 import { connect } from 'react-redux'
-import { openConversation, list as selectConversations } from '../actions/conversations'
+import { openConversation, list as selectConversations, unsetActiveConversation } from '../actions/conversations'
 import socket from 'socket.io-client'
 
 class Home extends Component {
@@ -29,7 +29,9 @@ class Home extends Component {
         this.props.router.push({pathname: '/login'});
     }
     //newProps.selectConversations();
-    newProps.params.username && newProps.openConversation(newProps.params.username);
+    newProps.params.username
+      ? newProps.openConversation(newProps.params.username)
+      : newProps.unsetActiveConversation();
   }
 
 	render() {
@@ -49,5 +51,5 @@ export default connect(
       auth
     }
   },
-  { openConversation, selectConversations }
+  { openConversation, selectConversations, unsetActiveConversation }
 )(Home)

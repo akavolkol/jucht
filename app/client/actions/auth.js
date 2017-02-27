@@ -14,39 +14,29 @@ export const TYPES = {
 export function signin(data) {
   return dispatch => {
     request('/sessions', 'POST', data)
-    .then(response =>
-      {
-        localStorage.setItem('token', response.token);
-        dispatch({ type: TYPES.AUTH_USER });
-      },
-      response => {
-        dispatch({
-          type: TYPES.AUTH_ERROR,
-          error: response.message
-        })
-      }
-    );
+    .then(response => {
+      localStorage.setItem('token', response.token);
+      dispatch({ type: TYPES.AUTH_USER });
+      window.location.reload(true);
+    });
   }
 }
 
 export function signout() {
   return dispatch => {
     request('/sessions', 'DELETE')
-    .then(() =>
-    {
+    .then(() => {
       localStorage.removeItem('token');
       dispatch({ type: TYPES.UNAUTH_USER });
-    },
-    response => {
+    })
+    .catch(response => {
       dispatch({
         type: TYPES.AUTH_ERROR,
         error: response.message
       })
-    }
-  );
+    });
+  }
 }
-}
-
 
 export function signup(user) {
   return dispatch => {
@@ -54,13 +44,12 @@ export function signup(user) {
     .then(response =>  {
       localStorage.setItem('token', response.token);
       dispatch({ type: TYPES.AUTH_USER });
-    },
-    response => {
+    })
+    .catch(response => {
       dispatch({
         type: TYPES.AUTH_ERROR,
         error: response.message
       })
-    }
-  )
-}
+    });
+  }
 }

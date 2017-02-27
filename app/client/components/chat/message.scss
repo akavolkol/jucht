@@ -6,6 +6,11 @@
   font-size: 0.9em;
   user-select: text;
 
+  .option__icon {
+    width: 12px;
+    height: 12px;
+  }
+
   &__meta {
     font-size: 0.9em;
     color: #ccc;
@@ -36,6 +41,18 @@
 
   &__text {
     word-break: break-word;
+    display: flex;
+    align-items: flex-start;
+
+    button {
+      margin: 0;
+      padding: 5px;
+    }
+  }
+
+  &__text-content {
+    flex: 1;
+    overflow: hidden;
   }
 
 }

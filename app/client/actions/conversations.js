@@ -7,7 +7,10 @@ export const TYPES = {
   OPEN_CONVERSATION_FAIL: 'OPEN_CONVERSATION_FAIL',
   RECEIVE_CONVERSATIONS: 'RECEIVE_CONVERSATIONS',
   SEND_MESSAGE: 'SEND_MESSAGE',
-  LEAVE_CONVERSATION: 'LEAVE_CONVERSATION'
+  LEAVE_CONVERSATION: 'LEAVE_CONVERSATION',
+  REMOVE_CONVERSATION: 'REMOVE_CONVERSATION',
+  UNSET_CONVERSATION: 'UNSET_CONVERSATION',
+  REMOVE_MESSAGE: 'REMOVE_MESSAGE'
 };
 
 export function join(conversation) {
@@ -66,10 +69,11 @@ export function openConversation(slug) {
       .then(response =>
         {
           dispatch({ type: TYPES.OPEN_CONVERSATION, data: response });
-        },
-        response => {
         }
-      );
+      )
+      .catch(error => {
+        dispatch({ type: TYPES.UNSET_CONVERSATION });
+      });
     }
   }
 }
@@ -93,6 +97,21 @@ export function sendMessage(conversationId, message) {
   }
 }
 
+export function removeMessage(conversationId, messageId) {
+  return dispatch => {
+    request(`/conversations/${conversationId}/messages/${messageId}`, 'DELETE')
+    .then(response => {
+      dispatch({
+        type: TYPES.REMOVE_MESSAGE,
+        data: {
+          conversationId: conversationId,
+          messageId: messageId
+        }
+      });
+    });
+  }
+}
+
 export function leave(conversationId) {
   return (dispatch, getState) => {
     const state = getState();
@@ -108,4 +127,21 @@ export function leave(conversationId) {
       }
     ).catch(e => new Error(e));
   }
+}
+
+export function remove(conversationId) {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    request(`/conversations/${conversationId}`, 'DELETE')
+    .then(() =>
+      {
+        dispatch({ type: TYPES.REMOVE_CONVERSATION, data: conversationId });
+      }
+    ).catch(e => new Error(e));
+  }
+}
+
+export function unsetActiveConversation() {
+  return dispatch => dispatch({ type: TYPES.UNSET_CONVERSATION });
 }

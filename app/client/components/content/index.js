@@ -14,9 +14,13 @@ class Content extends Component {
     const { conversation } = this.props.conversations;
 
     if (conversation) {
+      const title = conversation.participants.length > 2
+        ? 'Group conversation'
+        : `Conversation`;
+
       return(
         <div className="content">
-          <Header title='Conversation' conversation={conversation}/>
+          <Header title={title} conversation={conversation}/>
           <Chat socket={this.props.socket} conversation={conversation}/>
         </div>
       )

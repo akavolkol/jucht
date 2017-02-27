@@ -39,7 +39,7 @@ export default class Chat extends Component {
                 </div>
                 { (!!conversation.messages.length)
                   && conversation.messages.map((message, key) => {
-                    return <Message message={message} key={key}/>
+                    return <Message conversation={conversation} message={message} key={key}/>
                   })
                 }
             </div>

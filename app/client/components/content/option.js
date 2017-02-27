@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './option.scss'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { leave } from '../../actions/conversations'
+import { leave, remove } from '../../actions/conversations'
 
 class Option extends Component {
   constructor(props) {
@@ -23,13 +23,29 @@ class Option extends Component {
     this.props.leave(this.props.conversations.conversation._id);
   }
 
+  onClickRemove = (event) => {
+    event.preventDefault();
+    this.props.remove(this.props.conversations.conversation._id);
+  }
+
   renderOptions() {
     const conversation = this.props.conversations.conversation;
     const user = this.props.auth.user;
 
     return(
       <ul className="account-options">
-        <li>
+        { (conversation.ownerId == user._id) ? (
+        <li className="item">
+        <a onClick={this.onClickRemove}>
+          <div className="account-options__icon">
+            <i className="icon option__icon">
+              <svg><use xlinkHref="/images/bytesize-inline.svg#i-lock"/></svg>
+            </i>
+          </div>
+          <div className="account-options__label">Delete</div>
+        </a>
+      </li>) : (
+        <li className="item item--attention">
           <a onClick={this.onClickLeave}>
             <div className="account-options__icon">
               <i className="icon option__icon">
@@ -39,17 +55,7 @@ class Option extends Component {
             <div className="account-options__label">Leave</div>
           </a>
         </li>
-        { (conversation.ownerId == user._id) ? (
-        <li>
-        <a >
-          <div className="account-options__icon">
-            <i className="icon option__icon">
-              <svg><use xlinkHref="/images/bytesize-inline.svg#i-lock"/></svg>
-            </i>
-          </div>
-          <div className="account-options__label">Delete</div>
-        </a>
-      </li>) : null
+      )
         }
       </ul>
     )
@@ -74,5 +80,5 @@ export default connect(
     const { conversations, auth } = state
     return { conversations, auth }
   },
-  { leave }
+  { leave, remove }
 )(Option)

@@ -27,7 +27,7 @@ class AsideMenu extends Component {
   renderAccountOptions() {
     return(
       <ul className="account-options">
-        <li>
+        <li className="item">
           <Link to="/settings">
             <div className="account-options__icon">
               <i className="icon option__icon">
@@ -37,7 +37,7 @@ class AsideMenu extends Component {
             <div className="account-options__label">Notification Settings</div>
           </Link>
         </li>
-        <li>
+        <li className="item">
         <a onClick={this.onClickSignout}>
           <div className="account-options__icon">
             <i className="icon option__icon">
@@ -53,17 +53,33 @@ class AsideMenu extends Component {
 
   renderConversations() {
     const { conversations } = this.props.conversations;
+    let preparedConversations = [];
+    conversations.map(converstaion => {
+      converstaion.participants.map(participant => {
+        if (!converstaion.label && participant._id != this.props.auth.user._id) {
+          converstaion.label = participant.username;
+        }
+      });
+
+      preparedConversations.push(converstaion);
+    });
 
     return(
        <ul className="aside__menu">
-          { conversations.map((converstaion, key) => {
+          { preparedConversations.map((converstaion, key) => {
               return <li key={key} className="aside__menu-item">
-                  <Link to={'/conversations/' + converstaion._id} className="aside__menu-item-inner">
+                  <Link
+                    to={'/conversations/' + converstaion._id}
+                    className="aside__menu-item-inner"
+                    activeClassName="aside__menu-item-inner--active"
+                  >
                     <div className="aside__menu-avatar">
                       <img src="/images/logo.png"/>
                     </div>
-                    <div className="aside__menu-content">sadsa</div>
-                    <span className="indicator">{ converstaion.participants.length }</span>
+                    <div className="aside__menu-content">{converstaion.label}</div>
+                    { !!converstaion.messages.length
+                      && <span className="indicator">{ converstaion.messages.length }</span>
+                    }
                   </Link>
                 </li>
             })
@@ -78,9 +94,9 @@ class AsideMenu extends Component {
 		return (
       <aside className="aside">
         <div className="aside__header">
-          <div className="aside__logo">
+          <Link className="aside__logo" to="/" >
             <img src="/images/logo.png"/>
-          </div>
+          </Link>
           <span className="aside__title">{user.username}</span>
           <a onClick={this.onClickAccountOptions}>
             <i className="icon option__icon">

@@ -86,6 +86,10 @@
         color: #fff;
         justify-content: space-between;
         padding: 5px;
+
+        &--active {
+          background-color: rgba(0, 0, 0, 0.3);
+        }
       }
 
 

@@ -8,53 +8,70 @@ export default function () {
   /**
    * List of available converstaions
    */
-  router.get('/', (req, res) => {
-    conversationRepository.listByParticipant(req.session.userId)
-      .then((conversations) => res.json(conversations));
+  router.get('/', (request, response) => {
+    conversationRepository.listByParticipant(request.session.userId)
+      .then((conversations) => response.json(conversations));
   });
 
   /**
    * Receive data from certain converstaion
    */
-  router.get('/:id', (req, res) => {
-    conversationRepository.get(req.params.id)
+  router.get('/:id', (request, response, next) => {
+    conversationRepository.get(request.params.id)
+      .then((conversation) => response.json(conversation))
+      .catch(next);
+  });
+
+  /**
+   * Remove conversation
+   * @type {String}
+   */
+  router.delete('/:id', (request, response, next) => {
+    conversationRepository.remove(request.params.id)
       .then((conversation) => {
-        if (conversation.length == 0) {
-          res.status(404).json({message: 'Not found'});
-        } else {
-          res.json(conversation[0]);
-        }
+          response.json({message: 'Removed'});
       })
-      .catch(e => console.log(e));
+      .catch(next);
   });
 
   /**
    * Join new converstaion
    */
-  router.post('/', (req, res) => {
-    conversationRepository.create(req.body)
-      .then((conversation) => res.status(201).json(conversation));
+  router.post('/', (request, response, next) => {
+    conversationRepository.create(request.body)
+      .then((conversation) => response.status(201).json(conversation))
+      .catch(next);
   });
 
   /**
    * Add message
    */
-  router.post('/:id/messages', (req, res) => {
-    conversationRepository.addMessage(req.params.id, req.body)
-      .then((conversation) => res.status(201).json(conversation))
-        .catch(e => console.log(e));
+  router.post('/:id/messages', (request, response, next) => {
+    conversationRepository.addMessage(request.params.id, request.body)
+      .then((conversation) => response.status(201).json(conversation))
+      .catch(next);
   });
 
   /**
-   * Add message
+   * Remove conversation
+   * @type {String}
    */
-  router.put('/:id/leave', (req, res) => {
-    conversationRepository.removeParticipant(req.params.id, req.body.userId)
-      .then(() => res.json({ message: 'Leaved' }))
-      .catch((e) => res.status(500).json({ message: 'Can\'t leave' }));
+  router.delete('/:conversationId/messages/:messageId', (request, response, next) => {
+    conversationRepository.removeMessage(request.params.conversationId, request.params.messageId)
+      .then((conversation) => {
+          response.json({message: 'Removed'});
+      })
+      .catch(next);
   });
 
-
+  /**
+   * Leave conversation
+   */
+  router.put('/:id/leave', (request, response, next) => {
+    conversationRepository.removeParticipant(request.params.id, request.session.userId)
+      .then(() => response.json({ message: 'Leaved' }))
+      .catch(next);
+  });
 
   return router;
 }

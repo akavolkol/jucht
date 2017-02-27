@@ -5,7 +5,9 @@ const defaultState = {
   conversation: null
 }
 
-export default function converstaions(state = defaultState, action) {
+export default function conversations(state = defaultState, action) {
+  let conversations, currentConversation;
+
   switch (action.type) {
     case TYPES.JOIN_CONVERSATION:
     return {
@@ -26,19 +28,26 @@ export default function converstaions(state = defaultState, action) {
       }
 
     case TYPES.LEAVE_CONVERSATION:
+    case TYPES.REMOVE_CONVERSATION:
 
       return {
         ...state,
-        converstaion: null,
+        conversation: null,
         conversations: state.conversations.filter(conversation => {
-          conversation._id != action.data
+          return conversation._id != action.data
         })
       }
 
-    case TYPES.SEND_MESSAGE:
-      let conversations = [...state.conversations];
-      let currentConversation = {};
+    case TYPES.UNSET_CONVERSATION:
+      return {
+        ...state,
+        params: {...state.params, username: ''},
+        conversation: null
+      }
 
+    case TYPES.SEND_MESSAGE:
+      conversations = [...state.conversations];
+      currentConversation = {};
       conversations.map(conversation => {
         if (conversation._id == action.data.conversationId) {
           conversation.messages.push(action.data.message);
@@ -49,7 +58,26 @@ export default function converstaions(state = defaultState, action) {
       return {
         ...state,
         conversations: conversations,
-        converation: currentConversation
+        conversation: currentConversation
+      }
+
+    case TYPES.REMOVE_MESSAGE:
+      conversations = [...state.conversations];
+      currentConversation = {};
+
+      conversations.map(conversation => {
+        if (conversation._id == action.data.conversationId) {
+          conversation.messages = conversation.messages.filter(message => {
+            return message._id != action.data.messageId;
+          });
+          currentConversation = conversation;
+        }
+      });
+
+      return {
+        ...state,
+        conversations: conversations,
+        conversation: currentConversation
       }
 
     case TYPES.JOIN_CONVERSATION_FAIL:
