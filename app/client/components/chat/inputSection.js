@@ -29,8 +29,6 @@ class InputSection extends Component {
       this.props.sendMessage(conversation._id, message);
       this.setState({ message: '' });
     }
-
-    //this.setState({ message: this.refs.message });
   }
 
   onChange = (event) => {

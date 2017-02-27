@@ -50,9 +50,25 @@
     }
   }
 
+  &__edit {
+    display: none;
+  }
+
   &__text-content {
     flex: 1;
     overflow: hidden;
+  }
+
+  &--editing {
+    .message__edit {
+      display: block;
+    }
+
+    .message__text {
+      display: none;
+    }
+
+
   }
 
 }

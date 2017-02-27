@@ -46,7 +46,7 @@ export default class Conversation extends Base {
       .find({ participants :
               { $elemMatch :
                 { _id : id }
-              }
+            }
       })
       .toArray();
   }
@@ -75,7 +75,11 @@ export default class Conversation extends Base {
       _id: new ObjectID(),
       createdAt: message.createdAt || new Date(),
       text: message.text || '',
-      author: message.author
+      author: {
+        ...message.author,
+        _id: new ObjectID(message.author._id)
+      },
+      updatedAt: null
     }
 
     return new Promise((resolve, reject) => {
@@ -109,6 +113,44 @@ export default class Conversation extends Base {
         }
       );
     });
+  }
+
+  getMessage(conversationId, messageId) {
+    return new Promise((resolve, reject) => {
+    this.connection
+      .collection('conversations')
+      .findOne(
+        { _id: new ObjectID(conversationId), 'messages._id': new ObjectID(messageId) }
+      )
+      .then((result) => {
+          resolve(result.messages[0]);
+        }
+      )
+      .catch(e => reject(e));
+    });
+  }
+
+  updateMessage(conversationId, messageId, message) {
+    return new Promise((resolve, reject) => {
+      this.getMessage(conversationId, messageId)
+        .then((oldMessage) => {
+          const newMessage = {...oldMessage, text: message.text, updatedAt: new Date() };
+
+          this.connection
+            .collection('conversations')
+            .findOneAndUpdate(
+              { _id: new ObjectID(conversationId), 'messages._id': new ObjectID(messageId) },
+              { $set: { 'messages.$': newMessage } },
+            )
+            .then((result) => {
+                resolve(newMessage);
+              }
+            )
+            .catch((e) => reject(e));
+          })
+          .catch((e) => reject(e));;
+        })
+
   }
 
   removeParticipant(conversationId, participantId) {

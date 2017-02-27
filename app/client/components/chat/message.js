@@ -2,22 +2,48 @@ import React, { Component } from 'react'
 import './message.scss'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { removeMessage } from '../../actions/conversations'
+import { removeMessage, editMessage } from '../../actions/conversations'
 
 class Message extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shouldAppearMessageOptions: false
+      shouldAppearMessageOptions: false,
+      editing: false,
+      text: this.props.message.text
     };
   }
 
   onClickEdit = () => {
-
+    this.setState({
+      editing: !this.state.editing
+    });
   }
 
   onClickRemove = () => {
     this.props.removeMessage(this.props.conversation._id, this.props.message._id)
+  }
+
+  onChange = (event) => {
+    event.preventDefault();
+    this.setState({
+      text: event.target.value
+    });
+  }
+
+  onSumbit = (event) => {
+    event.preventDefault();
+    const conversation = this.props.conversation;
+    if ((event.keyCode == 13 || event.keyCode == 10)
+      && this.state.text !== ''
+    ) {
+      let message = {
+        text: this.state.text.replace(/s{,2}|\n/, ''),
+      };
+
+      this.props.editMessage(conversation._id, this.props.message._id, message);
+      this.setState({ editing: false, shouldAppearMessageOptions: false });
+    }
   }
 
   toogleOptionsVisible = () => {
@@ -29,7 +55,7 @@ class Message extends Component {
   renderMessageOptions() {
     return(
       <div>
-      <button onClick={this.toogleOptionsVisible} class="chat-bubble__settings icon-button js-message-dropdown-toggle">
+      <button onClick={this.toogleOptionsVisible}>
           <i className="icon option__icon">
             <svg><use xlinkHref="/images/bytesize-inline.svg#i-settings"/></svg>
           </i>
@@ -66,7 +92,7 @@ class Message extends Component {
     const message = this.props.message;
 
     return (
-      <div id="" className="message">
+      <div id="" className={"message " + (this.state.editing ? 'message--editing' : null)}>
         <div className="message__avatar">
           <img src="/images/logo.png"/>
         </div>
@@ -74,14 +100,18 @@ class Message extends Component {
         <div className="message__content">
           <div className="message__meta">
             <span className="message__username">{message.author.username}</span>
-            <time className="message__time"> {moment(message.createdAt).fromNow()}</time>
+            <time className="message__time"> {moment(message.createdAt).fromNow()} </time>
+            { message.updatedAt && <span>(Updated)</span>}
           </div>
           <div className="message__text">
             <div className="message__text-content">
-              {message.text}
+              {this.state.text}
             </div>
             {this.renderMessageOptions()}
           </div>
+          <div className="message__edit">
+          <input onChange={this.onChange} value={this.state.text} onKeyUp={this.onSumbit}/>
+        </div>
         </div>
 
       </div>
@@ -94,5 +124,5 @@ export default connect(
     const { auth } = state
     return { auth }
   },
-  { removeMessage }
+  { removeMessage, editMessage }
 )(Message)

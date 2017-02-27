@@ -10,7 +10,8 @@ export const TYPES = {
   LEAVE_CONVERSATION: 'LEAVE_CONVERSATION',
   REMOVE_CONVERSATION: 'REMOVE_CONVERSATION',
   UNSET_CONVERSATION: 'UNSET_CONVERSATION',
-  REMOVE_MESSAGE: 'REMOVE_MESSAGE'
+  REMOVE_MESSAGE: 'REMOVE_MESSAGE',
+  EDIT_MESSAGE: 'EDIT_MESSAGE'
 };
 
 export function join(conversation) {
@@ -20,7 +21,6 @@ export function join(conversation) {
       ...conversation,
       ownerId: state.auth.user._id,
       participants: conversation.participants.concat([state.auth.user])
-
     }
 
     request('/conversations', 'POST', conversation)
@@ -94,6 +94,21 @@ export function sendMessage(conversationId, message) {
       response => {
       }
     );
+  }
+}
+
+export function editMessage(conversationId, messageId, message) {
+  return dispatch => {
+    request(`/conversations/${conversationId}/messages/${messageId}`, 'PUT', message)
+    .then(response => {
+      dispatch({
+        type: TYPES.EDIT_MESSAGE,
+        data: {
+          conversationId: conversationId,
+          message: response
+        }
+      });
+    });
   }
 }
 

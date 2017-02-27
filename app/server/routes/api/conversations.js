@@ -65,6 +65,18 @@ export default function () {
   });
 
   /**
+   * Update message in conversation
+   * @type {String}
+   */
+  router.put('/:conversationId/messages/:messageId', (request, response, next) => {
+    conversationRepository.updateMessage(request.params.conversationId, request.params.messageId, request.body)
+      .then((message) => {
+          response.json(message);
+      })
+      .catch(next);
+  });
+
+  /**
    * Leave conversation
    */
   router.put('/:id/leave', (request, response, next) => {

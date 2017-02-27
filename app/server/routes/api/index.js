@@ -5,6 +5,7 @@ import sessionsRouter from './sessions'
 import conversationsRouter from './conversations'
 import jwt from 'jsonwebtoken'
 import config from '../../config/app.js'
+import NotFoundError from '../../errors/notFound'
 
 export default function () {
   const router = Router();
@@ -33,6 +34,10 @@ export default function () {
   router.use('/users', usersRouter());
   router.use('/sessions', sessionsRouter());
   router.use('/conversations', conversationsRouter());
+
+  router.use(() => {
+    throw new NotFoundError('API route not found');
+  });
 
   return router;
 }

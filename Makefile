@@ -15,5 +15,8 @@ clean:
 build:
 	node tools/build.js
 
+test:
+	node_modules/mocha/bin/mocha app/client/tests/**/*.js --compilers js:babel-core/register
+
 build-prod:
 	npm run build

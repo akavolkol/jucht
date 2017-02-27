@@ -74,11 +74,37 @@ export default function conversations(state = defaultState, action) {
         }
       });
 
+      console.log(currentConversation)
+
       return {
         ...state,
         conversations: conversations,
         conversation: currentConversation
       }
+
+
+      case TYPES.EDIT_MESSAGE:
+        conversations = [...state.conversations];
+        currentConversation = {};
+
+        conversations.map(conversation => {
+          if (conversation._id == action.data.conversationId) {
+            currentConversation = conversation;
+            currentConversation.messages = conversation.messages.map(message => {
+              if (message._id == action.data.message._id) {
+                return action.data.message;
+              }
+
+            });
+
+          }
+        });
+
+        return {
+          ...state,
+          conversations: state.conversations,
+          conversation: currentConversation
+        }
 
     case TYPES.JOIN_CONVERSATION_FAIL:
     return state;

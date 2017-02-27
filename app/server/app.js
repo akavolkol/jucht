@@ -49,7 +49,8 @@ const MongoStore = connectMongo(session);
 
   });
 }).catch(e => {
-  throw new Error('Can not connect to DB');
+  console.log(new Error('Can not connect to DB'));
+  process.exit(1);
 });
 
 app.set('views', path.join(__dirname, 'views'));
