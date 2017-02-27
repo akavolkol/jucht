@@ -9,6 +9,9 @@
   padding: 0.5em;
   width: 20%;
   min-width: 250px;
+  transform: translateX(0);
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
 
   &__header {
     height: 50px;
@@ -30,6 +33,7 @@
   &__navigation {
     display: flex;
     height: 100%;
+    width: 100%;
   }
 
   &__title {
@@ -43,6 +47,20 @@
 
     @media (max-width: 768px) {
       display: none;
+    }
+  }
+
+  &__scroll {
+    position: relative;
+    overflow: hidden;
+    width: calc(100% + 16px);
+
+    &-inner {
+      margin-right: -16px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      width: inherit;
+      max-height: 60vh;
     }
   }
 
@@ -64,8 +82,6 @@
     margin: 0;
     padding-left: 0;
     width: 100%;
-    overflow: auto;
-    max-height: 60vh;
 
     &-item {
       display: flex;
@@ -105,6 +121,7 @@
     height: 30px;
     flex-shrink: 0;
     padding-right: 0.5em;
+    position: relative;
 
     img {
       height: 100%;
@@ -150,4 +167,18 @@
   background-color: red;
   border-radius: 3px;
   line-height: 1.7em;
+}
+
+.platform-state {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-clip: padding-box;
+    background-color: red;
+    z-index: 2;
+    bottom: 1px;
+    right: 8px;
 }

@@ -18,6 +18,12 @@ export function signin(data) {
       localStorage.setItem('token', response.token);
       dispatch({ type: TYPES.AUTH_USER });
       window.location.reload(true);
+    })
+    .catch(response => {
+      dispatch({
+        type: TYPES.AUTH_ERROR,
+        error: response.message
+      })
     });
   }
 }

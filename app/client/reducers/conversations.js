@@ -74,8 +74,6 @@ export default function conversations(state = defaultState, action) {
         }
       });
 
-      console.log(currentConversation)
-
       return {
         ...state,
         conversations: conversations,

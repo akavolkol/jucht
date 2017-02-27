@@ -75,6 +75,7 @@ class AsideMenu extends Component {
                   >
                     <div className="aside__menu-avatar">
                       <img src="/images/logo.png"/>
+                      <div className="platform-state connected"></div>
                     </div>
                     <div className="aside__menu-content">{converstaion.label}</div>
                     { !!converstaion.messages.length
@@ -98,18 +99,24 @@ class AsideMenu extends Component {
             <img src="/images/logo.png"/>
           </Link>
           <span className="aside__title">{user.username}</span>
+          <div className="option">
           <a onClick={this.onClickAccountOptions}>
             <i className="icon option__icon">
               <svg><use xlinkHref="/images/bytesize-inline.svg#i-ellipsis-vertical"/></svg>
             </i>
+            { this.state.shouldAppearAccountOptions && this.renderAccountOptions() }
           </a>
-          { this.state.shouldAppearAccountOptions && this.renderAccountOptions() }
+        </div>
         </div>
 
         <InterlocutorSearcher/>
 
         <div className="aside__navigation">
+          <div className="aside__scroll">
+            <div className="aside__scroll-inner">
           { !!this.props.conversations && this.renderConversations() }
+        </div>
+      </div>
         </div>
 
         <div className="aside__actions">

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { createFlashMessage } from '../actions/flashMessages'
 import SettingsMenu from '../components/settingsMenu'
+import SettingsForm from '../components/settings'
 
 export default class Settings extends Component {
   constructor(props) {
@@ -8,11 +9,11 @@ export default class Settings extends Component {
   }
   render() {
     return(
-      <div>
+      <div className="app">
         <aside>
           <SettingsMenu/>
         </aside>
-        <div>sdfs</div>
+        <SettingsForm/>
       </div>
     )
   }

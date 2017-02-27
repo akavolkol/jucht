@@ -9,7 +9,7 @@ import Settings from '../containers/settings'
 const routes = (
 	<Route path='/' component={Index}>
 		<IndexRoute component={Home} />
-    <Route path='settings/profile' component={Settings} />
+    <Route path='settings' component={Settings} />
 		<Route path='login' component={Login} />
 		<Route path='signup' component={Signup} />
     <Route path='conversations/:username' component={Home} />

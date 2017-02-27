@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import './message.scss'
 import moment from 'moment'
 import { connect } from 'react-redux'
@@ -14,6 +15,30 @@ class Message extends Component {
     };
   }
 
+  targetIsDescendant(event, parent) {
+    let node = event.target;
+    while (node !== null) {
+      if (node === parent) return true;
+      node = node.parentNode;
+    }
+    return false;
+  }
+
+
+  handleDocumentClick = (event) => {
+    if (this.state.shouldAppearMessageOptions && !this.targetIsDescendant(event, ReactDOM.findDOMNode(this))) {
+      this.toogleOptionsVisible();
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleDocumentClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleDocumentClick);
+  }
+
   onClickEdit = () => {
     this.setState({
       editing: !this.state.editing
@@ -21,7 +46,10 @@ class Message extends Component {
   }
 
   onClickRemove = () => {
-    this.props.removeMessage(this.props.conversation._id, this.props.message._id)
+    this.props.removeMessage(this.props.conversation._id, this.props.message._id);
+    this.setState({
+      shouldAppearMessageOptions: !this.state.shouldAppearMessageOptions
+    })
   }
 
   onChange = (event) => {

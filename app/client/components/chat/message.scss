@@ -52,6 +52,12 @@
 
   &__edit {
     display: none;
+
+    input {
+      width: 100%;
+      min-height: 2em;
+    }
+
   }
 
   &__text-content {

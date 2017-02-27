@@ -37,10 +37,8 @@ class InputSection extends Component {
 
   render() {
     return(
-      <form onSubmit={this.onSumbit}>
-      <section className="chat-input">
+      <form className="chat-input" onSubmit={this.onSumbit}>
         <textarea ref="message" onChange={this.onChange} onKeyUp={this.onSumbit} value={this.state.message} placeholder="Type a message"></textarea>
-      </section>
       </form>
 
     )
