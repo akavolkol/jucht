@@ -122,7 +122,7 @@ class Message extends Component {
     return (
       <div id="" className={"message " + (this.state.editing ? 'message--editing' : null)}>
         <div className="message__avatar">
-          <img src="/images/logo.png"/>
+          <img src="/images/no-avatar.png"/>
         </div>
 
         <div className="message__content">

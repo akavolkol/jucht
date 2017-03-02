@@ -74,7 +74,7 @@ class AsideMenu extends Component {
                     activeClassName="aside__menu-item-inner--active"
                   >
                     <div className="aside__menu-avatar">
-                      <img src="/images/logo.png"/>
+                      <img src="/images/no-avatar.png"/>
                       <div className="platform-state connected"></div>
                     </div>
                     <div className="aside__menu-content">{converstaion.label}</div>
@@ -96,7 +96,7 @@ class AsideMenu extends Component {
       <aside className="aside">
         <div className="aside__header">
           <Link className="aside__logo" to="/" >
-            <img src="/images/logo.png"/>
+            <img src="/images/no-avatar.png"/>
           </Link>
           <span className="aside__title">{user.username}</span>
           <div className="option">
@@ -109,7 +109,7 @@ class AsideMenu extends Component {
         </div>
         </div>
 
-        <InterlocutorSearcher/>
+        <InterlocutorSearcher socket={this.props.socket}/>
 
         <div className="aside__navigation">
           <div className="aside__scroll">

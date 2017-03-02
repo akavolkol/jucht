@@ -21,7 +21,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.socket.emit('join', this.props.auth.user.username);
+    this.socket.emit('join', this.props.auth.user);
+    this.socket.on('conversationsUpdated', () => {
+      this.props.selectConversations();
+    })
   }
 
   componentWillReceiveProps(newProps) {
@@ -31,6 +34,14 @@ class Home extends Component {
         this.props.router.push({pathname: '/login'});
     }
 
+    if (conversation) {
+      if (oldConversation && oldConversation._id != conversation._id) {
+        this.socket.emit('leaveConversation', conversation._id);
+        this.socket.emit('conversation', { conversation: conversation });
+      } else if (!oldConversation) {
+        this.socket.emit('conversation', { conversation: conversation });
+      }
+    }
     /**
      * switch beetwen chats - rid changes + need load
      * open chat from empty - rid changes + need load, cid may null
@@ -63,7 +74,7 @@ class Home extends Component {
 	render() {
 		return (
 			<div className="app">
-        <AsideMenu/>
+        <AsideMenu socket={this.socket}/>
 				<Content socket={this.socket}/>
 			</div>
 		)

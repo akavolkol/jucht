@@ -27,6 +27,7 @@ class InputSection extends Component {
       };
 
       this.props.sendMessage(conversation._id, message);
+      this.socket.emit('updatingConversation', conversation._id);
       this.setState({ message: '' });
     }
   }

@@ -88,6 +88,21 @@ export function openConversation(slug) {
   }
 }
 
+
+export function getConversation(slug) {
+  return dispatch => {
+      request('/conversations/' + slug, 'GET')
+      .then(response =>
+        {
+          dispatch({ type: TYPES.OPEN_CONVERSATION, data: response });
+        }
+      )
+      .catch(error => {
+
+      });
+  }
+}
+
 export function sendMessage(conversationId, message) {
   return dispatch => {
     request(`/conversations/${conversationId}/messages`, 'POST', message)

@@ -11,7 +11,8 @@ class InterlocutorSearcher extends Component {
     super(props);
     this.state = {
       value: ''
-    }
+    };
+    this.socket = this.props.socket;
   }
 
   doSearch = debounce((value) => {
@@ -23,6 +24,7 @@ class InterlocutorSearcher extends Component {
       participants: [user]
     }
     this.props.joinConveration(conversation);
+    this.socket.emit('updatedConversations', [user._id]);
     this.setState({ value: '' });
   }
 

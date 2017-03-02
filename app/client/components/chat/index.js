@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './chat.scss'
 import InputSection from './inputSection'
 import Message from './message'
+import { getConversation } from '../../actions/conversations'
 
-export default class Chat extends Component {
+class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +22,10 @@ export default class Chat extends Component {
         this.setState({ typing: {} });
       }, 5000);
     });
+
+    this.socket.on('conversationUpdated', () => {
+      this.props.getConversation(this.props.conversations.conversation._id);
+    });
   }
 
   componentDidUpdate() {
@@ -27,7 +33,7 @@ export default class Chat extends Component {
   }
 
   render() {
-    const conversation = this.props.conversation;
+    const { conversation } = this.props.conversations;
 
     return(
       <main className="chat">
@@ -51,3 +57,11 @@ export default class Chat extends Component {
     )
   }
 }
+
+export default connect(
+  state => {
+    const { conversations } = state
+    return { conversations }
+  },
+  { getConversation }
+)(Chat)

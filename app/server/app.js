@@ -64,14 +64,40 @@ app.use(express.static(path.join(__dirname, '../../public')));
 let server = app.listen(process.env.PORT || 9000, console.log('Server is running...'));
 
 const socket = socketio.listen(server);
+let clients = [];
 socket.on('connection', function (socket) {
 
-  socket.on('join', (username) => {
-    socket.username = username;
+  socket.on('join', (user) => {
+    socket.user = user;
+    clients.push(socket);
+  });
+
+  socket.on('conversation', (data) => {
+    socket.conversation = data.conversation;
+    socket.join(data.conversation._id);
+  })
+
+  socket.on('leaveConversation', id => {
+    socket.leave(id)
   });
 
   socket.on('typing', (conversationId) => {
-    socket.broadcast.to(conversationId).emit('typing', {username: socket.username});
+    socket.broadcast.to(conversationId).emit('typing', {username: socket.user ? socket.user.username : null});
+  });
+
+  socket.on('updatingConversation', (conversationId) => {
+    socket.broadcast.to(conversationId).emit('conversationUpdated');
+  });
+
+  socket.on('updatedConversations', (usersIds) => {
+    clients.map(client => {
+
+      if (usersIds.indexOf(client.user.id)) {
+        console.log(usersIds);
+        client.emit('conversationsUpdated');
+      }
+    })
+
   });
 
   // when the user disconnects.. perform this
