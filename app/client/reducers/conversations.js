@@ -18,7 +18,7 @@ export default function conversations(state = defaultState, action) {
     case TYPES.OPEN_CONVERSATION:
       return {
         ...state,
-        conversation: action.data
+        conversation: action.data,
       }
 
     case TYPES.RECEIVE_CONVERSATIONS:
@@ -41,7 +41,6 @@ export default function conversations(state = defaultState, action) {
     case TYPES.UNSET_CONVERSATION:
       return {
         ...state,
-        params: {...state.params, username: ''},
         conversation: null
       }
 

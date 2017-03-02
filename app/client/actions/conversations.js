@@ -17,6 +17,16 @@ export const TYPES = {
 export function join(conversation) {
   return (dispatch, getState) => {
     const state = getState();
+    let isExistedConversation = state.conversations.conversations.find(conversationChecked => {
+      return conversationChecked.participants.find(participant => {
+        return participant._id == conversation.participants[0]._id;
+      });
+    });
+
+    if (isExistedConversation) {
+      return dispatch({ type: TYPES.OPEN_CONVERSATION, data: isExistedConversation });
+    }
+
     conversation = {
       ...conversation,
       ownerId: state.auth.user._id,

@@ -12,29 +12,30 @@ class InterlocutorSearcher extends Component {
     this.state = {
       value: ''
     }
-    this.debounce = debounce((e) => {this.onSearchInput(e)}, 400);
   }
 
-  onSearchInput(event) {
-    const value = event.target.value.trim();
-
-    if (value && value != this.state.value) {
+  doSearch = debounce((value) => {
       this.props.search(value);
-    }
-
-    this.setState({ value: value });
-  }
+  }, 500);
 
   onEnterConversation(user) {
     const conversation = {
       participants: [user]
     }
     this.props.joinConveration(conversation);
+    this.setState({ value: '' });
   }
 
   search = (event) => {
-    event.persist();
-    this.debounce(event);
+    let value = event.target.value;
+    value = value.trim();
+
+    value && this.doSearch(value);
+    this.setState({ value: value });
+  }
+
+  onChange = (event) => {
+    this.setState({ value: event.target.value });
   }
 
   render() {
@@ -42,12 +43,16 @@ class InterlocutorSearcher extends Component {
 
     return(
       <div className="interlocutor-seacher">
-        <input name="interlocutor-seacher" onInput={this.search} placeholder="Input some username"></input>
+        <input name="interlocutor-seacher"
+          onChange={this.search}
+          value={this.state.value}
+          placeholder="Input some username"
+        />
         { (this.state.value && users.length)
           ? <ul className="results">
               <h3>Search results:</h3>
               { users.map((user, id) => {
-                  return <li className="aside__menu-item" id={id}>
+                  return <li className="aside__menu-item" key={id}>
                       <a onClick={() => this.onEnterConversation(user)} className="aside__menu-item-inner">
                       <div className="aside__menu-avatar">
                         <img src="/images/logo.png"/>

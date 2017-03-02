@@ -100,12 +100,12 @@ class AsideMenu extends Component {
           </Link>
           <span className="aside__title">{user.username}</span>
           <div className="option">
-          <a onClick={this.onClickAccountOptions}>
+          <div onClick={this.onClickAccountOptions}>
             <i className="icon option__icon">
               <svg><use xlinkHref="/images/bytesize-inline.svg#i-ellipsis-vertical"/></svg>
             </i>
             { this.state.shouldAppearAccountOptions && this.renderAccountOptions() }
-          </a>
+          </div>
         </div>
         </div>
 

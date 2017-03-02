@@ -9,23 +9,25 @@ const defaultState = {
 export default function auth(state = defaultState, action) {
   switch (action.type) {
     case TYPES.AUTH_USER:
-    return Object.assign({}, state, {
-      error: '',
-      authenticated: true
-    });
+
+      return Object.assign({}, state, {
+        error: '',
+        authenticated: true,
+        user: action.user
+      });
+
     case TYPES.UNAUTH_USER:
-    return { ...state, authenticated: false };
+      return { ...state, authenticated: false };
+
     case TYPES.AUTH_ERROR:
-    return {
-      ...state,
-      authenticated: false,
-      error: action.error
-    }
-    case TYPES.FETCH_DATA:
-    return { ...state, message: action.payload };
-    case TYPES.FETCH_JSON:
-    return { ...state, user: action.payload };
+
+      return {
+        ...state,
+        authenticated: false,
+        error: action.error
+      }
+
     default:
-    return state;
+      return state;
   }
 }

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { createFlashMessage } from '../actions/flashMessages'
-import { signup } from '../actions/auth'
+import { registerUser } from '../actions/auth'
 
 class Signup extends Component {
 
@@ -10,11 +10,17 @@ class Signup extends Component {
     super(props);
   }
 
+  componentWillMount() {
+    if (this.props.auth.authenticated) {
+      this.props.router.push({pathname: '/'});
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    const {auth} = this.props;
+    const {auth} = nextProps;
     if (auth.authenticated) {
+      this.props.router.push({pathname: '/'});
     } else if (nextProps.auth.error) {
-      console.log(nextProps.auth.error);
       this.props.createFlashMessage({
         title: 'Error',
         body: nextProps.auth.error,
@@ -26,7 +32,7 @@ class Signup extends Component {
 
   handleFormSubmit(event) {
     event.preventDefault();
-    this.props.signup({
+    this.props.registerUser({
       username: this.refs.username.value,
       email: this.refs.email.value,
       password: this.refs.password.value
@@ -77,4 +83,4 @@ function mapStateToProps(state) {
   return {auth};
 }
 
-export default connect(mapStateToProps, {signup, createFlashMessage})(Signup)
+export default connect(mapStateToProps, {registerUser, createFlashMessage})(Signup)

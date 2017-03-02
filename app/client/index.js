@@ -17,9 +17,6 @@ const store = createStore(
   },
   applyMiddleware(thunkMiddleware)
 );
-store.subscribe(() => {
-    store.getState();
-});
 
 render(
   <Provider store={store}>

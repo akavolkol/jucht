@@ -16,13 +16,12 @@ export function signin(data) {
     request('/sessions', 'POST', data)
     .then(response => {
       localStorage.setItem('token', response.token);
-      dispatch({ type: TYPES.AUTH_USER });
-      window.location.reload(true);
+      dispatch({ type: TYPES.AUTH_USER, user: response.user });
     })
     .catch(response => {
       dispatch({
         type: TYPES.AUTH_ERROR,
-        error: response.message
+        error: response.error
       })
     });
   }
@@ -44,17 +43,17 @@ export function signout() {
   }
 }
 
-export function signup(user) {
+export function registerUser(user) {
   return dispatch => {
     request('/users', 'POST', user)
     .then(response =>  {
       localStorage.setItem('token', response.token);
-      dispatch({ type: TYPES.AUTH_USER });
+      dispatch({ type: TYPES.AUTH_USER, user: response.user });
     })
     .catch(response => {
       dispatch({
         type: TYPES.AUTH_ERROR,
-        error: response.message
+        error: response.error
       })
     });
   }

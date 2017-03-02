@@ -49,7 +49,7 @@ const MongoStore = connectMongo(session);
 
   });
 }).catch(e => {
-  console.log(new Error('Can not connect to DB'));
+  console.log(e);
   process.exit(1);
 });
 

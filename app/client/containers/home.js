@@ -17,7 +17,7 @@ class Home extends Component {
     }
 
     this.props.selectConversations();
-    this.props.params.username && this.props.openConversation(this.props.params.username);
+    this.props.params.conversationId && this.props.openConversation(this.props.params.conversationId);
   }
 
   componentDidMount() {
@@ -25,13 +25,39 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    const { conversation } = newProps.conversations;
+    const oldConversation = this.props.conversations.conversation;
     if (!newProps.auth.authenticated) {
         this.props.router.push({pathname: '/login'});
     }
-    //newProps.selectConversations();
-    newProps.params.username
-      ? newProps.openConversation(newProps.params.username)
-      : newProps.unsetActiveConversation();
+
+    /**
+     * switch beetwen chats - rid changes + need load
+     * open chat from empty - rid changes + need load, cid may null
+     * close chat - cid changes + need route update, rid may null
+     * open from search - cid changes + need route update, rid may null
+     */
+     if (newProps.params.conversationId && this.props.params.conversationId != newProps.params.conversationId) {
+       this.props.openConversation(newProps.params.conversationId);
+       if (conversation && newProps.params.conversationId != conversation._id
+       && conversation._id != oldConversation._id) {
+         this.props.router.push({pathname: '/conversations/' + conversation._id});
+       }
+     }
+
+    if ((!oldConversation && !this.props.params.conversationId && conversation)
+      || oldConversation && conversation && conversation._id != oldConversation._id
+    ) {
+       this.props.router.push({pathname: '/conversations/' + conversation._id});
+     }
+
+     if (oldConversation && !conversation && newProps.params.conversationId) {
+       this.props.router.push({pathname: ''});
+     }
+
+     if (oldConversation && conversation && !newProps.params.conversationId) {
+       this.props.unsetActiveConversation();
+     }
   }
 
 	render() {
@@ -46,9 +72,9 @@ class Home extends Component {
 
 export default connect(
   state => {
-    const { auth } = state;
+    const { auth, conversations } = state;
     return {
-      auth
+      auth, conversations
     }
   },
   { openConversation, selectConversations, unsetActiveConversation }

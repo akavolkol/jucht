@@ -1,15 +1,13 @@
 import express, { Router } from 'express'
 import { ObjectID } from 'mongodb'
 import serverValidation from '../../utils/serverValidation.js'
-import registerUser from '../../utils/registerUser.js'
 import config from '../../config/app.js'
 import Mongo from '../../db/mongo'
 import User from '../../repositories/user'
+import jwt from 'jsonwebtoken'
 
 var registrationValidation = serverValidation.registrationValidation;
 var loginValidation = serverValidation.loginValidation;
-
-
 
 export default function () {
   const router = Router();
@@ -44,40 +42,25 @@ export default function () {
       .catch(() => response.status(404).json({message: 'Not found'}));
   });
 
-  router.post('/', function(request, response, next) {
-	// trim fields, except passwords
-	var userInfo = {
-		username: request.body.username.trim(),
-		email: request.body.email,
-		password: request.body.password
-	};
+  router.post('/', (request, response, next) => {
+    const userInfo = {
+      username: request.body.username.trim(),
+      email: request.body.email,
+      password: request.body.password
+    };
 
-	registrationValidation(userInfo, db, function(validationPassed, failMessage) {
-		if (validationPassed) {
-			registerUser(userInfo, db, function(err) {
-				if (err) {
-					res.status(400).json({
-						serverValidationMessage: 'A server error occurred while attempting to register your information.\nPlease try again later.',
-						serverValidationPassed: false
-					});
-				} else {
-					res.json({
-						serverValidationMessage: 'You\'ve been successfully registered!',
-						serverValidationPassed: true,
+    userRepository.create(userInfo)
+        .then((user) => {
+          request.session.userId = user._id;
+          response.json({
             token: jwt.sign({username: user.username}, config.secret, {
-                expiresIn: 60 * 24 // expires in 24 hours
-              })
-					});
-				}
-			});
-		} else {
-			res.json({
-				serverValidationMessage: failMessage,
-				serverValidationPassed: false
-			});
-		}
-	});
-});
+              expiresIn: 60 * 24 // expires in 24 hours
+            }),
+            user: user
+          });
+        })
+        .catch(next);
+  });
 
   return router;
 }
