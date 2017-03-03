@@ -1,4 +1,5 @@
 import { request } from '../utils/api'
+import { createFlashMessage } from './flashMessages'
 
 export const TYPES = {
   USERS_RECEIVED: 'USERS_RECEIVED',
@@ -34,6 +35,11 @@ export function updateUser(user) {
     request('/users/' + user._id, 'PUT', user)
     .then(data => {
         dispatch({ type: TYPES.USERS_RECEIVED, data: data });
+        dispatch(createFlashMessage({
+          title: 'Success',
+          body: 'User information updated',
+          type: 'success'
+        }));
     })
     .catch((data) => dispatch({ type: TYPES.USERS_NOT_RECIVED, data: data }));
   }

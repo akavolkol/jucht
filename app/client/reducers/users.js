@@ -9,7 +9,8 @@ export default function users(state = defaultState, action) {
         case TYPES.USERS_RECEIVED:
           return {
             ...state,
-            users: action.data
+            users: action.data,
+            auth: {...state.auth, user: action.data }
           }
 
         case TYPES.USERS_NOT_RECIVED:

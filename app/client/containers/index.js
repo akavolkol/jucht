@@ -5,7 +5,7 @@ import '../styles/style.scss'
 
 export class Index extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {

@@ -23,11 +23,6 @@ export function request(
         'Client-Type': 'Web',
         'X-CSRF-Token': null,
         'Accept': 'application/json',
-        'Content-Type': (
-          isJSON ?
-            'application/json; charset=utf-8' :
-            'application/x-www-form-urlencoded; charset=utf-8'
-        ),
         'X-Requested-With': 'XMLHttpRequest',
       },
       timeout: 30 * 1000,
@@ -40,11 +35,11 @@ export function request(
     //   options.headers['X-HTTP-Method-Override'] = method;
     // }
 
+    if (isJSON) {
+      options.headers['Content-Type'] = 'application/json; charset=utf-8';
+    }
 
 
-    // always omit undefined
-    // XXX We allow explicitly setting null to accomodate de-linking a class from an org. 💩
-    // This behavior is otherwise deprecated and should not be relied on.
     for (const key in data) {
       if (data[key] === undefined || (method === 'GET' && data[key] === null)) {
         delete data[key];
@@ -54,7 +49,7 @@ export function request(
     if (isJSON) {
       options.body = JSON.stringify(data);
     } else {
-      options.body = JSON.stringify(data);
+      options.body = data;
     }
 
     if (method === 'GET') {

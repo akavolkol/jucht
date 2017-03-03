@@ -31,10 +31,10 @@ class AsideMenu extends Component {
           <Link to="/settings">
             <div className="account-options__icon">
               <i className="icon option__icon">
-                <svg><use xlinkHref="/images/bytesize-inline.svg#i-ban"/></svg>
+                <svg><use xlinkHref="/images/bytesize-inline.svg#i-settings"/></svg>
               </i>
             </div>
-            <div className="account-options__label">Notification Settings</div>
+            <div className="account-options__label">Settings</div>
           </Link>
         </li>
         <li className="item">
@@ -58,6 +58,7 @@ class AsideMenu extends Component {
       converstaion.participants.map(participant => {
         if (!converstaion.label && participant._id != this.props.auth.user._id) {
           converstaion.label = participant.username;
+          converstaion.logo = participant.avatar;
         }
       });
 
@@ -74,7 +75,7 @@ class AsideMenu extends Component {
                     activeClassName="aside__menu-item-inner--active"
                   >
                     <div className="aside__menu-avatar">
-                      <img src="/images/no-avatar.png"/>
+                      <img src={converstaion.logo ? converstaion.logo : "/images/no-avatar.png"}/>
                       <div className="platform-state connected"></div>
                     </div>
                     <div className="aside__menu-content">{converstaion.label}</div>
@@ -96,7 +97,7 @@ class AsideMenu extends Component {
       <aside className="aside">
         <div className="aside__header">
           <Link className="aside__logo" to="/" >
-            <img src="/images/no-avatar.png"/>
+            <img src={this.props.auth.user.avatar ? this.props.auth.user.avatar : "/images/no-avatar.png"}/>
           </Link>
           <span className="aside__title">{user.username}</span>
           <div className="option">

@@ -1,13 +1,24 @@
 import express, { Router } from 'express'
+import fs from 'fs'
+import busboy from 'connect-busboy'
+import path from 'path'
 
 export default function () {
   const router = Router();
 
-  router.post('/images', function (req, res) {
-    res.status(201).json({
-      path: 'http://images.indianexpress.com/2015/11/nasa-big1.jpg'
+  router.use(busboy({ immediate: true }));
+
+  router.post('/images', (request, response) => {
+    request.busboy.on('file', (fieldname, file, fileName, encoding, mimetype) => {
+      const filename = (Date.now() + fileName).replace(/\s/g, '');
+      file.on('data', function(data) {
+        fs.writeFileSync(path.join('./public/uploads/images/', filename), data, 'binary');
+      });
+      file.on('end', function() {
+        response.status(201).json({path: `/uploads/images/${filename}`});
+      });
     });
-  });
+ });
 
   router.delete('/images', function (req, res) {
     res.json({message: 'Removed'});

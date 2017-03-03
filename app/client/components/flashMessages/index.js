@@ -14,6 +14,7 @@ class FlashMessages extends Component {
   componentWillMount() {
     this.props.loadFlashMessages();
   }
+
   render() {
     const {flashMessages} = this.props.flashMessages;
     if (flashMessages.length > 0) {

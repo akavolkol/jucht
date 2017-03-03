@@ -62,5 +62,13 @@ export default function () {
         .catch(next);
   });
 
+  router.put('/:id', (request, response, next) => {
+    userRepository.update(request.params.id, request.body)
+        .then((user) => {
+          response.json(user);
+        })
+        .catch(next);
+  });
+
   return router;
 }

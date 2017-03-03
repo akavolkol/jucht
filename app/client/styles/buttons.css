@@ -83,3 +83,9 @@
     background: transparent;
     color: gray;
 }
+
+.btn--medium {
+  padding: 5px;
+  font-size: 1em;
+  text-transform: none;
+}

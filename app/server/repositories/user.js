@@ -83,6 +83,23 @@ export default class Users extends Base {
         resolve(result);
       });
     });
-
   }
+
+  update(userId, user) {
+    delete user._id;
+    return new Promise((resolve, reject) => {
+          this.connection
+            .collection('users')
+            .findOneAndUpdate(
+              { _id: new ObjectID(userId)},
+              user
+            )
+            .then((result) => {
+                resolve({ ...result.value, ...user });
+              }
+            )
+            .catch((e) => reject(e));
+          });
+  }
+
 }

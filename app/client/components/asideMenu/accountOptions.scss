@@ -29,7 +29,7 @@
   a {
     width: 100%;
     color: inherit;
-    display: inherit;
+    display: block;
     padding: 0;
     text-decoration: none;
   }
@@ -39,6 +39,7 @@
     height: 18px;
     flex-shrink: 0;
     padding-right: 14px;
+    float: left;
   }
 
   &__label {
