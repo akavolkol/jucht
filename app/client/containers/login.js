@@ -18,7 +18,7 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {auth} = this.props;
-    if (this.props.auth.authenticated || nextProps.auth.authenticated) {
+    if (nextProps.auth.authenticated) {
       this.props.router.push({pathname: '/'});
     } else if (nextProps.auth.error) {
       this.props.createFlashMessage({

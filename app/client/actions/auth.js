@@ -9,6 +9,8 @@ export const TYPES = {
   AUTH_ERROR: 'AUTH_ERROR',
   FETCH_DATA: 'FETCH_DATA',
   FETCH_JSON: 'FETCH_JSON',
+  RECEIVE_SESSION: 'RECEIVE_SESSION',
+  RECEIVE_SESSION_FAIL: 'RECEIVE_SESSION_FAIL'
 };
 
 export function signin(data) {
@@ -54,6 +56,20 @@ export function registerUser(user) {
       dispatch({
         type: TYPES.AUTH_ERROR,
         error: response.error
+      })
+    });
+  }
+}
+
+export function getSession() {
+  return dispatch => {
+    request('/sessions/current', 'GET')
+    .then(response =>  {
+      dispatch({ type: TYPES.RECEIVE_SESSION, data: response });
+    })
+    .catch(response => {
+      dispatch({
+        type: TYPES.RECEIVE_SESSION_FAIL
       })
     });
   }

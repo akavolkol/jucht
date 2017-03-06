@@ -2,10 +2,18 @@ import React, { Component, PropTypes } from 'react'
 import FlashMessages from '../components/flashMessages'
 import { connect } from 'react-redux'
 import '../styles/style.scss'
+import { getSession } from '../actions/auth'
 
 export class Index extends Component {
   constructor(props) {
     super(props);
+    if (!this.props.auth.user || !this.props.auth.authenticated) {
+      this.props.getSession();
+    }
+  }
+
+  componentWillMount() {
+
   }
 
   render() {
@@ -25,4 +33,4 @@ function mapStateToProps(state) {
   return {auth};
 }
 
-export default connect(mapStateToProps)(Index)
+export default connect(mapStateToProps, { getSession })(Index)

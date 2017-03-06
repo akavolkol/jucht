@@ -2,6 +2,7 @@ import express, { Router } from 'express'
 import fs from 'fs'
 import busboy from 'connect-busboy'
 import path from 'path'
+import config from '../../config/app'
 
 export default function () {
   const router = Router();
@@ -15,7 +16,7 @@ export default function () {
         fs.writeFileSync(path.join('./public/uploads/images/', filename), data, 'binary');
       });
       file.on('end', function() {
-        response.status(201).json({path: `/uploads/images/${filename}`});
+        response.status(201).json({path: `${config.appHost}/uploads/images/${filename}`});
       });
     });
  });

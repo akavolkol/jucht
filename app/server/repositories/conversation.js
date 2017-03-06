@@ -12,15 +12,15 @@ export default class Conversation extends Base {
     return new Promise((resolve, reject) => {
       this.connection
         .collection('conversations')
-        .find({'_id': new ObjectID(id)})
-        .toArray()
+        .findOne({'_id': new ObjectID(id)})
         .then((conversation) => {
-          if (conversation.length == 0) {
+          if (!conversation) {
             reject(new NotFoundError('Conversation with this id not found'));
           } else {
-            resolve(conversation[0]);
+            resolve(conversation);
           }
-        });
+        })
+        .catch(e => reject(e));
     })
   }
 
@@ -29,7 +29,8 @@ export default class Conversation extends Base {
       this.connection
         .collection('conversations')
         .remove({'_id': new ObjectID(id)})
-        .then(result => resolve(result));
+        .then(result => resolve(result))
+        .catch(e => reject(e));
     });
   }
 
@@ -41,17 +42,31 @@ export default class Conversation extends Base {
   }
 
   listByParticipant(id) {
-    return this.connection
+    return new Promise((resolve, reject) => {
+    this.connection
       .collection('conversations')
       .find({ participants :
               { $elemMatch :
-                { _id : id }
+                { _id : new ObjectID(id) }
             }
       })
-      .toArray();
+      .toArray((err, result) => {
+        console.log("58bd7b4856c44c52e2105cf6", id);
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      })
+    });
+
   }
 
   create(conversation) {
+    conversation.participants.map(participant => {
+      participant._id = new ObjectID(participant._id);
+
+    })
     conversation = {
       createdAt: conversation.createdAt || new Date(),
       participants: conversation.participants || [],
@@ -62,11 +77,11 @@ export default class Conversation extends Base {
     return new Promise((resolve, reject) => {
       this.connection
         .collection('conversations')
-        .insertOne(conversation,
-        (err, result) => {
+        .insertOne(conversation)
+        .then(result => {
           resolve(result.ops[0]);
-        }
-      );
+        })
+        .catch(e => reject(e));
     });
   }
 
@@ -85,12 +100,9 @@ export default class Conversation extends Base {
     return new Promise((resolve, reject) => {
       this.connection
         .collection('conversations')
-        .update({ _id: new ObjectID(conversationId) },
-          { $push: { messages: message } },
-          (err, result, object) => {
-            resolve(message);
-          }
-        );
+        .update({ _id: new ObjectID(conversationId) }, { $push: { messages: message } })
+        .then(() => resolve(message))
+        .catch(e => reject(e));
     });
   }
 
@@ -105,28 +117,24 @@ export default class Conversation extends Base {
     return new Promise((resolve, reject) => {
     this.connection
       .collection('conversations')
-      .update({ _id: new ObjectID(conversationId) },
-        { $pull: { messages: { _id: new ObjectID(messageId) } } },
-        (err, result) => {
-          (err || result.result.nModified == 0) && reject(new Error(err || 'Can\'t remove message'));
+      .update({ _id: new ObjectID(conversationId) }, { $pull: { messages: { _id: new ObjectID(messageId) } } })
+      .then(result => {
+          if (result.result.nModified == 0) {
+            throw new Error(err || 'Can\'t remove message');
+          }
           resolve(result);
-        }
-      );
+      })
+      .catch(e => reject(e));
     });
   }
 
   getMessage(conversationId, messageId) {
     return new Promise((resolve, reject) => {
-    this.connection
-      .collection('conversations')
-      .findOne(
-        { _id: new ObjectID(conversationId), 'messages._id': new ObjectID(messageId) }
-      )
-      .then((result) => {
-          resolve(result.messages[0]);
-        }
-      )
-      .catch(e => reject(e));
+      this.connection
+        .collection('conversations')
+        .findOne({ _id: new ObjectID(conversationId), 'messages._id': new ObjectID(messageId) })
+        .then((result) => resolve(result.messages[0]))
+        .catch(e => reject(e));
     });
   }
 
@@ -142,15 +150,11 @@ export default class Conversation extends Base {
               { _id: new ObjectID(conversationId), 'messages._id': new ObjectID(messageId) },
               { $set: { 'messages.$': newMessage } },
             )
-            .then((result) => {
-                resolve(newMessage);
-              }
-            )
+            .then((result) => resolve(newMessage))
             .catch((e) => reject(e));
           })
           .catch((e) => reject(e));;
-        })
-
+    });
   }
 
   removeParticipant(conversationId, participantId) {
@@ -159,16 +163,14 @@ export default class Conversation extends Base {
     }
 
     return new Promise((resolve, reject) => {
-    this.connection
-      .collection('conversations')
-      .update({ _id: new ObjectID(conversationId) },
-        { $pull: { participants: { _id: participantId } } },
-        (err, result) => {
-          (err || result.result.nModified == 0) && reject(new Error(err || 'Can\'t remove participant'));
-          resolve(result);
-        }
-      );
+      this.connection
+        .collection('conversations')
+        .update({ _id: new ObjectID(conversationId) }, { $pull: { participants: { _id: participantId } } })
+        .then(result => {
+            if (result.result.nModified == 0) throw new Error(err || 'Can\'t remove participant');
+            resolve(result);
+        })
+        .catch(e => reject(e));
     });
   }
-
 }

@@ -3,6 +3,7 @@ import './option.scss'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { leave, remove } from '../../actions/conversations'
+import { assets } from '../../utils/crossResources'
 
 class Option extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class Option extends Component {
         <a onClick={this.onClickRemove}>
           <div className="account-options__icon">
             <i className="icon option__icon">
-              <svg><use xlinkHref="/images/bytesize-inline.svg#i-lock"/></svg>
+              <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-lock")}/></svg>
             </i>
           </div>
           <div className="account-options__label">Delete</div>
@@ -49,7 +50,7 @@ class Option extends Component {
           <a onClick={this.onClickLeave}>
             <div className="account-options__icon">
               <i className="icon option__icon">
-                <svg><use xlinkHref="/images/bytesize-inline.svg#i-ban"/></svg>
+                <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-ban")}/></svg>
               </i>
             </div>
             <div className="account-options__label">Leave</div>
@@ -66,7 +67,7 @@ class Option extends Component {
       <div className="option">
         <a onClick={this.onClickOption}>
           <i className="icon option__icon">
-            <svg><use xlinkHref="/images/bytesize-inline.svg#i-ellipsis-vertical"/></svg>
+            <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-ellipsis-vertical")}/></svg>
           </i>
         </a>
         { this.state.shouldAppearOptions && this.renderOptions() }

@@ -8,9 +8,11 @@ export default function () {
   /**
    * List of available converstaions
    */
-  router.get('/', (request, response) => {
-    conversationRepository.listByParticipant(request.session.userId)
-      .then((conversations) => response.json(conversations));
+  router.get('/', (request, response, next) => {
+    console.log(request.session.user._id)
+    conversationRepository.listByParticipant(request.session.user._id)
+      .then((conversations) => response.json(conversations))
+      .catch(next);
   });
 
   /**
@@ -59,7 +61,7 @@ export default function () {
   router.delete('/:conversationId/messages/:messageId', (request, response, next) => {
     conversationRepository.removeMessage(request.params.conversationId, request.params.messageId)
       .then((conversation) => {
-          response.json({message: 'Removed'});
+          response.json({message: 'Removed'})
       })
       .catch(next);
   });
@@ -80,9 +82,9 @@ export default function () {
    * Leave conversation
    */
   router.put('/:id/leave', (request, response, next) => {
-    conversationRepository.removeParticipant(request.params.id, request.session.userId)
+    conversationRepository.removeParticipant(request.params.id, request.session.user._id)
       .then(() => response.json({ message: 'Leaved' }))
-      .catch(next);
+      .catch(e => next(e));
   });
 
   return router;

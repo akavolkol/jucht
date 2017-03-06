@@ -4,6 +4,7 @@ import './message.scss'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { removeMessage, editMessage } from '../../actions/conversations'
+import { assets } from '../../utils/crossResources'
 
 class Message extends Component {
   constructor(props) {
@@ -85,7 +86,7 @@ class Message extends Component {
       <div>
       <button onClick={this.toogleOptionsVisible}>
           <i className="icon option__icon">
-            <svg><use xlinkHref="/images/bytesize-inline.svg#i-settings"/></svg>
+            <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-settings")}/></svg>
           </i>
       </button>
       { this.state.shouldAppearMessageOptions
@@ -94,7 +95,7 @@ class Message extends Component {
           <a onClick={this.onClickEdit}>
             <div className="account-options__icon">
               <i className="icon option__icon">
-                <svg><use xlinkHref="/images/bytesize-inline.svg#i-lock"/></svg>
+                <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-lock")}/></svg>
               </i>
             </div>
             <div className="account-options__label">Edit</div>
@@ -104,7 +105,7 @@ class Message extends Component {
             <a onClick={this.onClickRemove}>
               <div className="account-options__icon">
                 <i className="icon option__icon">
-                  <svg><use xlinkHref="/images/bytesize-inline.svg#i-ban"/></svg>
+                  <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-ban")}/></svg>
                 </i>
               </div>
               <div className="account-options__label">Remove</div>
@@ -122,7 +123,7 @@ class Message extends Component {
     return (
       <div id="" className={"message " + (this.state.editing ? 'message--editing' : null)}>
         <div className="message__avatar">
-          <img src={message.author.avatar ? message.author.avatar : "/images/no-avatar.png"}/>
+          <img src={message.author.avatar ? message.author.avatar : assets("images/no-avatar.png")}/>
         </div>
 
         <div className="message__content">

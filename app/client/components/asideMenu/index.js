@@ -5,6 +5,7 @@ import './accountOptions.scss'
 import InterlocutorSearcher from '../interlocutorSearcher'
 import { signout } from '../../actions/auth'
 import { connect } from 'react-redux'
+import { assets } from '../../utils/crossResources'
 
 class AsideMenu extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class AsideMenu extends Component {
           <Link to="/settings">
             <div className="account-options__icon">
               <i className="icon option__icon">
-                <svg><use xlinkHref="/images/bytesize-inline.svg#i-settings"/></svg>
+                <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-settings")}/></svg>
               </i>
             </div>
             <div className="account-options__label">Settings</div>
@@ -41,7 +42,7 @@ class AsideMenu extends Component {
         <a onClick={this.onClickSignout}>
           <div className="account-options__icon">
             <i className="icon option__icon">
-              <svg><use xlinkHref="/images/bytesize-inline.svg#i-lock"/></svg>
+              <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-lock")}/></svg>
             </i>
           </div>
           <div className="account-options__label">Logout</div>
@@ -75,7 +76,7 @@ class AsideMenu extends Component {
                     activeClassName="aside__menu-item-inner--active"
                   >
                     <div className="aside__menu-avatar">
-                      <img src={converstaion.logo ? converstaion.logo : "/images/no-avatar.png"}/>
+                      <img src={converstaion.logo ? converstaion.logo : assets("images/no-avatar.png")}/>
                       <div className="platform-state connected"></div>
                     </div>
                     <div className="aside__menu-content">{converstaion.label}</div>
@@ -97,13 +98,13 @@ class AsideMenu extends Component {
       <aside className="aside">
         <div className="aside__header">
           <Link className="aside__logo" to="/" >
-            <img src={this.props.auth.user.avatar ? this.props.auth.user.avatar : "/images/no-avatar.png"}/>
+            <img src={this.props.auth.user.avatar ? this.props.auth.user.avatar : assets("images/no-avatar.png")}/>
           </Link>
           <span className="aside__title">{user.username}</span>
           <div className="option">
           <div onClick={this.onClickAccountOptions}>
             <i className="icon option__icon">
-              <svg><use xlinkHref="/images/bytesize-inline.svg#i-ellipsis-vertical"/></svg>
+              <svg><use xlinkHref={assets('images/bytesize-inline.svg#i-ellipsis-vertical')}/></svg>
             </i>
             { this.state.shouldAppearAccountOptions && this.renderAccountOptions() }
           </div>

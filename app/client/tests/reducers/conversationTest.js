@@ -119,4 +119,69 @@ describe('conversation reducer', () => {
     );
   });
 
+  it('should processing SEND_MESSAGE', () => {
+    const messages = [{
+      _id: "58b45104a8a4fd349a573558",
+      text: "10"
+    },
+    {
+      "_id" : "58bd7ba056c44c52e2105cfa",
+      "createdAt" : "2017-03-06T15:09:20.879Z",
+      "text" : "dsfs",
+      "author" : {
+        "_id" : "58bd7b4856c44c52e2105cf6",
+        "username" : "volkol",
+        "email" : "volkol@dfs.dsf",
+        "firstName" : "",
+        "lastName" : "",
+        "avatar" : "http://localhost:9000/uploads/images/1488812880105Screenshotfrom2017-03-0401-24-01.png"
+      },
+      "updatedAt" : null
+    }
+  ];
+
+  assert.deepEqual(
+    reducer(
+      state,
+      {
+        type: TYPES.SEND_MESSAGE,
+        data: {
+          conversationId: '58b45100a8a4fd349a573557',
+          message: {
+            "_id" : "58bd7ba056c44c52e2105cfa",
+            "createdAt" : "2017-03-06T15:09:20.879Z",
+            "text" : "dsfs",
+            "author" : {
+              "_id" : "58bd7b4856c44c52e2105cf6",
+              "username" : "volkol",
+              "email" : "volkol@dfs.dsf",
+              "firstName" : "",
+              "lastName" : "",
+              "avatar" : "http://localhost:9000/uploads/images/1488812880105Screenshotfrom2017-03-0401-24-01.png"
+            },
+            "updatedAt" : null
+          }
+        }
+      }
+    ),
+    {
+      conversations: [
+        {
+          _id: "58b45100a8a4fd349a573556",
+          messages: [],
+        },
+        {
+          _id: "58b45100a8a4fd349a573557",
+          messages: messages
+        }
+      ],
+      conversation: {
+        _id: "58b45100a8a4fd349a573557",
+        messages: messages,
+      },
+
+    }
+  );
+});
+
 });

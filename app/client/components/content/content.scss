@@ -7,3 +7,12 @@
   display: flex;
   flex-direction: column;
 }
+
+.empty-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    width: 100%;
+    text-align: center;
+}

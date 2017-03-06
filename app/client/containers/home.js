@@ -4,18 +4,18 @@ import Content from '../components/content'
 import { connect } from 'react-redux'
 import { openConversation, list as selectConversations, unsetActiveConversation } from '../actions/conversations'
 import socket from 'socket.io-client'
+import config from '../config/app'
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.socket = socket();
-  }
-
-  componentWillMount() {
+    this.socket = socket(config.host);
     if (!this.props.auth.authenticated) {
       return this.props.router.push({pathname: '/login'});
     }
+  }
 
+  componentWillMount() {
     this.props.selectConversations();
     this.props.params.conversationId && this.props.openConversation(this.props.params.conversationId);
   }
@@ -72,12 +72,18 @@ class Home extends Component {
   }
 
 	render() {
+    if (this.props.auth.user && this.props.auth.authenticated) {
+
+
 		return (
 			<div className="app">
         <AsideMenu socket={this.socket}/>
 				<Content socket={this.socket}/>
 			</div>
 		)
+  } else {
+    return null;
+  }
 	}
 }
 

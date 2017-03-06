@@ -5,6 +5,7 @@ import { search } from '../../actions/users'
 import { join as joinConveration } from '../../actions/conversations'
 import { connect } from 'react-redux'
 import './style.scss'
+import { assets } from '../../utils/crossResources'
 
 class InterlocutorSearcher extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class InterlocutorSearcher extends Component {
                   return <li className="aside__menu-item" key={id}>
                       <a onClick={() => this.onEnterConversation(user)} className="aside__menu-item-inner">
                       <div className="aside__menu-avatar">
-                        <img src="/images/logo.png"/>
+                        <img src={user.avatar ? user.avatar : assets("images/no-avatar.png")}/>
                       </div>
                       <div className="aside__menu-content">{user.username}</div>
                     </a>

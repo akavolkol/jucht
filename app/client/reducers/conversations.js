@@ -1,6 +1,6 @@
 import { TYPES } from '../actions/conversations'
 
-const defaultState = {
+export const defaultState = {
   conversations: [],
   conversation: null
 }
@@ -58,6 +58,12 @@ export default function conversations(state = defaultState, action) {
         ...state,
         conversations: conversations,
         conversation: currentConversation
+      }
+
+    case TYPES.SEND_MESSAGE_FAIL:
+      return {
+        ...state,
+        error: action.error
       }
 
     case TYPES.REMOVE_MESSAGE:

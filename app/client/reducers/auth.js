@@ -1,8 +1,8 @@
 import { TYPES } from '../actions/auth'
 
 const defaultState = {
-  user: {},
-  authenticated: localStorage.getItem('token') ? true : false,
+  user: null,
+  authenticated: false,
   error: false
 };
 
@@ -20,11 +20,20 @@ export default function auth(state = defaultState, action) {
       return { ...state, authenticated: false };
 
     case TYPES.AUTH_ERROR:
+    case TYPES.RECEIVE_SESSION_FAIL:
 
       return {
         ...state,
         authenticated: false,
-        error: action.error
+        error: action.error,
+        user: null
+      }
+
+    case TYPES.RECEIVE_SESSION:
+      return {
+        ...state,
+        authenticated: true,
+        user: action.data.user
       }
 
     default:

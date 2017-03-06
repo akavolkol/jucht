@@ -7,6 +7,7 @@ export const TYPES = {
   OPEN_CONVERSATION_FAIL: 'OPEN_CONVERSATION_FAIL',
   RECEIVE_CONVERSATIONS: 'RECEIVE_CONVERSATIONS',
   SEND_MESSAGE: 'SEND_MESSAGE',
+  SEND_MESSAGE_FAIL: 'SEND_MESSAGE_FAIL',
   LEAVE_CONVERSATION: 'LEAVE_CONVERSATION',
   REMOVE_CONVERSATION: 'REMOVE_CONVERSATION',
   UNSET_CONVERSATION: 'UNSET_CONVERSATION',
@@ -41,7 +42,7 @@ export function join(conversation) {
       response => {
         dispatch({
           type: TYPES.JOIN_CONVERSATION_FAIL,
-          error: response.message
+          error: response.error
         })
       }
     );
@@ -105,7 +106,7 @@ export function getConversation(slug) {
 
 export function sendMessage(conversationId, message) {
   return dispatch => {
-    request(`/conversations/${conversationId}/messages`, 'POST', message)
+    return request(`/conversations/${conversationId}/messages`, 'POST', message)
     .then(response =>
       {
         dispatch({
@@ -115,10 +116,9 @@ export function sendMessage(conversationId, message) {
             message: response
           }
         });
-      },
-      response => {
       }
-    );
+    )
+    .catch(e => dispatch({type: TYPES.SEND_MESSAGE_FAIL, error: e.error}));
   }
 }
 

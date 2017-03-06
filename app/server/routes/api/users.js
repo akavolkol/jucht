@@ -1,36 +1,31 @@
 import express, { Router } from 'express'
 import { ObjectID } from 'mongodb'
-import serverValidation from '../../utils/serverValidation.js'
 import config from '../../config/app.js'
 import Mongo from '../../db/mongo'
 import User from '../../repositories/user'
 import jwt from 'jsonwebtoken'
-
-var registrationValidation = serverValidation.registrationValidation;
-var loginValidation = serverValidation.loginValidation;
 
 export default function () {
   const router = Router();
   const db = new Mongo().connection;
   const userRepository = new User();
 
-
   /**
   * List of users
   */
-  router.get('/', (request, response) => {
-
+  router.get('/', (request, response, next) => {
     const query = request.query.query ? (request.query.query).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') : null;
+
     if (query) {
       userRepository.findByUsername(
           new RegExp('^' + query + '.*', 'gi'),
-          request.session.userId
+          request.session.user.id
         )
         .then(users => response.json(users))
+        .catch(next);
     } else {
       response.status(500).json({message: 'Wrong query'});
     }
-
   });
 
   /**

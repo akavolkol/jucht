@@ -25,7 +25,11 @@ class Content extends Component {
         </div>
       )
     } else {
-      return null
+      return(
+        <div className="empty-content">
+          <h2>Select person to start conversation</h2>
+        </div>
+      )
     }
 
   }

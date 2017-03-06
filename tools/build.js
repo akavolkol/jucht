@@ -3,7 +3,8 @@ const path = require('path');
 const babel = require('babel-core');
 const mkdirp = require('mkdirp');
 
-const sourcesFolder = path.normalize('./app/server/');
+let type = process.argv[2] == 'desktop' ? 'desktop' : 'server';
+const sourcesFolder = path.normalize('./app/' + type);
 const files = getFilesList(sourcesFolder);
 
 files.forEach(function (file) {

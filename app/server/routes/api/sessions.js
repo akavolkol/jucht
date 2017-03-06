@@ -1,17 +1,15 @@
-import express, { Router } from 'express'
+import { Router } from 'express'
 import jwt from 'jsonwebtoken'
 import config from '../../config/app.js'
-import serverValidation from '../../utils/serverValidation.js'
-import Mongo from '../../db/mongo'
 import bcrypt from 'bcryptjs'
 import User from '../../repositories/user'
+import Session from '../../repositories/session'
 
-var loginValidation = serverValidation.loginValidation;
 
 export default function () {
   const router = Router();
-  const db = new Mongo().connection;
   const userRepository = new User();
+  const sessionRepository = new Session();
 
   router.post('/', function(request, response, next) {
     const inputData = {
@@ -26,15 +24,26 @@ export default function () {
             if (err || !passwordMatched) {
               return next(new Error('Wrong login data'));
             }
-            request.session.userId = user._id;
+
+            const token = jwt.sign({username: user.username}, config.secret, { expiresIn: 60 * 24 });
+
             delete user.passwordHash;
 
-            response.json({
-              token: jwt.sign({username: user.username}, config.secret, {
-                expiresIn: 60 * 24
-              }),
+            sessionRepository.create({
+              token: token,
               user: user
             });
+
+            let date = new Date();
+            date.setSeconds(date.getSeconds() + 60 * 60 * 24)
+
+            return response
+            .cookie('token', token, { domain: 'localhost', expires: date, httpOnly: true })
+            .json({
+              token: token,
+              user: user
+            })
+            ;
           });
         } else {
           throw new Error('User with that criterias not found');
@@ -47,10 +56,26 @@ export default function () {
   * Logout user
   */
   router.delete('/', function (request, response) {
-    request.session.destroy();
-    response.json({result: 'ok'});
+    if (request.session) {
+      sessionRepository.removeByUserId(request.session.user._id).then(() => response.json({message: 'ok'}));
+      //response.clearCookie('token');
+    }
   });
 
+  router.get('/current', (request, response) => {
+    if (!request.session) {
+      return response.status(401).json({message: 'Expired'});
+    }
+    userRepository.getUser(request.session.user._id)
+      .then((user) => {
+        if (user) {
+          response.json({user: user})
+        } else {
+          response.status(401).json({message: 'Expired'})
+        }
+      })
+      .catch(() => response.status(404).json({message: 'Not found'}));
+  });
 
   return router;
 }

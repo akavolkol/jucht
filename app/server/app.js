@@ -3,31 +3,30 @@ import routes from './routes'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
-import session from 'express-session'
-import connectMongo from 'connect-mongo'
 import config from './config/app.js'
 import jwt from 'jsonwebtoken'
 import Mongo from './db/mongo'
 import socketio from 'socket.io'
 import BadRequestError from './errors/badRequest'
 import NotFoundError from './errors/notFound'
+import Session from './repositories/session'
 
 const app = express();
-const MongoStore = connectMongo(session);
+app.use(cookieParser());
 
 (new Mongo({ host: config.dbHost })).connect().then((connection) => {
-  app.use(session({
-    secret: config.secret,
-    store: new MongoStore({ db: connection }),
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true
-    }
-  }));
+  const sessionRepository = new Session();
+  app.use(function(request, res, next) {
+    request.session = null;
+    let token = request.cookies.token ? request.cookies.token : request.headers.authorization && request.headers.authorization.split(' ')[1];
+    sessionRepository.getByToken(token).then((session) => {
+      request.session = session;
+      next();
+    });
+    app.use(express.Router());
+    app.use(routes());
+  });
 
-  app.use(express.Router());
-  app.use(routes());
   app.use((error, request, response, next) => {
     if (request.xhr) {
       let status = 500;
@@ -38,7 +37,7 @@ const MongoStore = connectMongo(session);
         status = 404;
       }
 
-      if (config.environment == 'development') {
+      if (config.environment == 'development' && status == 500) {
         console.log(error);
       }
 
@@ -58,7 +57,6 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 
 let server = app.listen(process.env.PORT || 9000, console.log('Server is running...'));
@@ -92,8 +90,7 @@ socket.on('connection', function (socket) {
   socket.on('updatedConversations', (usersIds) => {
     clients.map(client => {
 
-      if (usersIds.indexOf(client.user.id)) {
-        console.log(usersIds);
+      if (client.user && usersIds.indexOf(client.user.id)) {
         client.emit('conversationsUpdated');
       }
     })

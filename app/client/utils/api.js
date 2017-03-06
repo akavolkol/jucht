@@ -1,4 +1,7 @@
-const API_HOST = '';
+import config from '../config/app'
+import fetch from 'isomorphic-fetch'
+
+const API_HOST = config.host;
 const PATH_PREFIX = '/api';
 
 function encodeData(data) {
@@ -23,7 +26,7 @@ export function request(
         'Client-Type': 'Web',
         'X-CSRF-Token': null,
         'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
+        'X-Requested-With': 'XMLHttpRequest'
       },
       timeout: 30 * 1000,
     };
@@ -35,6 +38,9 @@ export function request(
     //   options.headers['X-HTTP-Method-Override'] = method;
     // }
 
+    if (localStorage.getItem('token')) {
+      options.headers['Authorization'] = 'Basic ' + localStorage.getItem('token');
+    }
     if (isJSON) {
       options.headers['Content-Type'] = 'application/json; charset=utf-8';
     }
@@ -64,7 +70,7 @@ export function request(
       method: options.method,
       headers: options.headers,
       body: options.body,
-      'credentials': 'include'
+      credentials: 'include'
     }).then(
       response => response.json()
       .then(json => {

@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {deleteFlashMessage} from '../../actions/flashMessages';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {deleteFlashMessage} from '../../actions/flashMessages'
+import { assets } from '../../utils/crossResources'
 
 class FlashMessage extends Component {
 
@@ -31,7 +32,7 @@ class FlashMessage extends Component {
           <span className="flash-messages__item-title">{message.title}</span>
           <p>{message.body}</p>
           <i className="icon option__icon flash-messages__close" onClick={this.close}>
-            <svg><use xlinkHref="/images/bytesize-inline.svg#i-close"/></svg>
+            <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-close")}/></svg>
           </i>
         </li>
          : null
