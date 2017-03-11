@@ -1,13 +1,10 @@
-import express, { Router } from 'express'
-import { ObjectID } from 'mongodb'
+import { Router } from 'express'
 import config from '../../config/app.js'
-import Mongo from '../../db/mongo'
 import User from '../../repositories/user'
 import jwt from 'jsonwebtoken'
 
 export default function () {
   const router = Router();
-  const db = new Mongo().connection;
   const userRepository = new User();
 
   /**
@@ -32,7 +29,7 @@ export default function () {
   * Get specific user
   */
   router.get('/:id', function (request, response) {
-    let user = userRepository.getUser(request.params.id)
+    userRepository.getUser(request.params.id)
       .then((user) => response.json(user))
       .catch(() => response.status(404).json({message: 'Not found'}));
   });

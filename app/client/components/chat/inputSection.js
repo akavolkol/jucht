@@ -7,9 +7,20 @@ class InputSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: ''
+      message: '',
+      typing: {}
     }
     this.socket = this.props.socket;
+  }
+
+  componentDidMount() {
+    this.socket.on('typing', (data) => {
+      console.log(data);
+      this.setState({ typing: data });
+      setTimeout(() => {
+        this.setState({ typing: {} });
+      }, 5000);
+    });
   }
 
   onSumbit = (event) => {
@@ -39,6 +50,8 @@ class InputSection extends Component {
   render() {
     return(
       <form className="chat-input" onSubmit={this.onSumbit}>
+        { !!Object.keys(this.state.typing).length && <p className="chat-input__typing">{ this.state.typing.username + ' is typing...'}</p> }
+
         <textarea ref="message" onChange={this.onChange} onKeyUp={this.onSumbit} value={this.state.message} placeholder="Type a message"></textarea>
       </form>
 

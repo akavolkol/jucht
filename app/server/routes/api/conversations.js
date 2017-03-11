@@ -1,4 +1,4 @@
-import express, { Router } from 'express'
+import { Router } from 'express'
 import Conversation from '../../repositories/conversation'
 
 export default function () {
@@ -9,7 +9,6 @@ export default function () {
    * List of available converstaions
    */
   router.get('/', (request, response, next) => {
-    console.log(request.session.user._id)
     conversationRepository.listByParticipant(request.session.user._id)
       .then((conversations) => response.json(conversations))
       .catch(next);

@@ -10,23 +10,23 @@ export default class Users extends Base {
   create(user) {
     return new Promise((resolve, reject) => {
       this.checkIfExist(user).then(() => {
-    bcrypt.hash(user.password, 10, (err, hash) => {
-      if (err) reject(err);
-      user = {
-        username: user.username,
-        email: user.email,
-        passwordHash: hash,
-        firstName: user.firstName || null,
-        lastName: user.lastName || null
-      };
-      this.connection
-        .collection('users').insertOne(user, { passwordHash: false })
-  		  .then(result => resolve(result.ops[0]))
-  		  .catch(e => reject(e));
+        bcrypt.hash(user.password, 10, (err, hash) => {
+          if (err) reject(err);
+          user = {
+            username: user.username,
+            email: user.email,
+            passwordHash: hash,
+            firstName: user.firstName || null,
+            lastName: user.lastName || null
+          };
+          this.connection
+          .collection('users').insertOne(user, { passwordHash: false })
+          .then(result => resolve(result.ops[0]))
+          .catch(e => reject(e));
+        });
+      })
+      .catch(e => reject(e));;
     });
-  })
-  .catch(e => reject(e));;
-});
   }
 
   checkIfExist(user) {

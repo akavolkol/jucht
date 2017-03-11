@@ -71,15 +71,18 @@ socket.on('connection', function (socket) {
   });
 
   socket.on('conversation', (data) => {
+    console.log('conver',socket.user);
     socket.conversation = data.conversation;
     socket.join(data.conversation._id);
   })
 
   socket.on('leaveConversation', id => {
+    console.log('leave', id);
     socket.leave(id)
   });
 
   socket.on('typing', (conversationId) => {
+    console.log(conversationId);
     socket.broadcast.to(conversationId).emit('typing', {username: socket.user ? socket.user.username : null});
   });
 

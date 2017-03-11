@@ -38,7 +38,7 @@ class Home extends Component {
       if (oldConversation && oldConversation._id != conversation._id) {
         this.socket.emit('leaveConversation', conversation._id);
         this.socket.emit('conversation', { conversation: conversation });
-      } else if (!oldConversation) {
+      } else if (!oldConversation && conversation) {
         this.socket.emit('conversation', { conversation: conversation });
       }
     }

@@ -1,8 +1,15 @@
 .chat-input {
   display: flex;
   flex-shrink: 0;
+  flex-direction: column;
   position: relative;
   padding-left: 1em;
   padding-right: 1em;
   margin-right: 0.5em;
+
+  &__typing {
+    margin-top: 0.25em;
+    margin-bottom: 0;
+    font-size: 0.8em;
+  }
 }

@@ -120,10 +120,10 @@ class AsideMenu extends Component {
         </div>
       </div>
         </div>
-
+        {/*
         <div className="aside__actions">
           <button className="action-button">+</button>
-        </div>
+        </div> */}
       </aside>
 		)
 	}

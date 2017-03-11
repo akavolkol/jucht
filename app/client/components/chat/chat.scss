@@ -6,6 +6,10 @@
   height: 100%;
   margin-right: -16px;
 
+  textarea {
+    margin-top: 0.5em;
+  }
+
   &__items {
     overflow-y: scroll;
     position: relative;

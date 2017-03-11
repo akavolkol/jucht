@@ -20,3 +20,6 @@ test:
 
 build-prod:
 	npm run build
+
+electron:
+	node_modules/.bin/electron app/desktop

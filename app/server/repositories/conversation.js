@@ -51,7 +51,6 @@ export default class Conversation extends Base {
             }
       })
       .toArray((err, result) => {
-        console.log("58bd7b4856c44c52e2105cf6", id);
         if (err) {
           reject(err);
         } else {

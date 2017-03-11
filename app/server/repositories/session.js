@@ -26,7 +26,6 @@ export default class Sessions extends Base {
   });
   }
 
-
   get(id) {
     return new Promise((resolve, reject) => {
       this.connection
@@ -64,5 +63,4 @@ export default class Sessions extends Base {
       .catch(e => reject(e));
     });
   }
-
 }

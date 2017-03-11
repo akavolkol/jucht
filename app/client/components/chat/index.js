@@ -8,21 +8,10 @@ import { getConversation } from '../../actions/conversations'
 class Chat extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      typing: {}
-    };
     this.socket = this.props.socket;
-
   }
 
   componentDidMount() {
-    this.socket.on('typing', (data) => {
-      this.setState({ typing: data });
-      setTimeout(() => {
-        this.setState({ typing: {} });
-      }, 5000);
-    });
-
     this.socket.on('conversationUpdated', () => {
       this.props.getConversation(this.props.conversations.conversation._id);
     });
@@ -51,7 +40,6 @@ class Chat extends Component {
             </div>
           </div>
         </section>
-        { !!Object.keys(this.state.typing).length && <p>{ this.state.typing.username + ' is typing...'}</p>}
         <InputSection socket={this.socket}/>
       </main>
     )
