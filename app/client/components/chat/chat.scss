@@ -13,6 +13,8 @@
   &__items {
     overflow-y: scroll;
     position: relative;
+    height: 100%;
+    justify-content: flex-end;
     display: flex;
     flex-direction: column;
     padding-left: 0.5em;

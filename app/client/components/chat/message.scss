@@ -82,4 +82,19 @@
 
   }
 
+  &:last-of-type {
+
+    .account-options {
+        top: -80px;
+    }
+  }
+
+  .message-option {
+    position: relative;
+
+    .account-options {
+        min-width: 120px;
+    }
+  }
+
 }

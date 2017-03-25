@@ -86,7 +86,7 @@ class Message extends Component {
 
   renderMessageOptions() {
     return(
-      <div>
+      <div className="message-option">
       <button onClick={this.toogleOptionsVisible}>
           <i className="icon option__icon">
             <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-settings")}/></svg>
@@ -124,7 +124,7 @@ class Message extends Component {
     const message = this.props.message;
 
     return (
-      <div id="" className={"message " + (this.state.editing ? 'message--editing' : null)}>
+      <div className={"message " + (this.state.editing ? 'message--editing' : '')}>
         <div className="message__avatar">
           <img src={message.author.avatar ? message.author.avatar : assets("images/no-avatar.png")}/>
         </div>
