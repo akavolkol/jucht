@@ -1,17 +1,53 @@
 @import '../../styles/colors';
 
 .aside {
+  $scope: &;
   position: static;
   display: flex;
   flex-direction: column;
   background-color: #ccc;
-  transition-duration: 0.15s;
   padding: 0.5em;
   width: 20%;
   min-width: 250px;
-  transform: translateX(0);
-  transition-duration: 0.15s;
-  transition-timing-function: ease-out;
+  transition: width;
+  transition-duration: 0.3s;
+  flex-shrink: 0;
+
+  &__menu-toogle {
+    color: #fff;
+    display: none;
+    margin: 0 auto;
+  }
+
+  &--collapsed {
+    @media (max-width: 768px) {
+    width: 50px;
+    min-width: auto;
+
+    .indicator {
+      display: none;
+    }
+
+    #{$scope}__menu-content,
+    #{$scope}__logo,
+    #{$scope}__title,
+    .interlocutor-seacher,
+    .option {
+      display: none;
+    }
+
+      #{$scope}__menu-toogle {
+        display: block;
+      }
+
+      #{$scope}__menu-avatar {
+        width: 100%;
+      }
+
+
+  }
+
+  }
 
   &__header {
     height: 50px;
@@ -44,10 +80,6 @@
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    @media (max-width: 768px) {
-      display: none;
-    }
   }
 
   &__scroll {
@@ -59,7 +91,7 @@
       margin-right: -16px;
       overflow-x: hidden;
       overflow-y: scroll;
-      width: inherit;
+      width: 100%;
       max-height: 60vh;
     }
   }
@@ -87,7 +119,6 @@
       display: flex;
       flex-direction: row;
       width: 100%;
-      height: 3em;
       border-radius: 2px;
 
       &:hover {
@@ -118,13 +149,14 @@
   }
 
   &__menu-avatar {
-    height: 30px;
+    width: 30px;
     flex-shrink: 0;
     padding-right: 0.5em;
     position: relative;
 
     img {
-      height: 100%;
+      width: 100%;
+      display: block;
     }
   }
 
@@ -135,16 +167,20 @@
   }
 
 
-&__actions {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
+  &__actions {
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
 
   h3 {
     font-size: 1em;
     padding: 5px;
     margin: 0;
+  }
+
+  .option {
+    color: #fff;
   }
 
 }
@@ -170,15 +206,15 @@
 }
 
 .platform-state {
-    content: " ";
-    display: block;
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-clip: padding-box;
-    background-color: red;
-    z-index: 2;
-    bottom: 1px;
-    right: 8px;
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-clip: padding-box;
+  background-color: red;
+  z-index: 2;
+  bottom: 1px;
+  right: 8px;
 }

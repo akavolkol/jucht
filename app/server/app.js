@@ -4,7 +4,6 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import config from './config/app.js'
-import jwt from 'jsonwebtoken'
 import Mongo from './db/mongo'
 import socketio from 'socket.io'
 import BadRequestError from './errors/badRequest'
@@ -21,10 +20,11 @@ app.use(cookieParser());
     let token = request.cookies.token ? request.cookies.token : request.headers.authorization && request.headers.authorization.split(' ')[1];
     sessionRepository.getByToken(token).then((session) => {
       request.session = session;
+      app.use(express.Router());
+      app.use(routes());
       next();
     });
-    app.use(express.Router());
-    app.use(routes());
+
   });
 
   app.use((error, request, response, next) => {
@@ -66,23 +66,21 @@ let clients = [];
 socket.on('connection', function (socket) {
 
   socket.on('join', (user) => {
-    socket.user = user;
-    clients.push(socket);
+    if (user) {
+      socket.user = user;
+      clients.push(socket);
+    }
   });
 
   socket.on('conversation', (data) => {
-    console.log('conver',socket.user);
-    socket.conversation = data.conversation;
-    socket.join(data.conversation._id);
+    data.conversation._id && socket.join(data.conversation._id);
   })
 
   socket.on('leaveConversation', id => {
-    console.log('leave', id);
     socket.leave(id)
   });
 
   socket.on('typing', (conversationId) => {
-    console.log(conversationId);
     socket.broadcast.to(conversationId).emit('typing', {username: socket.user ? socket.user.username : null});
   });
 
@@ -93,16 +91,20 @@ socket.on('connection', function (socket) {
   socket.on('updatedConversations', (usersIds) => {
     clients.map(client => {
 
-      if (client.user && usersIds.indexOf(client.user.id)) {
+      if (client.user && usersIds.indexOf(client.user._id)) {
         client.emit('conversationsUpdated');
       }
     })
 
   });
 
-  // when the user disconnects.. perform this
-  // socket.on('disconnect', function () {
-  // });
+  socket.on('disconnect', function () {
+    // clients.map(client => {
+    //   if (client.user && client.user._id == socket.user._id) {
+    //     clients.splice(clients.indexOf(client), 1);
+    //   }
+    // })
+  });
 });
 
 

@@ -15,6 +15,8 @@ class Chat extends Component {
     this.socket.on('conversationUpdated', () => {
       this.props.getConversation(this.props.conversations.conversation._id);
     });
+
+    this.refs.scroll.scrollTop = this.refs.scroll.scrollHeight;
   }
 
   componentDidUpdate() {
@@ -29,12 +31,12 @@ class Chat extends Component {
         <section ref="scroll" className="chat__items">
           <div className="scroller js-scroller custom-scrollbar__recipient hidden" id="qQJdFtsDeKGhan5wY">
             <div className="chat-message-area">
-                <div className="chat-message-loader">
+                {/* <div className="chat-message-loader">
                   And more...
-                </div>
+                </div> */}
                 { (!!conversation.messages.length)
                   && conversation.messages.map((message, key) => {
-                    return <Message conversation={conversation} message={message} key={key}/>
+                    if (message) return <Message conversation={conversation} socket={this.props.socket} message={message} key={key}/>
                   })
                 }
             </div>

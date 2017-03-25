@@ -14,6 +14,8 @@ class Message extends Component {
       editing: false,
       text: this.props.message.text
     };
+
+    this.socket = this.props.socket;
   }
 
   targetIsDescendant(event, parent) {
@@ -67,10 +69,11 @@ class Message extends Component {
       && this.state.text !== ''
     ) {
       let message = {
-        text: this.state.text.replace(/s{,2}|\n/, ''),
+        text: this.state.text.replace(/(\s+)|\n/, ''),
       };
 
       this.props.editMessage(conversation._id, this.props.message._id, message);
+      this.socket.emit('updatingConversation', conversation._id);
       this.setState({ editing: false, shouldAppearMessageOptions: false });
     }
   }
@@ -136,7 +139,7 @@ class Message extends Component {
             <div className="message__text-content">
               {this.state.text}
             </div>
-            {this.renderMessageOptions()}
+            { this.props.auth.user._id === message.author._id && this.renderMessageOptions()}
           </div>
           <div className="message__edit">
           <input onChange={this.onChange} value={this.state.text} onKeyUp={this.onSumbit}/>

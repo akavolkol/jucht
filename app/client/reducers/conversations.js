@@ -2,7 +2,7 @@ import { TYPES } from '../actions/conversations'
 
 export const defaultState = {
   conversations: [],
-  conversation: null
+  conversation: null,
 }
 
 export default function conversations(state = defaultState, action) {
@@ -91,11 +91,11 @@ export default function conversations(state = defaultState, action) {
         currentConversation = {};
 
         conversations.map(conversation => {
-          if (conversation._id == action.data.conversationId) {
-            currentConversation = conversation;
-            currentConversation.messages = conversation.messages.map(message => {
+          if (currentConversation._id == action.data.conversationId) {
+            currentConversation = {...conversation};
+            currentConversation.messages.map(message => {
               if (message._id == action.data.message._id) {
-                return action.data.message;
+                return message;
               }
 
             });
@@ -105,7 +105,7 @@ export default function conversations(state = defaultState, action) {
 
         return {
           ...state,
-          conversations: state.conversations,
+          conversations: conversations,
           conversation: currentConversation
         }
 

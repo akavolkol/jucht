@@ -5,7 +5,6 @@ import { TYPES, sendMessage } from '../../actions/conversations'
 import thunk from 'redux-thunk'
 import conversations, {defaultState} from '../../reducers/conversations'
 
-
 const middlewares = [ thunk ]
 const mockStore = configureMockStore(middlewares)
 
@@ -26,7 +25,7 @@ const message = {
 
 describe('conversation actions', () => {
   it('send message', () => {
-    nock(/http*/)
+    nock(/^*/)
     .post('/api/conversations/1/messages', message)
     .reply(200, message);
 

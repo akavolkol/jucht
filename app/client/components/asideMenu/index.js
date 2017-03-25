@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
+import ReactDOM from 'react-dom'
 import './asideMenu.scss'
 import './accountOptions.scss'
 import InterlocutorSearcher from '../interlocutorSearcher'
@@ -11,7 +12,8 @@ class AsideMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shouldAppearAccountOptions: false
+      shouldAppearAccountOptions: false,
+      collapsed: true
     }
   }
 
@@ -50,6 +52,29 @@ class AsideMenu extends Component {
         </li>
       </ul>
     )
+  }
+
+  targetIsDescendant(event, parent) {
+    let node = event.target;
+    while (node !== null) {
+      if (node === parent) return true;
+      node = node.parentNode;
+    }
+    return false;
+  }
+
+  handleDocumentClick = (event) => {
+    if (!this.state.collapsed && !this.targetIsDescendant(event, ReactDOM.findDOMNode(this))) {
+      this.setState({ collapsed: true })
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleDocumentClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleDocumentClick);
   }
 
   renderConversations() {
@@ -91,11 +116,15 @@ class AsideMenu extends Component {
     )
   }
 
+  toogleAside = () => {
+    this.setState({ collapsed: !this.state.collapsed })
+  }
+
 	render() {
     const user = this.props.auth.user;
 
 		return (
-      <aside className="aside">
+      <aside className={"aside" + (this.state.collapsed ? ' aside--collapsed' : '')}>
         <div className="aside__header">
           <Link className="aside__logo" to="/" >
             <img src={this.props.auth.user.avatar ? this.props.auth.user.avatar : assets("images/no-avatar.png")}/>
@@ -108,6 +137,11 @@ class AsideMenu extends Component {
             </i>
             { this.state.shouldAppearAccountOptions && this.renderAccountOptions() }
           </div>
+        </div>
+        <div className="aside__menu-toogle" onClick={this.toogleAside}>
+          <i className="icon option__icon">
+            <svg><use xlinkHref={assets('images/bytesize-inline.svg#i-menu')}/></svg>
+          </i>
         </div>
         </div>
 

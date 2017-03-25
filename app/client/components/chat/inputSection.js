@@ -15,7 +15,6 @@ class InputSection extends Component {
 
   componentDidMount() {
     this.socket.on('typing', (data) => {
-      console.log(data);
       this.setState({ typing: data });
       setTimeout(() => {
         this.setState({ typing: {} });

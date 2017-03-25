@@ -73,7 +73,7 @@ class SettingsForm extends Component {
   render() {
 
     return(
-      <div className="settings">
+      <div className="settings scrollable">
           <label>Account photo</label>
       <form onSubmit={this.onSubmit}>
           <div className="account-photo">

@@ -3,7 +3,7 @@ let config = {
   clientType: 'web'
 };
 
-if (window.config !== 'undefined') {
+if (typeof window !== 'undefined') {
   config = window.config;
 }
 

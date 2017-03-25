@@ -32,16 +32,17 @@ class Home extends Component {
     const oldConversation = this.props.conversations.conversation;
     if (!newProps.auth.authenticated) {
         this.props.router.push({pathname: '/login'});
+        return;
     }
 
-    if (conversation) {
-      if (oldConversation && oldConversation._id != conversation._id) {
-        this.socket.emit('leaveConversation', conversation._id);
-        this.socket.emit('conversation', { conversation: conversation });
-      } else if (!oldConversation && conversation) {
+      if (oldConversation && conversation && oldConversation._id != conversation._id) {
+        this.socket.emit('leaveConversation', oldConversation._id);
         this.socket.emit('conversation', { conversation: conversation });
       }
-    }
+
+      if (!oldConversation && conversation) {
+        this.socket.emit('conversation', { conversation: conversation });
+      }
     /**
      * switch beetwen chats - rid changes + need load
      * open chat from empty - rid changes + need load, cid may null

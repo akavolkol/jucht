@@ -34,11 +34,19 @@ export default class Conversation extends Base {
     });
   }
 
-  list() {
-    return this.connection
-      .collection('conversations')
-      .find()
-      .toArray();
+  list(fromDate = new Date) {
+    return new Promise((resolve, reject) => {
+      this.connection
+        .collection('conversations')
+        .find({ createdAt: { $lte: fromDate} })
+        .toArray((err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        })
+      });
   }
 
   listByParticipant(id) {
