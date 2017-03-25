@@ -70,7 +70,6 @@ export function request(
       method: options.method,
       headers: options.headers,
       body: options.body,
-      credentials: 'include'
     }).then(
       response => response.json()
       .then(json => {
