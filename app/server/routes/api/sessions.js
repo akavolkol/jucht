@@ -35,10 +35,15 @@ export default function () {
             });
 
             let date = new Date();
-            date.setSeconds(date.getSeconds() + 60 * 60 * 24)
+            date.setSeconds(date.getSeconds() + 60 * 60 * 24);
+            let domain = config.appHost;
+            let hostPieces;
+            if (hostPieces = config.appHost.split(':')) {
+              domain = hostPieces[0];
+            }
 
             return response
-            .cookie('token', token, { domain: 'localhost', expires: date, httpOnly: true })
+            .cookie('token', token, { domain: config.appHost.sp, expires: date, httpOnly: true })
             .json({
               token: token,
               user: user

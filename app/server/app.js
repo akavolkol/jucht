@@ -12,14 +12,42 @@ import Session from './repositories/session'
 
 const app = express();
 app.use(cookieParser());
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, '../../public')));
+
 
 (new Mongo({ host: config.dbHost })).connect().then((connection) => {
   const sessionRepository = new Session();
   app.use(function(request, res, next) {
-    request.session = null;
-    let token = request.cookies.token ? request.cookies.token : request.headers.authorization && request.headers.authorization.split(' ')[1];
+    let token = request.cookies.token
+      ? request.cookies.token
+      : request.headers.authorization && request.headers.authorization.split(' ')[1];
     sessionRepository.getByToken(token).then((session) => {
       request.session = session;
+      app.use((error, request, response, next) => {
+        if (request.xhr) {
+          let status = 500;
+
+          if (error instanceof BadRequestError) {
+            status = 400;
+          } else if (error instanceof NotFoundError) {
+            status = 404;
+          }
+
+          if (config.environment == 'development' && status == 500) {
+            console.log(error);
+          }
+
+          response.status(status).send({ error: error.toString() });
+        } else {
+          next(error);
+        }
+
+      });
       app.use(express.Router());
       app.use(routes());
       next();
@@ -27,37 +55,12 @@ app.use(cookieParser());
 
   });
 
-  app.use((error, request, response, next) => {
-    if (request.xhr) {
-      let status = 500;
 
-      if (error instanceof BadRequestError) {
-        status = 400;
-      } else if (error instanceof NotFoundError) {
-        status = 404;
-      }
-
-      if (config.environment == 'development' && status == 500) {
-        console.log(error);
-      }
-
-      response.status(status).send({ error: error.toString() });
-    } else {
-      next(error);
-    }
-
-  });
 }).catch(e => {
   console.log(e);
   process.exit(1);
 });
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, '../../public')));
 
 let server = app.listen(process.env.PORT || 9000, console.log('Server is running...'));
 

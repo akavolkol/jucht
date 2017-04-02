@@ -44,10 +44,14 @@
         width: 100%;
       }
 
+      .aside__scroll-inner {
+        margin-right: -8px;
+      }
+
 
   }
 
-  }
+}
 
   &__header {
     height: 50px;
@@ -88,11 +92,11 @@
     width: calc(100% + 16px);
 
     &-inner {
-      margin-right: -16px;
+
       overflow-x: hidden;
       overflow-y: scroll;
-      width: 100%;
       max-height: 60vh;
+      margin-right: -16px;
     }
   }
 

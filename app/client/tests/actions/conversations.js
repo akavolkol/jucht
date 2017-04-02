@@ -25,7 +25,7 @@ const message = {
 
 describe('conversation actions', () => {
   it('send message', () => {
-    nock(/^*/)
+    nock(/^http/)
     .post('/api/conversations/1/messages', message)
     .reply(200, message);
 
@@ -44,9 +44,9 @@ describe('conversation actions', () => {
   });
 
   it('send message fail', () => {
-    nock(/http*/)
+/*    nock(/^http/)
     .post('/api/conversations/1/messages', message)
-    .reply(500, {error: 'error'});
+    .reply(500, {error: 'error'});*/
 
     const store = mockStore()
 

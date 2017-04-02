@@ -127,7 +127,7 @@ export default class Conversation extends Base {
       .update({ _id: new ObjectID(conversationId) }, { $pull: { messages: { _id: new ObjectID(messageId) } } })
       .then(result => {
           if (result.result.nModified == 0) {
-            throw new Error(err || 'Can\'t remove message');
+            throw new Error('Can\'t remove message');
           }
           resolve(result);
       })
@@ -135,7 +135,7 @@ export default class Conversation extends Base {
     });
   }
 
-  getMessage(conversationId, messageId) {
+    getMessage(conversationId, messageId) {
     return new Promise((resolve, reject) => {
       this.connection
         .collection('conversations')

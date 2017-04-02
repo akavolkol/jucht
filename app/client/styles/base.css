@@ -19,6 +19,7 @@ body {
   line-height: 1.6;
   font-weight: 400;
   width: 100%;
+  min-width: 320px;
   height: 100%;
   font-family: Helvetica, 'Open Sans', sans-serif;
  font-size: 14px;

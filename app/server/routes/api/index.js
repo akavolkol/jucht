@@ -13,8 +13,10 @@ export default function () {
   const sessionRepository = new Session();
 
   router.all('*', function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    res.header('Access-Control-Allow-Methods', 'POST, DELETE, GET, PUT, OPTIONS');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-csrf-token, Authorization, Client-Type");
     next();
   });
 
@@ -23,15 +25,19 @@ export default function () {
   */
   router.use(function(req, res, next) {
     if (!/sessions/.test(req.path) && !(/users/.test(req.path) && req.method == 'POST')) {
-      if (!req.session) return res.status(401).json({ error: 'Access danied' });
-      jwt.verify(req.session.token, config.secret, function(err, user) {
-        if (err) {
-          sessionRepository.removeByUserId(req.session.user._id);
-          return res.status(401).json({ error: 'Access danied' });
-        } else {
-          next();
-        }
-      });
+      if (!req.session && req.method !== 'OPTIONS') {
+        return res.status(401).json({ error: 'Access danied' });
+      } else {
+        if (req.method == 'OPTIONS') return next();
+        jwt.verify(req.session.token, config.secret, function(err, user) {
+          if (err) {
+            sessionRepository.removeByUserId(req.session.user._id);
+            return res.status(401).json({ error: 'Access danied' });
+          } else {
+            next();
+          }
+        });
+      }
     } else {
       next();
     }

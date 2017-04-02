@@ -10,7 +10,6 @@ export default function () {
   router.use('/api', apiRouter());
 
   router.get('*', function(req, res) {
-
       if (req.session) {
 
         let userV;

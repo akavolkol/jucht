@@ -66,10 +66,13 @@ export function request(
       }
     }
 
+    console.log(options.url)
+
     fetch(options.url, {
       method: options.method,
       headers: options.headers,
       body: options.body,
+      credentials: 'same-origin'
     }).then(
       response => response.json()
       .then(json => {
