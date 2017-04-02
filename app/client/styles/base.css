@@ -20,6 +20,7 @@ body {
   font-weight: 400;
   width: 100%;
   min-width: 320px;
+  min-height: 400px;
   height: 100%;
   font-family: Helvetica, 'Open Sans', sans-serif;
  font-size: 14px;
