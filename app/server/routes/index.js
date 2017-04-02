@@ -29,7 +29,11 @@ export default function () {
         res.render('layout.ejs', {
           environment: config.environment,
           webpackServer: config.webpackServer,
-          initialAppData: JSON.stringify({})
+          initialAppData: JSON.stringify({}),
+          config: JSON.stringify({
+            host: config.appHost,
+            clientType: 'web'
+          })
         });
       }
 
