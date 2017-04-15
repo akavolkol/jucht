@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import FlashMessages from '../components/flashMessages'
 import { connect } from 'react-redux'
 import '../styles/style.scss'

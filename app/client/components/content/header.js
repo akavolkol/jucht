@@ -11,7 +11,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const {title, children} = this.props
+    const {title} = this.props
 
     return (
       <section className="header">

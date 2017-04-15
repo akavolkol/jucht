@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react'
-import { createFlashMessage } from '../actions/flashMessages'
+import React, { Component } from 'react'
 import SettingsMenu from '../components/settingsMenu'
 import SettingsForm from '../components/settings'
 

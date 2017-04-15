@@ -171,8 +171,6 @@ export function leave(conversationId) {
 
 export function remove(conversationId) {
   return (dispatch, getState) => {
-    const state = getState();
-
     request(`/conversations/${conversationId}`, 'DELETE')
     .then(() =>
       {

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 import ReactDOM from 'react-dom'
 import './asideMenu.scss'
@@ -94,8 +94,8 @@ class AsideMenu extends Component {
 
     return(
        <ul className="aside__menu">
-          { preparedConversations.map((converstaion, key) => {
-              return <li key={key} className="aside__menu-item">
+          { preparedConversations.map((converstaion) => {
+              return <li key={consversation._id} className="aside__menu-item">
                   <Link
                     to={'/conversations/' + converstaion._id}
                     className="aside__menu-item-inner"

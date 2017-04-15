@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { createFlashMessage } from '../actions/flashMessages'
@@ -17,7 +17,6 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {auth} = this.props;
     if (nextProps.auth.authenticated) {
       this.props.router.push({pathname: '/'});
     } else if (nextProps.auth.error) {

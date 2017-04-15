@@ -46,7 +46,7 @@ export default function () {
             }
 
             return response
-              .cookie('token', token, { domain: config.appHost.sp, expires: date, httpOnly: true })
+              .cookie('token', token, { domain: domain, expires: date, httpOnly: true })
               .json({
                 token: token,
                 user: user

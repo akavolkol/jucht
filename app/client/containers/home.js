@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import AsideMenu from '../components/asideMenu'
 import Content from '../components/content'
 import { connect } from 'react-redux'

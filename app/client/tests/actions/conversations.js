@@ -3,7 +3,6 @@ import nock from 'nock'
 import configureMockStore from 'redux-mock-store'
 import { TYPES, sendMessage } from '../../actions/conversations'
 import thunk from 'redux-thunk'
-import conversations, {defaultState} from '../../reducers/conversations'
 
 const middlewares = [ thunk ]
 const mockStore = configureMockStore(middlewares)

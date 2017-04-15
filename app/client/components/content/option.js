@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './option.scss'
-import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { leave, remove } from '../../actions/conversations'
 import { assets } from '../../utils/crossResources'

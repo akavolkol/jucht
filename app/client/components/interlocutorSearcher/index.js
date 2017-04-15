@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import debounce from 'debounce'
 import { search } from '../../actions/users'
 import { join as joinConveration } from '../../actions/conversations'
