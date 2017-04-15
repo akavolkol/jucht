@@ -14,7 +14,6 @@ const routes = (
 		<Route path='signup' component={Signup} />
     <Route path='conversations/:conversationId' component={Home} />
 	</Route>
-
 );
 
 export default routes;

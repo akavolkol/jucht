@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs'
 import User from '../../repositories/user'
 import Session from '../../repositories/session'
 
+const SESSION_DURATION = 60 * 60 * 24;
 
 export default function () {
   const router = Router();
@@ -25,7 +26,10 @@ export default function () {
               return next(new Error('Wrong login data'));
             }
 
-            const token = jwt.sign({username: user.username}, config.secret, { expiresIn: 60 * 24 });
+            let date = new Date();
+            date.setSeconds(date.getSeconds() + SESSION_DURATION);
+
+            const token = jwt.sign({username: user.username}, config.secret, { expiresIn: SESSION_DURATION });
 
             delete user.passwordHash;
 
@@ -34,8 +38,7 @@ export default function () {
               user: user
             });
 
-            let date = new Date();
-            date.setSeconds(date.getSeconds() + 60 * 60 * 24);
+
             let domain = config.appHost;
             let hostPieces;
             if (hostPieces = config.appHost.split(':')) {
@@ -43,12 +46,11 @@ export default function () {
             }
 
             return response
-            .cookie('token', token, { domain: config.appHost.sp, expires: date, httpOnly: true })
-            .json({
-              token: token,
-              user: user
-            })
-            ;
+              .cookie('token', token, { domain: config.appHost.sp, expires: date, httpOnly: true })
+              .json({
+                token: token,
+                user: user
+              });
           });
         } else {
           throw new Error('User with that criterias not found');

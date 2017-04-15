@@ -35,8 +35,8 @@ class Chat extends Component {
                   And more...
                 </div> */}
                 { (!!conversation.messages.length)
-                  && conversation.messages.map((message, key) => {
-                    if (message) return <Message conversation={conversation} socket={this.props.socket} message={message} key={key}/>
+                  && conversation.messages.map((message) => {
+                    if (message) return <Message conversation={conversation} socket={this.props.socket} message={message} key={message._id}/>
                   })
                 }
             </div>

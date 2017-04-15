@@ -140,7 +140,7 @@ export default class Conversation extends Base {
       this.connection
         .collection('conversations')
         .findOne({ _id: new ObjectID(conversationId), 'messages._id': new ObjectID(messageId) })
-        .then((result) => resolve(result.messages[0]))
+        .then((result, e) => {console.log(e);resolve(result.messages[0])})
         .catch(e => reject(e));
     });
   }
@@ -149,6 +149,7 @@ export default class Conversation extends Base {
     return new Promise((resolve, reject) => {
       this.getMessage(conversationId, messageId)
         .then((oldMessage) => {
+          console.log(oldMessage)
           const newMessage = {...oldMessage, text: message.text, updatedAt: new Date() };
 
           this.connection

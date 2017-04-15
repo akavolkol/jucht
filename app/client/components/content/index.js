@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Header from './header'
-import './content.scss';
+import './content.scss'
 import Chat from '../chat/'
 
 class Content extends Component {
-
   constructor(props) {
     super(props);
   }

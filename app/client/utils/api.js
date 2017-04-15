@@ -24,7 +24,7 @@ export function request(
       method,
       headers: {
         'Client-Type': 'Web',
-        'X-CSRF-Token': null,
+        //'X-CSRF-Token': null,
         'Accept': 'application/json',
         'X-Requested-With': 'XMLHttpRequest'
       },
@@ -66,8 +66,6 @@ export function request(
       }
     }
 
-    console.log(options.url)
-
     fetch(options.url, {
       method: options.method,
       headers: options.headers,
@@ -88,15 +86,14 @@ export function request(
           reject(response);
         }
       });
-    })
+    });
+  }
 
-
-}
-
-export function stringifyQuery(data) {
-    return '?' +
-        Object.keys(data).map(function(key) {
-            return encodeURIComponent(key) + '=' +
-                encodeURIComponent(data[key]);
-        }).join('&');
-}
+  export function stringifyQuery(data) {
+    return data.keys > 0
+      ? '?' + Object.keys(data).map(function(key) {
+          return encodeURIComponent(key) + '=' +
+          encodeURIComponent(data[key]);
+        }).join('&')
+      : '';
+  }

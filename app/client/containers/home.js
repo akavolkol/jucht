@@ -75,16 +75,15 @@ class Home extends Component {
 	render() {
     if (this.props.auth.user && this.props.auth.authenticated) {
 
-
-		return (
-			<div className="app">
-        <AsideMenu socket={this.socket}/>
-				<Content socket={this.socket}/>
-			</div>
-		)
-  } else {
-    return null;
-  }
+  		return (
+  			<div className="app">
+          <AsideMenu socket={this.socket}/>
+  				<Content socket={this.socket}/>
+  			</div>
+  		)
+    } else {
+      return null;
+    }
 	}
 }
 

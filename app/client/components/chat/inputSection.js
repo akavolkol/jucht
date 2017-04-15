@@ -10,13 +10,14 @@ class InputSection extends Component {
       message: '',
       typing: {}
     }
+    this.timeoutFunction = null;
     this.socket = this.props.socket;
   }
 
   componentDidMount() {
     this.socket.on('typing', (data) => {
       this.setState({ typing: data });
-      setTimeout(() => {
+      this.timeoutFunction = setTimeout(() => {
         this.setState({ typing: {} });
       }, 5000);
     });
@@ -46,6 +47,10 @@ class InputSection extends Component {
     this.setState({ message: event.target.value });
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeoutFunction);
+  }
+
   render() {
     return(
       <form className="chat-input" onSubmit={this.onSumbit}>
@@ -53,7 +58,6 @@ class InputSection extends Component {
 
         <textarea ref="message" onChange={this.onChange} onKeyUp={this.onSumbit} value={this.state.message} placeholder="Type a message"></textarea>
       </form>
-
     )
   }
 }

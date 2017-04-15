@@ -23,10 +23,11 @@ app.use(express.static(path.join(__dirname, '../../public')));
 (new Mongo({ host: config.dbHost })).connect().then((connection) => {
   const sessionRepository = new Session();
   app.use(function(request, res, next) {
-    let token = request.cookies.token
-      ? request.cookies.token
-      : request.headers.authorization && request.headers.authorization.split(' ')[1];
+    let token = request.headers.authorization
+      ? request.headers.authorization.split(' ')[1]
+      : request.cookies.token;
     sessionRepository.getByToken(token).then((session) => {
+      console.log(session);
       request.session = session;
       app.use((error, request, response, next) => {
         if (request.xhr) {
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, '../../public')));
       });
       app.use(express.Router());
       app.use(routes());
+      app.disable('x-powered-by');
       next();
     });
 

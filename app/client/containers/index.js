@@ -12,10 +12,6 @@ export class Index extends Component {
     }
   }
 
-  componentWillMount() {
-
-  }
-
   render() {
     const {children} = this.props;
 

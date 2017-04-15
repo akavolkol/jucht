@@ -10,13 +10,22 @@ export default function () {
   router.use('/api', apiRouter());
 
   router.get('*', function(req, res) {
+
+    let preloadData = {
+      environment: config.environment,
+      webpackServer: config.webpackServer,
+      initialAppData: JSON.stringify({}),
+      config: JSON.stringify({
+        host: config.appHost,
+        clientType: 'web'
+      })
+    };
       if (req.session) {
 
         let userV;
         Promise.all([userRepository.getUser(req.session.user._id).then((user) => {userV = user})]).then(val => {
           res.render('layout.ejs', {
-            environment: config.environment,
-            webpackServer: config.webpackServer,
+            ...preloadData,
             initialAppData: JSON.stringify({
               auth: {
                 user: userV,
@@ -26,15 +35,7 @@ export default function () {
           });
         }).catch(e => new Error(e));
       } else {
-        res.render('layout.ejs', {
-          environment: config.environment,
-          webpackServer: config.webpackServer,
-          initialAppData: JSON.stringify({}),
-          config: JSON.stringify({
-            host: config.appHost,
-            clientType: 'web'
-          })
-        });
+        res.render('layout.ejs', preloadData);
       }
 
   });

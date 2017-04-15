@@ -20,4 +20,9 @@
     padding-left: 0.5em;
     padding-right: 1em;
   }
+
+  .scroller {
+    overflow: hidden;
+    overflow-y: auto;
+  }
 }

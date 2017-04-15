@@ -68,14 +68,15 @@ export default function conversations(state = defaultState, action) {
 
     case TYPES.REMOVE_MESSAGE:
       conversations = [...state.conversations];
-      currentConversation = {};
 
       conversations.map(conversation => {
         if (conversation._id == action.data.conversationId) {
           conversation.messages = conversation.messages.filter(message => {
             return message._id != action.data.messageId;
           });
-          currentConversation = conversation;
+          if (state.conversation._id == conversation._id) {
+            currentConversation = conversation;
+          }
         }
       });
 
@@ -88,14 +89,13 @@ export default function conversations(state = defaultState, action) {
 
       case TYPES.EDIT_MESSAGE:
         conversations = [...state.conversations];
-        currentConversation = {};
+        currentConversation = {...state.conversation};
 
         conversations.map(conversation => {
           if (currentConversation._id == action.data.conversationId) {
-            currentConversation = {...conversation};
             currentConversation.messages.map(message => {
               if (message._id == action.data.message._id) {
-                return message;
+                return action.data.message;
               }
 
             });

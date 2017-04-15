@@ -46,13 +46,15 @@ class Message extends Component {
     this.setState({
       editing: !this.state.editing
     });
+
   }
 
   onClickRemove = () => {
-    this.props.removeMessage(this.props.conversation._id, this.props.message._id);
     this.setState({
       shouldAppearMessageOptions: !this.state.shouldAppearMessageOptions
-    })
+    });
+    this.props.removeMessage(this.props.conversation._id, this.props.message._id);
+    this.socket.emit('updatingConversation', this.props.conversation._id);
   }
 
   onChange = (event) => {
