@@ -27,7 +27,6 @@ app.use(express.static(path.join(__dirname, '../../public')));
       ? request.headers.authorization.split(' ')[1]
       : request.cookies.token;
     sessionRepository.getByToken(token).then((session) => {
-      console.log(session);
       request.session = session;
       app.use((error, request, response, next) => {
         if (request.xhr) {

@@ -81,33 +81,33 @@ class AsideMenu extends Component {
   renderConversations() {
     const { conversations } = this.props.conversations;
     let preparedConversations = [];
-    conversations.map(converstaion => {
-      converstaion.participants.map(participant => {
-        if (!converstaion.label && participant._id != this.props.auth.user._id) {
-          converstaion.label = participant.username;
-          converstaion.logo = participant.avatar;
+    conversations.map(conversation => {
+      conversation.participants.map(participant => {
+        if (!conversation.label && participant._id != this.props.auth.user._id) {
+          conversation.label = participant.username;
+          conversation.logo = participant.avatar;
         }
       });
 
-      preparedConversations.push(converstaion);
+      preparedConversations.push(conversation);
     });
 
     return(
        <ul className="aside__menu">
-          { preparedConversations.map((converstaion) => {
-              return <li key={consversation._id} className="aside__menu-item">
+          { preparedConversations.map((conversation) => {
+              return <li key={conversation._id} className="aside__menu-item">
                   <Link
-                    to={'/conversations/' + converstaion._id}
+                    to={'/conversations/' + conversation._id}
                     className="aside__menu-item-inner"
                     activeClassName="aside__menu-item-inner--active"
                   >
                     <div className="aside__menu-avatar">
-                      <img src={converstaion.logo ? converstaion.logo : assets("images/no-avatar.png")}/>
+                      <img src={conversation.logo ? conversation.logo : assets("images/no-avatar.png")}/>
                       <div className="platform-state connected"></div>
                     </div>
-                    <div className="aside__menu-content">{converstaion.label}</div>
-                    { !!converstaion.messages.length
-                      && <span className="indicator">{ converstaion.messages.length }</span>
+                    <div className="aside__menu-content">{conversation.label}</div>
+                    { !!conversation.messages.length
+                      && <span className="indicator">{ conversation.messages.length }</span>
                     }
                   </Link>
                 </li>

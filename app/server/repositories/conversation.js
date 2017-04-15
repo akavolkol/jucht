@@ -167,7 +167,7 @@ export default class Conversation extends Base {
 
   removeParticipant(conversationId, participantId) {
     if (!participantId) {
-      throw new BadRequestError('The id\'s of participant and converstaion should exists');
+      throw new BadRequestError('The id\'s of participant and conversation should exists');
     }
 
     return new Promise((resolve, reject) => {

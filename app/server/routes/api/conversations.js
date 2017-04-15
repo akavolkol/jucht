@@ -6,7 +6,7 @@ export default function () {
   const conversationRepository = new Conversation();
 
   /**
-   * List of available converstaions
+   * List of available conversations
    */
   router.get('/', (request, response, next) => {
     conversationRepository.listByParticipant(request.session.user._id)
@@ -15,7 +15,7 @@ export default function () {
   });
 
   /**
-   * Receive data from certain converstaion
+   * Receive data from certain conversation
    */
   router.get('/:id', (request, response, next) => {
     conversationRepository.get(request.params.id)
@@ -36,7 +36,7 @@ export default function () {
   });
 
   /**
-   * Join new converstaion
+   * Join new conversation
    */
   router.post('/', (request, response, next) => {
     conversationRepository.create(request.body)
