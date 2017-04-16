@@ -90,7 +90,7 @@ export function request(
   }
 
   export function stringifyQuery(data) {
-    return data.keys > 0
+    return Object.keys(data).length > 0
       ? '?' + Object.keys(data).map(function(key) {
           return encodeURIComponent(key) + '=' +
           encodeURIComponent(data[key]);

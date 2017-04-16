@@ -67,8 +67,8 @@ let server = app.listen(process.env.PORT || 9000, console.log('Server is running
 
 const socket = socketio.listen(server);
 let clients = [];
-socket.on('connection', function (socket) {
 
+socket.on('connection', function (socket) {
   socket.on('join', (user) => {
     if (user) {
       socket.user = user;
@@ -76,30 +76,20 @@ socket.on('connection', function (socket) {
     }
   });
 
-  socket.on('conversation', (data) => {
-    data.conversation._id && socket.join(data.conversation._id);
+  socket.on('conversation', (conversationId) => {
+    conversationId && socket.join(conversationId);
   })
 
-  socket.on('leaveConversation', id => {
-    socket.leave(id)
+  socket.on('leaveConversation', conversationId => {
+    socket.leave(conversationId)
   });
 
   socket.on('typing', (conversationId) => {
-    socket.broadcast.to(conversationId).emit('typing', {username: socket.user ? socket.user.username : null});
+    socket.broadcast.to(conversationId).emit('typing', socket.user.username);
   });
 
   socket.on('updatingConversation', (conversationId) => {
     socket.broadcast.to(conversationId).emit('conversationUpdated');
-  });
-
-  socket.on('updatedConversations', (usersIds) => {
-    clients.map(client => {
-
-      if (client.user && usersIds.indexOf(client.user._id)) {
-        client.emit('conversationsUpdated');
-      }
-    })
-
   });
 
   socket.on('disconnect', function () {

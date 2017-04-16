@@ -49,7 +49,7 @@ export default function () {
    */
   router.post('/:id/messages', (request, response, next) => {
     conversationRepository.addMessage(request.params.id, request.body)
-      .then((conversation) => response.status(201).json(conversation))
+      .then((message) => response.status(201).json(message))
       .catch(next);
   });
 

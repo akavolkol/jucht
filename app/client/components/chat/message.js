@@ -5,6 +5,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import { removeMessage, editMessage } from '../../actions/conversations'
 import { assets } from '../../utils/crossResources'
+import EmojisParser from '../../utils/emoji'
 
 class Message extends Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class Message extends Component {
       && this.state.text !== ''
     ) {
       let message = {
-        text: this.state.text.replace(/(\s+)|\n/, ''),
+        text: this.state.text.replace(/\n$/, ''),
       };
 
       this.props.editMessage(conversation._id, this.props.message._id, message);
@@ -139,7 +140,7 @@ class Message extends Component {
           </div>
           <div className="message__text">
             <div className="message__text-content">
-              {this.state.text}
+              {new EmojisParser(this.state.text).parse()}
             </div>
             { this.props.auth.user._id === message.author._id && this.renderMessageOptions()}
           </div>

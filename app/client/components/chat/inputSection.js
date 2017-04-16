@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './chat-input.scss'
 import { sendMessage } from '../../actions/conversations'
+import { assets } from '../../utils/crossResources'
 
 class InputSection extends Component {
   constructor(props) {
@@ -15,8 +16,8 @@ class InputSection extends Component {
   }
 
   componentDidMount() {
-    this.socket.on('typing', (data) => {
-      this.setState({ typing: data });
+    this.socket.on('typing', (userId) => {
+      this.setState({ typing: {userId: userId} });
       this.timeoutFunction = setTimeout(() => {
         this.setState({ typing: {} });
       }, 5000);
@@ -33,11 +34,11 @@ class InputSection extends Component {
       && inputValue !== ''
     ) {
       let message = {
-        text: inputValue.replace(/s{,2}|\n/, ''),
+        text: inputValue.replace(/\n$/, ''),
         author: this.props.auth.user
       };
 
-      this.props.sendMessage(conversation._id, message);
+      message.text && this.props.sendMessage(conversation._id, message);
       this.socket.emit('updatingConversation', conversation._id);
       this.setState({ message: '' });
     }
@@ -54,9 +55,23 @@ class InputSection extends Component {
   render() {
     return(
       <form className="chat-input" onSubmit={this.onSumbit}>
-        { !!Object.keys(this.state.typing).length && <p className="chat-input__typing">{ this.state.typing.username + ' is typing...'}</p> }
+        { !!Object.keys(this.state.typing).length && <p className="chat-input__typing">{ this.state.typing.userId + ' is typing...'}</p> }
 
-        <textarea ref="message" onChange={this.onChange} onKeyUp={this.onSumbit} value={this.state.message} placeholder="Type a message"></textarea>
+        <textarea ref="message"
+          onChange={this.onChange}
+          onKeyUp={this.onSumbit}
+          value={this.state.message}
+          placeholder="Type a message">
+        </textarea>
+
+        <div className="input-toolbar">
+          <div className="icon option__icon">
+            <img src={assets('images/happy.svg')}/>
+          </div>
+        </div>
+        <div className="emoji-picker">
+          jj
+        </div>
       </form>
     )
   }

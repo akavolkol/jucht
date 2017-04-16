@@ -2,21 +2,24 @@ import { Router } from 'express'
 import config from '../../config/app.js'
 import User from '../../repositories/user'
 import jwt from 'jsonwebtoken'
+import Session from '../../repositories/session'
+
+const SESSION_DURATION = 60 * 60 * 24;
 
 export default function () {
   const router = Router();
   const userRepository = new User();
+  const sessionRepository = new Session();
 
   /**
   * List of users
   */
   router.get('/', (request, response, next) => {
     const query = request.query.query ? (request.query.query).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') : null;
-
     if (query) {
       userRepository.findByUsername(
           new RegExp('^' + query + '.*', 'gi'),
-          request.session.user.id
+          request.session.user._id
         )
         .then(users => response.json(users))
         .catch(next);
@@ -43,15 +46,26 @@ export default function () {
 
     userRepository.create(userInfo)
         .then((user) => {
-          request.session.userId = user._id;
-          response.json({
-            token: jwt.sign({username: user.username}, config.secret, {
-              expiresIn: 60 * 24 // expires in 24 hours
-            }),
+          const token = jwt.sign({username: user.username}, config.secret, { expiresIn: SESSION_DURATION });
+
+          delete user.passwordHash;
+          let date = new Date();
+          date.setSeconds(date.getSeconds() + SESSION_DURATION);
+
+          sessionRepository.create({
+            token: token,
             user: user
           });
-        })
-        .catch(next);
+
+          let domain = config.appHost.replace(/(http:\/\/)|(\/$)/g, '');
+
+          response.cookie('token', token, { domain: domain, expires: date, httpOnly: true })
+              .json({
+                token: token,
+                user: user
+              });
+            })
+            .catch(next);
   });
 
   router.put('/:id', (request, response, next) => {

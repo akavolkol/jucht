@@ -2,13 +2,13 @@
   background: #fff;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.5);
   overflow: hidden;
-
   position: absolute;
   z-index: 2;
   border-radius: 3px;
   right: 0;
   padding-left: 0;
   margin: 0;
+  min-width: 110px;
 
   .item {
     display: flex;

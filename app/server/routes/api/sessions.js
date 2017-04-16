@@ -39,11 +39,7 @@ export default function () {
             });
 
 
-            let domain = config.appHost;
-            let hostPieces;
-            if (hostPieces = config.appHost.split(':')) {
-              domain = hostPieces[0];
-            }
+          let domain = config.appHost.replace(/(http:\/\/)|(:\d+)/g, '');
 
             return response
               .cookie('token', token, { domain: domain, expires: date, httpOnly: true })

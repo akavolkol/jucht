@@ -21,8 +21,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.socket.emit('join', this.props.auth.user);
-    this.socket.on('conversationsUpdated', () => {
+    this.props.auth.user && this.socket.emit('join', this.props.auth.user);
+    this.socket.on('conversationsUpdated', (con) => {
       this.props.selectConversations();
     })
   }
@@ -30,6 +30,15 @@ class Home extends Component {
   componentWillReceiveProps(newProps) {
     const { conversation } = newProps.conversations;
     const oldConversation = this.props.conversations.conversation;
+
+    if (newProps.auth.error) {
+      this.props.createFlashMessage({
+        title: 'Error',
+        body: this.props.conversations.error,
+        type: 'danger'
+      });
+    }
+
     if (!newProps.auth.authenticated) {
         this.props.router.push({pathname: '/login'});
         return;
@@ -37,11 +46,11 @@ class Home extends Component {
 
       if (oldConversation && conversation && oldConversation._id != conversation._id) {
         this.socket.emit('leaveConversation', oldConversation._id);
-        this.socket.emit('conversation', { conversation: conversation });
+        this.socket.emit('conversation', conversation._id);
       }
 
       if (!oldConversation && conversation) {
-        this.socket.emit('conversation', { conversation: conversation });
+        this.socket.emit('conversation', conversation._id);
       }
     /**
      * switch beetwen chats - rid changes + need load

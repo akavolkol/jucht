@@ -3,6 +3,7 @@ import { TYPES } from '../actions/conversations'
 export const defaultState = {
   conversations: [],
   conversation: null,
+  error: null
 }
 
 export default function conversations(state = defaultState, action) {
@@ -89,17 +90,17 @@ export default function conversations(state = defaultState, action) {
 
       case TYPES.EDIT_MESSAGE:
         conversations = [...state.conversations];
-        currentConversation = {...state.conversation};
 
         conversations.map(conversation => {
-          if (currentConversation._id == action.data.conversationId) {
-            currentConversation.messages.map(message => {
+          if (conversation._id == action.data.conversationId) {
+            conversation.messages = conversation.messages.map(message => {
               if (message._id == action.data.message._id) {
-                return action.data.message;
+                message = action.data.message;
               }
 
+              return message;
             });
-
+            currentConversation = conversation;
           }
         });
 

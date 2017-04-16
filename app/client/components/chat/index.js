@@ -28,8 +28,8 @@ class Chat extends Component {
 
     return(
       <main className="chat">
-        <section ref="scroll" className="chat__items">
-          <div className="scroller js-scroller custom-scrollbar__recipient hidden" id="qQJdFtsDeKGhan5wY">
+        <section className="chat__items">
+          <div ref="scroll" className="scroller js-scroller custom-scrollbar__recipient hidden" id="qQJdFtsDeKGhan5wY">
             <div className="chat-message-area">
                 {/* <div className="chat-message-loader">
                   And more...

@@ -122,34 +122,32 @@ export default class Conversation extends Base {
     }
 
     return new Promise((resolve, reject) => {
-    this.connection
-      .collection('conversations')
-      .update({ _id: new ObjectID(conversationId) }, { $pull: { messages: { _id: new ObjectID(messageId) } } })
-      .then(result => {
-          if (result.result.nModified == 0) {
-            throw new Error('Can\'t remove message');
-          }
-          resolve(result);
-      })
-      .catch(e => reject(e));
-    });
+      this.connection
+        .collection('conversations')
+        .update({ _id: new ObjectID(conversationId) }, { $pull: { messages: { _id: new ObjectID(messageId) } } })
+        .then(result => {
+            if (result.result.nModified == 0) {
+              throw new Error('Can\'t remove message');
+            }
+            resolve(result);
+        })
+        .catch(e => reject(e));
+      });
   }
 
     getMessage(conversationId, messageId) {
-    return new Promise((resolve, reject) => {
-      this.connection
-        .collection('conversations')
-        .findOne({ _id: new ObjectID(conversationId), 'messages._id': new ObjectID(messageId) })
-        .then((result, e) => {console.log(e);resolve(result.messages[0])})
-        .catch(e => reject(e));
-    });
+      return new Promise((resolve, reject) => {
+        this.connection
+          .collection('conversations')
+          .find({'messages._id': new ObjectID(messageId)}, {messages: {$elemMatch: {_id: new ObjectID(messageId)}} })
+          .toArray((err, result) => {resolve(result[0].messages[0])})
+      });
   }
 
   updateMessage(conversationId, messageId, message) {
     return new Promise((resolve, reject) => {
       this.getMessage(conversationId, messageId)
         .then((oldMessage) => {
-          console.log(oldMessage)
           const newMessage = {...oldMessage, text: message.text, updatedAt: new Date() };
 
           this.connection
