@@ -13,6 +13,11 @@ module.exports = {
 		publicPath: '/build'
 	},
 	plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+         NODE_ENV: JSON.stringify('production')
+       }
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin("style.css"),
     new webpack.optimize.UglifyJsPlugin({

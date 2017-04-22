@@ -64,14 +64,14 @@ class InputSection extends Component {
           placeholder="Type a message">
         </textarea>
 
-        <div className="input-toolbar">
+        {/* <div className="input-toolbar">
           <div className="icon option__icon">
             <img src={assets('images/happy.svg')}/>
           </div>
         </div>
         <div className="emoji-picker">
-          jj
-        </div>
+
+        </div> */}
       </form>
     )
   }
