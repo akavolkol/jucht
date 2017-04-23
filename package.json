@@ -12,6 +12,22 @@
     "package": "build",
     "lint": "eslint 'app/**/*.js' --quiet"
   },
+  "main": "app/desktop/index.js",
+  "build": {
+    "appId": "org.volkol.bang",
+    "files": "!build/desktop/*",
+    "linux": {
+      "target": [
+        "deb"
+      ]
+    },
+    "win": {
+      "icon": "app/desktop/images/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    }
+  },
   "license": "ISC",
   "devDependencies": {
     "babel-eslint": "^7.2.2",
@@ -73,16 +89,5 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3"
-  },
-  "main": "app/desktop/index.js",
-  "build": {
-    "appId": "org.volkol.bang",
-    "files": "!build/desktop/*",
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ]
-    }
   }
 }

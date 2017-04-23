@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateUser } from '../../actions/users'
 import './settings.scss'
+import { assets } from '../../utils/crossResources'
 import { uploadImage } from '../../actions/media'
 
 class SettingsForm extends Component {
@@ -78,7 +79,7 @@ class SettingsForm extends Component {
       <form onSubmit={this.onSubmit}>
           <div className="account-photo">
             <div className="account-photo-image">
-              <img src={this.state.avatar ? this.state.avatar : '/images/no-avatar.png'} />
+              <img src={this.state.avatar ? this.state.avatar : assets('/images/no-avatar.png')} />
               </div>
               <div>
                 <span className="btn btn--medium upload-button" type="button">Upload from computer
