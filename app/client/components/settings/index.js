@@ -4,17 +4,24 @@ import { updateUser } from '../../actions/users'
 import './settings.scss'
 import { assets } from '../../utils/crossResources'
 import { uploadImage } from '../../actions/media'
+import { browserHistory } from 'react-router'
 
 class SettingsForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: this.props.auth.user.username,
-      email: this.props.auth.user.email,
-      firstName: this.props.auth.user.firstName || '',
-      lastName: this.props.auth.user.lastName || '',
-      avatar: this.props.auth.user.avatar || null
+      username: this.props.auth.user ? this.props.auth.user.username : null,
+      email: this.props.auth.user ?  this.props.auth.user.email : null,
+      firstName: this.props.auth.user ? this.props.auth.user.firstName : null,
+      lastName:  this.props.auth.user ? this.props.auth.user.lastName : null,
+      avatar:  this.props.auth.user ? this.props.auth.user.avatar : null
     };
+  }
+
+  componentWillMount() {
+    if (!this.props.auth.authenticated) {
+      browserHistory.push({pathname: '/login'});
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -79,7 +86,7 @@ class SettingsForm extends Component {
       <form onSubmit={this.onSubmit}>
           <div className="account-photo">
             <div className="account-photo-image">
-              <img src={this.state.avatar ? this.state.avatar : assets('/images/no-avatar.png')} />
+              <img src={this.state.avatar ? this.state.avatar : assets('images/no-avatar.png')} />
               </div>
               <div>
                 <span className="btn btn--medium upload-button" type="button">Upload from computer

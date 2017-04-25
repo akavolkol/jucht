@@ -1,4 +1,4 @@
-.PHONY: build clean
+.PHONY: build
 
 serve:
 	nodemon app/server/app.js --exec "node_modules/.bin/babel-node"
@@ -6,10 +6,7 @@ serve:
 runtime:
 	npm run runtime
 
-clean:
-	rm -rf build/*
-
-build: clean
+build:
 	node tools/build.js
 		&& node tools/build.js desktop
 		&& npm run build
