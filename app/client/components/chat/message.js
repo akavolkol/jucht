@@ -30,13 +30,20 @@ class Message extends Component {
 
 
   handleDocumentClick = (event) => {
-    if (this.state.shouldAppearMessageOptions && !this.targetIsDescendant(event, ReactDOM.findDOMNode(this))) {
+    if (this.state.shouldAppearMessageOptions
+      && !this.targetIsDescendant(event, ReactDOM.findDOMNode(this))
+    ) {
       this.toogleOptionsVisible();
     }
   }
 
   componentDidMount() {
     document.addEventListener('click', this.handleDocumentClick);
+  }
+
+  componentWillUpdate(newProps) {
+    newProps.message.text != this.props.message.text
+      && this.setState({text: newProps.message.text});
   }
 
   componentWillUnmount() {
@@ -47,7 +54,7 @@ class Message extends Component {
     this.setState({
       editing: !this.state.editing
     });
-
+    this.socket.emit('updatingConversation', conversation._id);
   }
 
   onClickRemove = () => {

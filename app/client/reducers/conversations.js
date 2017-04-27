@@ -20,11 +20,19 @@ export default function conversations(state = defaultState, action) {
       return {
         ...state,
         conversation: action.data,
+        conversations: state.conversations.map((existed) => {
+          if (existed._id == action.data._id) {
+            existed = action.data;
+          }
+        })
       }
 
     case TYPES.RECEIVE_CONVERSATIONS:
       return {
         ...state,
+        conversation: action.data.find((newest) => {
+          return state.conversation ? newest._id == state.conversation._id : null;
+        }),
         conversations: action.data
       }
 

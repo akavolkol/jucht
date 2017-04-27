@@ -85,7 +85,9 @@ socket.on('connection', function (socket) {
   });
 
   socket.on('typing', (conversationId) => {
-    socket.broadcast.to(conversationId).emit('typing', socket.user.username);
+    if (socket.user) {
+      socket.broadcast.to(conversationId).emit('typing', socket.user.username);
+    }
   });
 
   socket.on('updatingConversation', (conversationId) => {
@@ -93,11 +95,11 @@ socket.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function () {
-    // clients.map(client => {
-    //   if (client.user && client.user._id == socket.user._id) {
-    //     clients.splice(clients.indexOf(client), 1);
-    //   }
-    // })
+    clients.map(client => {
+      if (client.user && client.user._id == socket.user._id) {
+        clients.splice(clients.indexOf(client), 1);
+      }
+    })
   });
 });
 
