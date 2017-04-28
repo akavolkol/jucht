@@ -94,13 +94,13 @@ socket.on('connection', function (socket) {
     socket.broadcast.to(conversationId).emit('conversationUpdated');
   });
 
-  socket.on('disconnect', function () {
-    clients.map(client => {
-      if (client.user && client.user._id == socket.user._id) {
-        clients.splice(clients.indexOf(client), 1);
-      }
-    })
-  });
+  // socket.on('disconnect', function () {
+  //   clients.map(client => {
+  //     if (client.user && client.user._id == socket.user._id) {
+  //       clients.splice(clients.indexOf(client), 1);
+  //     }
+  //   })
+  // });
 });
 
 
