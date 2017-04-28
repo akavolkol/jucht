@@ -24,6 +24,7 @@ export default function conversations(state = defaultState, action) {
           if (existed._id == action.data._id) {
             existed = action.data;
           }
+          return existed;
         })
       }
 
