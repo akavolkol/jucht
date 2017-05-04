@@ -7,7 +7,6 @@ import InterlocutorSearcher from '../interlocutorSearcher'
 import { signout } from '../../actions/auth'
 import { connect } from 'react-redux'
 import { assets } from '../../utils/crossResources'
-import { Scrollbars } from 'react-custom-scrollbars'
 
 class AsideMenu extends Component {
   constructor(props) {
@@ -149,13 +148,8 @@ class AsideMenu extends Component {
         <InterlocutorSearcher socket={this.props.socket}/>
 
         <div className="aside__navigation">
-          <div className="aside__scroll">
-            <Scrollbars
-              renderTrackHorizontal={props => <div {...props} className="track-horizontal" style={{display:"none"}}/>}
-        renderThumbHorizontal={props => <div {...props} className="thumb-horizontal" style={{display:"none"}}/>}
-              >
+          <div className="aside__scroll">  
           { !!this.props.conversations && this.renderConversations() }
-      </Scrollbars>
       </div>
         </div>
         {/*
