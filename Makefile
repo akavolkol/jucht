@@ -7,8 +7,8 @@ runtime:
 	npm run runtime
 
 build:
-	node tools/build.js
-		&& node tools/build.js desktop
+	node tools/build.js\
+		&& node tools/build.js desktop\
 		&& npm run build
 
 test-prod:
