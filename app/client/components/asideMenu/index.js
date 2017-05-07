@@ -34,7 +34,7 @@ class AsideMenu extends Component {
           <Link to="/settings">
             <div className="account-options__icon">
               <i className="icon option__icon">
-                <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-settings")}/></svg>
+                <svg><use xlinkHref={assets('images/bytesize-inline.svg#i-settings')}/></svg>
               </i>
             </div>
             <div className="account-options__label">Settings</div>
@@ -44,7 +44,7 @@ class AsideMenu extends Component {
         <a onClick={this.onClickSignout}>
           <div className="account-options__icon">
             <i className="icon option__icon">
-              <svg><use xlinkHref={assets("images/bytesize-inline.svg#i-lock")}/></svg>
+              <svg><use xlinkHref={assets('images/bytesize-inline.svg#i-lock')}/></svg>
             </i>
           </div>
           <div className="account-options__label">Logout</div>
@@ -101,7 +101,7 @@ class AsideMenu extends Component {
                     activeClassName="aside__menu-item-inner--active"
                   >
                     <div className="aside__menu-avatar">
-                      <img src={conversation.logo ? conversation.logo : assets("images/no-avatar.png")}/>
+                      <img src={conversation.logo ? conversation.logo : assets('images/no-avatar.png')}/>
                       <div className="platform-state connected"></div>
                     </div>
                     <div className="aside__menu-content">{conversation.label}</div>
@@ -124,10 +124,10 @@ class AsideMenu extends Component {
     const user = this.props.auth.user;
 
 		return (
-      <aside className={"aside" + (this.state.collapsed ? ' aside--collapsed' : '')}>
+      <aside className={'aside' + (this.state.collapsed ? ' aside--collapsed' : '')}>
         <div className="aside__header">
           <Link className="aside__logo" to="/" >
-            <img src={this.props.auth.user.avatar ? this.props.auth.user.avatar : assets("images/no-avatar.png")}/>
+            <img src={this.props.auth.user.avatar ? this.props.auth.user.avatar : assets('images/no-avatar.png')}/>
           </Link>
           <span className="aside__title">{user.username}</span>
           <div className="option">

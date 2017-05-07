@@ -4,12 +4,134 @@
 	<title>Jucht - Just Chat</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Messanger">
+	<meta name="description" content="Messenger">
+  <style>
+  .loading-spinner {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 31px;
+    height: 7px;
+    text-align: center;
+}
 
-  <link href="http://volkol.pp.ua/build/style.css" rel="stylesheet">
+.loading-spinner.white i {
+    background: #000;
+}
+.loading-spinner i.one {
+    left: 0;
+    -webkit-animation-delay: -.32s;
+    -moz-animation-delay: -.32s;
+    animation-delay: -.32s;
+}
+.loading-spinner i {
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #7D7D8E;
+    -webkit-animation: pulse 1s infinite ease-in-out;
+    -moz-animation: pulse 1s infinite ease-in-out;
+    animation: pulse 1s infinite ease-in-out;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.loading-spinner i.two {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    -webkit-animation-delay: -.16s;
+    -moz-animation-delay: -.16s;
+    animation-delay: -.16s;
+}
+.loading-spinner i.three {
+    right: 0;
+}
+#app-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -16px;
+}
+@-webkit-keyframes pulse {
+    0%, 100%, 80% {
+        opacity: 0
+    }
+    40% {
+        opacity: 1
+    }
+}
+@-moz-keyframes pulse {
+    0%, 100%, 80% {
+        opacity: 0
+    }
+    40% {
+        opacity: 1
+    }
+}
+@keyframes pulse {
+    0%, 100%, 80% {
+        opacity: 0
+    }
+    40% {
+        opacity: 1
+    }
+}
+.spinner {
+    -webkit-animation: spinner-spin 0.75s linear 0s infinite;
+    -moz-animation: spinner-spin 0.75s linear 0s infinite;
+    -ms-animation: spinner-spin 0.75s linear 0s infinite;
+    -o-animation: spinner-spin 0.75s linear 0s infinite;
+    animation: spinner-spin 0.75s linear 0s infinite;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.3;
+}
+@keyframes spinner {
+    0%   {
+        -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg);  /* IE 9 */
+        transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+        -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg);  /* IE 9 */
+        transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+}
+.spinner-36, .light-box-item.loading.active .centre, .task-pane-posting-spinner {
+    background-image: url("https://d3o1qk32qsjiyt.cloudfront.net/assets/spinners/spinner-36-75aaaeea084532943b54c65bd2c9e5c7.png");
+    width: 36px;
+    height: 36px;
+    background-size: 36px;
+}
+.app-content-spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -36px;
+    margin-top: -36px;
+    z-index: 3;
+}
+  </style>
+  <link href="./style.css" rel="stylesheet">
 </head>
 <body>
 	<div id="app">
+    <div class="loading-spinner-wrapper" id="app-loader">
+          <span class="loading-spinner white">
+            <i class="one"></i>
+            <i class="two"></i>
+            <i class="three"></i>
+          </span>
+        </div>
 	</div>
     <script>
       var config = {
@@ -17,7 +139,7 @@
         clientType: 'desktop'
       };
     </script>
-    <script type="text/javascript" src="http://volkol.pp.ua/build/build.js"></script>
+    <script type="text/javascript" src="./build.js"></script>
 </body>
 
 </html>

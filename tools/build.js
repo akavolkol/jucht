@@ -3,8 +3,7 @@ const path = require('path');
 const babel = require('babel-core');
 const mkdirp = require('mkdirp');
 
-let type = process.argv[2] == 'desktop' ? 'desktop' : 'server';
-const sourcesFolder = path.normalize('./app/' + type);
+const sourcesFolder = path.normalize('./app/server');
 const files = getFilesList(sourcesFolder);
 
 files.forEach(function (file) {
@@ -21,6 +20,9 @@ files.forEach(function (file) {
   }
 
 });
+
+fs.createReadStream('./public/build/build.js').pipe(fs.createWriteStream('app/desktop/build.js'));
+fs.createReadStream('./public/build/style.css').pipe(fs.createWriteStream('app/desktop/style.css'));
 
 function getFilesList(dir, filelist = []) {
   const files = fs.readdirSync(dir);

@@ -1,5 +1,8 @@
 node_modules/
 build/
+!build/icons/
 npm-debug.log
 public/uploads/images/
 dist/
+app/desktop/build.js
+app/desktop/style.css

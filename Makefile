@@ -8,14 +8,13 @@ runtime:
 
 build:
 	node tools/build.js\
-		&& node tools/build.js desktop\
 		&& npm run build
 
 test-prod:
 	NOD_ENVIRONMENT=production npm run build && npm start
 
 test:
-	node_modules/mocha/bin/mocha app/client/tests/**/*.js app/server/tests/**/*.js --compilers js:babel-core/register
+	node_modules/mocha/bin/mocha app/client/tests/**/*.js app/server/tests/**/*.js --compilers js:babel-core/register --ui bdd
 
 electron:
 	node_modules/.bin/electron app/desktop

@@ -38,7 +38,7 @@ export function request(
     //   options.headers['X-HTTP-Method-Override'] = method;
     // }
 
-    if (localStorage.getItem('token')) {
+    if (typeof localStorage != 'undefined' && localStorage.getItem('token')) {
       options.headers['Authorization'] = 'Basic ' + localStorage.getItem('token');
     }
     if (isJSON) {

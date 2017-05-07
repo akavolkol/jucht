@@ -4,7 +4,7 @@ export function assets(resource) {
   let path = null;
 
   if (config.clientType == 'desktop') {
-    path = './' + resource;
+    path = resource;
   } else {
     path = '/' + resource;
   }

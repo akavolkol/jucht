@@ -15,7 +15,7 @@
   "main": "app/desktop/index.js",
   "build": {
     "appId": "org.volkol.bang",
-    "files": "!build/desktop/*",
+    "files": ["app/desktop/**/*"],
     "linux": {
       "target": [
         "deb"

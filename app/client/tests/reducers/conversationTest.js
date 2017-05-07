@@ -5,25 +5,25 @@ import { TYPES } from '../../actions/conversations'
 const state = {
   conversations: [
     {
-      _id: "58b45100a8a4fd349a573556",
+      _id: '58b45100a8a4fd349a573556',
       messages: [{
-        _id: "58b45104a8a4fd349a573557",
-        text: "1"
+        _id: '58b45104a8a4fd349a573557',
+        text: '1'
       }],
     },
     {
-      _id: "58b45100a8a4fd349a573557",
+      _id: '58b45100a8a4fd349a573557',
       messages: [{
-        _id: "58b45104a8a4fd349a573558",
-        text: "10"
+        _id: '58b45104a8a4fd349a573558',
+        text: '10'
       }]
     }
   ],
   conversation: {
-    _id: "58b45100a8a4fd349a573556",
+    _id: '58b45100a8a4fd349a573556',
     messages: [{
-      _id: "58b45104a8a4fd349a573557",
-      text: "1"
+      _id: '58b45104a8a4fd349a573557',
+      text: '1'
     }]
   }
 };
@@ -34,7 +34,8 @@ describe('conversation reducer', () => {
       reducer(undefined, {}),
       {
         conversations: [],
-        conversation: null
+        conversation: null,
+        error: null
       }
     );
   });
@@ -46,10 +47,10 @@ describe('conversation reducer', () => {
         {
           type: TYPES.EDIT_MESSAGE,
           data: {
-            conversationId: "58b45100a8a4fd349a573556",
+            conversationId: '58b45100a8a4fd349a573556',
             message: {
-              _id: "58b45104a8a4fd349a573557",
-              text: "2",
+              _id: '58b45104a8a4fd349a573557',
+              text: '2',
             }
           }
         }
@@ -57,25 +58,25 @@ describe('conversation reducer', () => {
       {
         conversations: [
           {
-            _id: "58b45100a8a4fd349a573556",
+            _id: '58b45100a8a4fd349a573556',
             messages: [{
-              _id: "58b45104a8a4fd349a573557",
-              text: "2"
+              _id: '58b45104a8a4fd349a573557',
+              text: '2'
             }],
           },
           {
-            _id: "58b45100a8a4fd349a573557",
+            _id: '58b45100a8a4fd349a573557',
             messages: [{
-              _id: "58b45104a8a4fd349a573558",
-              text: "10"
+              _id: '58b45104a8a4fd349a573558',
+              text: '10'
             }]
           }
         ],
         conversation: {
-          _id: "58b45100a8a4fd349a573556",
+          _id: '58b45100a8a4fd349a573556',
           messages: [{
-            _id: "58b45104a8a4fd349a573557",
-            text: "2",
+            _id: '58b45104a8a4fd349a573557',
+            text: '2',
           }],
         },
 
@@ -91,27 +92,27 @@ describe('conversation reducer', () => {
         {
           type: TYPES.REMOVE_MESSAGE,
           data: {
-            conversationId: "58b45100a8a4fd349a573556",
-            messageId: "58b45104a8a4fd349a573557"
+            conversationId: '58b45100a8a4fd349a573556',
+            messageId: '58b45104a8a4fd349a573557'
           }
         }
       ),
       {
         conversations: [
           {
-            _id: "58b45100a8a4fd349a573556",
+            _id: '58b45100a8a4fd349a573556',
             messages: [],
           },
           {
-            _id: "58b45100a8a4fd349a573557",
+            _id: '58b45100a8a4fd349a573557',
             messages: [{
-              _id: "58b45104a8a4fd349a573558",
-              text: "10"
+              _id: '58b45104a8a4fd349a573558',
+              text: '10'
             }]
           }
         ],
         conversation: {
-          _id: "58b45100a8a4fd349a573556",
+          _id: '58b45100a8a4fd349a573556',
           messages: [],
         },
 
@@ -121,22 +122,22 @@ describe('conversation reducer', () => {
 
   it('should processing SEND_MESSAGE', () => {
     const messages = [{
-      _id: "58b45104a8a4fd349a573558",
-      text: "10"
+      _id: '58b45104a8a4fd349a573558',
+      text: '10'
     },
     {
-      "_id" : "58bd7ba056c44c52e2105cfa",
-      "createdAt" : "2017-03-06T15:09:20.879Z",
-      "text" : "dsfs",
-      "author" : {
-        "_id" : "58bd7b4856c44c52e2105cf6",
-        "username" : "volkol",
-        "email" : "volkol@dfs.dsf",
-        "firstName" : "",
-        "lastName" : "",
-        "avatar" : "http://localhost:9000/uploads/images/1488812880105Screenshotfrom2017-03-0401-24-01.png"
+      '_id' : '58bd7ba056c44c52e2105cfa',
+      'createdAt' : '2017-03-06T15:09:20.879Z',
+      'text' : 'dsfs',
+      'author' : {
+        '_id' : '58bd7b4856c44c52e2105cf6',
+        'username' : 'volkol',
+        'email' : 'volkol@dfs.dsf',
+        'firstName' : '',
+        'lastName' : '',
+        'avatar' : 'http://localhost:9000/uploads/images/1488812880105Screenshotfrom2017-03-0401-24-01.png'
       },
-      "updatedAt" : null
+      'updatedAt' : null
     }
   ];
 
@@ -148,18 +149,18 @@ describe('conversation reducer', () => {
         data: {
           conversationId: '58b45100a8a4fd349a573557',
           message: {
-            "_id" : "58bd7ba056c44c52e2105cfa",
-            "createdAt" : "2017-03-06T15:09:20.879Z",
-            "text" : "dsfs",
-            "author" : {
-              "_id" : "58bd7b4856c44c52e2105cf6",
-              "username" : "volkol",
-              "email" : "volkol@dfs.dsf",
-              "firstName" : "",
-              "lastName" : "",
-              "avatar" : "http://localhost:9000/uploads/images/1488812880105Screenshotfrom2017-03-0401-24-01.png"
+            '_id' : '58bd7ba056c44c52e2105cfa',
+            'createdAt' : '2017-03-06T15:09:20.879Z',
+            'text' : 'dsfs',
+            'author' : {
+              '_id' : '58bd7b4856c44c52e2105cf6',
+              'username' : 'volkol',
+              'email' : 'volkol@dfs.dsf',
+              'firstName' : '',
+              'lastName' : '',
+              'avatar' : 'http://localhost:9000/uploads/images/1488812880105Screenshotfrom2017-03-0401-24-01.png'
             },
-            "updatedAt" : null
+            'updatedAt' : null
           }
         }
       }
@@ -167,16 +168,16 @@ describe('conversation reducer', () => {
     {
       conversations: [
         {
-          _id: "58b45100a8a4fd349a573556",
+          _id: '58b45100a8a4fd349a573556',
           messages: [],
         },
         {
-          _id: "58b45100a8a4fd349a573557",
+          _id: '58b45100a8a4fd349a573557',
           messages: messages
         }
       ],
       conversation: {
-        _id: "58b45100a8a4fd349a573557",
+        _id: '58b45100a8a4fd349a573557',
         messages: messages,
       },
 
