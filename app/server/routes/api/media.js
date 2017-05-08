@@ -24,9 +24,5 @@ export default function () {
     });
  });
 
-  router.delete('/images', function (req, res) {
-    res.json({message: 'Removed'});
-  });
-
   return router;
 }

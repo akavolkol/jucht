@@ -54,7 +54,7 @@ export default function () {
   });
 
   /**
-   * Remove conversation
+   * Remove message
    * @type {String}
    */
   router.delete('/:conversationId/messages/:messageId', (request, response, next) => {
