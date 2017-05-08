@@ -10,7 +10,6 @@ export default function () {
   router.use('/api', apiRouter());
 
   router.get('*', function(req, res) {
-
     let preloadData = {
       environment: config.environment,
       webpackServer: config.webpackServer,
